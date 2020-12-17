@@ -13,10 +13,7 @@ export default function Home() {
           Welcome to <a href="https://solbenmoll.com">Solbenmoll</a>
         </h1>
 
-        <p className="description">
-          Under development
-        </p>
-
+        <p className="description">Under development</p>
       </main>
 
       <style jsx>{`
