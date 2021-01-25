@@ -6,10 +6,9 @@ export default function Home() {
       alt="Solbenmoll banner"
       src="/assets/banner.jpg"
       layout="responsive"
-      loading="eager"
+      loading="lazy"
       height={385}
       width={771}
-      priority
     />
   )
 }

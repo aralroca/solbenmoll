@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Header from '../components/Header'
 
-import './tailwind.css'
+import './layout.scss'
 
 function Layout({ children }) {
   return (

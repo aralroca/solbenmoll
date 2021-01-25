@@ -1,0 +1,34 @@
+html,
+body {
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #655a43;
+  padding: 10px 20px;
+  flex-direction: row;
+  border-bottom: 1px solid #e7e7e7;
+
+  .menu-and-logo {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+
+    .logo,
+    svg {
+      margin: 0 10px;
+    }
+  }
+
+  .bar-icon {
+    cursor: pointer;
+  }
+
+  .icons svg {
+    cursor: pointer;
+    margin: 0 10px;
+  }
+}
