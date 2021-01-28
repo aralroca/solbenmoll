@@ -26,7 +26,7 @@ function Header() {
         />
         {menuOpen && <Menu onClose={() => setMenuOpen(false)} />}
         <Link href="/">
-          <a className="logo">
+          <a className="logo" title="Solbenmoll">
             <Image
               alt="Solbenmoll"
               src="/solbenmoll.svg"
@@ -40,9 +40,22 @@ function Header() {
         </Link>
       </div>
       <div className="icons">
-        <PhoneIcon width={iconSize} height={iconSize} />
-        <LoginIcon width={iconSize} height={iconSize} />
-        <CartIcon width={iconSize} height={iconSize} />
+        <Link href="/contacte">
+          <a title="Contacte amb nosaltres">
+            <PhoneIcon width={iconSize} height={iconSize} />
+          </a>
+        </Link>
+
+        <Link href="/inici-sessio">
+          <a title="Inici sessió">
+            <LoginIcon width={iconSize} height={iconSize} />
+          </a>
+        </Link>
+        <Link href="/les-meves-cistelles">
+          <a title="Les meves cistelles">
+            <CartIcon width={iconSize} height={iconSize} />
+          </a>
+        </Link>
       </div>
     </div>
   )

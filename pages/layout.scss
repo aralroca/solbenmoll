@@ -28,6 +28,11 @@ body {
     cursor: pointer;
   }
 
+  .icons a {
+    text-decoration: none;
+    color: currentColor;
+  }
+
   .icons svg {
     cursor: pointer;
     margin: 0 10px;
@@ -38,12 +43,13 @@ body {
     width: 250px;
     position: absolute;
     top: 0;
+    overflow-y: auto;
     left: 0;
     z-index: 2;
+    user-select: none;
     height: 100vh;
     height: -webkit-fill-available;
     box-shadow: 2px 0 2px -1px rgba(0, 0, 0, 0.3);
-    padding: 15px;
 
     a {
       text-decoration: none;
@@ -52,8 +58,13 @@ body {
     }
 
     & > * {
-      padding: 15px 0;
+      padding: 15px;
       border-bottom: 1px solid #e2e2e0;
+
+      &.submenu {
+        padding-left: 25px;
+        background-color: white;
+      }
     }
   }
 }
