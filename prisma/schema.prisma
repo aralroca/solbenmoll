@@ -1,0 +1,30 @@
+// schema.prisma
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Order {
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now()) @map(name: "created_at")
+  content          String?
+  frequencyInWeeks Int      @default(1)
+  author           User?    @relation(fields: [authorId], references: [id])
+  authorId         Int?
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  email     String?  @unique
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  isAdmin   Boolean  @default(false)
+  orders    Order[]
+
+  @@map(name: "users")
+}
