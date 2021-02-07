@@ -11,6 +11,7 @@ generator client {
 model Basket {
   id          String       @id
   name        String
+  menuName    String
   description String
   kg          Int
   price       Float
@@ -21,6 +22,7 @@ model Basket {
 model Extra {
   id           String      @id
   name         String
+  menuName     String?
   description  String
   price        Float
   available    Boolean     @default(true)

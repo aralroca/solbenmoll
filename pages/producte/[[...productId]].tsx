@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import prisma from '../../lib/prisma'
 
 export async function getStaticProps({ params }) {
@@ -30,14 +31,25 @@ export async function getStaticPaths() {
 
 function Product({ product }) {
   const { query } = useRouter()
-
-  console.log({ product })
+  const [type, id] = query.productId as [string, string]
+  const image = type === 'cistella' ? 'basket.png' : `${id}.png`
 
   return (
     <div className="content">
-      <h1>Producte</h1>
-      {query.productId && <h2>{query.productId}</h2>}
-      <p>en desenvolupament</p>
+      <Image
+        alt={product.name}
+        src={`/assets/${image}`}
+        layout="intrinsic"
+        className="product-image"
+        loading="lazy"
+        height={375}
+        width={500}
+      />
+      {product.menuName && <p>{product.menuName}:</p>}
+      <h1>
+        {product.name} ({product.kg} Kg)
+      </h1>
+      <div dangerouslySetInnerHTML={{ __html: product.description }}></div>
     </div>
   )
 }
