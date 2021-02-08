@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import Anchor from '../components/Anchor'
 
 export default function Home() {
   return (
@@ -13,9 +14,8 @@ export default function Home() {
         width={771}
       />
       <div className="content">
-        <h1 id="que-fem">
-          Qui som, i a què ens dediquem? Del camp a la taula!
-        </h1>
+        <Anchor id="que-fem" />
+        <h1>Qui som, i a què ens dediquem? Del camp a la taula!</h1>
         <p>
           Sòl Ben Moll és un projecte agroecològic que es dedica a la producció
           i distribució d'hortalisses i verdures de temporada. Amb l’hort situat
