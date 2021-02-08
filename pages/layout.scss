@@ -79,5 +79,18 @@ body {
 }
 
 .product-image {
-  border-radius: 30px;
+  border-radius: 2vw;
+}
+
+.my-baskets {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 10px;
+  column-gap: 10px;
+}
+
+@media (max-width: 700px) {
+  .my-baskets {
+    grid-template-columns: 1fr 1fr;
+  }
 }

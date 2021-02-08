@@ -43,7 +43,7 @@ function Menu({ onClose }) {
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
     >
-      <Link href="/que-fem">
+      <Link href="/#que-fem">
         <a>
           <div>QUÈ FEM?</div>
         </a>
@@ -51,40 +51,6 @@ function Menu({ onClose }) {
       <Link href="/les-meves-cistelles">
         <a>
           <div>LES MEVES CISTELLES</div>
-        </a>
-      </Link>
-      <Accordion title="CISTELLES">
-        <Link href="/producte/cistella/petita">
-          <a className="submenu">
-            <div>Cistella Petita (3 Kg)</div>
-          </a>
-        </Link>
-        <Link href="/producte/cistella/mitjana">
-          <a className="submenu">
-            <div>Cistella Mitjana (6 Kg)</div>
-          </a>
-        </Link>
-        <Link href="/producte/cistella/gran">
-          <a className="submenu">
-            <div>Cistella Gran (9 Kg)</div>
-          </a>
-        </Link>
-      </Accordion>
-      <Accordion title="OUS I EXTRA FRUITA">
-        <Link href="/producte/extra/ous">
-          <a className="submenu">
-            <div>6 Ous Ecologics (Òrrius)</div>
-          </a>
-        </Link>
-        <Link href="/producte/extra/fruita">
-          <a className="submenu">
-            <div>Extra de fruita</div>
-          </a>
-        </Link>
-      </Accordion>
-      <Link href="/punts-recollida">
-        <a>
-          <div>PUNTS DE RECOLLIDA</div>
         </a>
       </Link>
       <Link href="/inici-sessio">

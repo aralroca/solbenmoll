@@ -22,7 +22,7 @@ model Basket {
 model Extra {
   id           String      @id
   name         String
-  menuName     String?
+  menuName     String
   description  String
   price        Float
   available    Boolean     @default(true)

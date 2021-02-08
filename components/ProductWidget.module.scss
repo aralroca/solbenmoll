@@ -1,0 +1,22 @@
+.productWidget {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  a {
+    color: currentColor;
+    text-decoration: none;
+  }
+
+  .name {
+    margin-bottom: auto;
+  }
+
+  .price {
+    color: #99b67e;
+    font-size: 22px;
+    margin: 10px 0;
+  }
+}
