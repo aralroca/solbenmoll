@@ -22,7 +22,7 @@ function Footer() {
         <div>
           <div className="links">
             <div>
-              © Sòlbenmoll 2020 - {new Date().getFullYear()} {'· '}
+              © Sòl Ben Moll 2020 - {new Date().getFullYear()} {'· '}
             </div>
             <Link href="/">
               <a>Condicions generals</a>

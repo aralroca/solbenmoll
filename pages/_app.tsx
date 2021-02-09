@@ -41,7 +41,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Solbenmoll</title>
+        <title>Sòl Ben Moll</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
