@@ -1,3 +1,4 @@
+import Calendar from '../components/Calendar'
 import ProductWidget from '../components/ProductWidget'
 import prisma from '../lib/prisma'
 
@@ -8,10 +9,37 @@ export async function getStaticProps() {
   return { props: { baskets, extras } }
 }
 
-function CalendarOfProducts({ baskets, extras }) {
+function MyBaskets({ baskets, extras }) {
+  function scrollToCalendar() {
+    const calendar = document.querySelector('#calendar')
+    const position = calendar.getBoundingClientRect()
+    window.scrollTo({
+      top: position.top + window.scrollY - 100,
+      behavior: 'smooth',
+    })
+  }
+
   return (
     <div className="content">
-      <h1>Les meves cistelles</h1>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          flexWrap: 'wrap',
+          marginBottom: 10,
+        }}
+      >
+        <h1 style={{ margin: 0 }}>Les meves cistelles</h1>
+        <button
+          style={{ marginLeft: 'auto' }}
+          className="button"
+          onClick={scrollToCalendar}
+        >
+          Veure calendari
+        </button>
+      </div>
+
       <div className="my-baskets">
         {baskets.map((basket) => (
           <ProductWidget
@@ -34,8 +62,12 @@ function CalendarOfProducts({ baskets, extras }) {
           />
         ))}
       </div>
+      <h2 id="calendar" style={{ marginTop: 50 }}>
+        Cistelles programades en les pròximes setmanes
+      </h2>
+      <Calendar id="calendar" />
     </div>
   )
 }
 
-export default CalendarOfProducts
+export default MyBaskets

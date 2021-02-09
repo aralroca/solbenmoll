@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { useEffect } from 'react'
+import Footer from '../components/Footer'
 import Header from '../components/Header'
 
 import './layout.scss'
@@ -7,8 +8,9 @@ import './layout.scss'
 function Layout({ children }) {
   return (
     <div className="layout">
-      <Header></Header>
+      <Header />
       {children}
+      <Footer />
     </div>
   )
 }

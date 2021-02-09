@@ -3,12 +3,15 @@ import Link from 'next/link'
 import SelectButton from './SelectButton'
 
 import styles from './ProductWidget.module.scss'
+import { useState } from 'react'
 
 function ProductWidget({ link, image, menuName, name, price }) {
+  const [value, setValue] = useState('') // @todo
+
   return (
     <div className={styles.productWidget}>
       <Link href={link}>
-        <a>
+        <a className="product-image-link">
           <Image
             alt={name}
             src={image}
@@ -30,7 +33,8 @@ function ProductWidget({ link, image, menuName, name, price }) {
       <div className={styles.price}>{price} €</div>
       <SelectButton
         price={price}
-        onChange={(e) => console.log('onChange', e.target.value)}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
       />
     </div>
   )

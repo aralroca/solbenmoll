@@ -3,10 +3,17 @@
   color: white;
   background-color: #99b67e;
   padding: 10px;
+  border: 1px solid #99b67e;
   text-align: center;
   text-align-last: center;
   border-radius: 30px;
-  border: none;
   appearance: none;
+  cursor: pointer;
   outline: none;
+
+  &.selected {
+    color: black;
+    background-color: white;
+    border: 1px solid black;
+  }
 }

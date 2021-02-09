@@ -40,7 +40,6 @@ function Product({ product }) {
         alt={product.name}
         src={`/assets/${image}`}
         layout="intrinsic"
-        className="product-image"
         loading="lazy"
         height={375}
         width={500}

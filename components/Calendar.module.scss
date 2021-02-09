@@ -1,0 +1,37 @@
+.calendar {
+  background-color: #99b67e88;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  min-height: 100px;
+
+  .day {
+    padding: 30px 10px;
+    width: 200px;
+    margin: 10px;
+    text-align: center;
+    height: 200px;
+    background-color: #99b67e;
+  }
+}
+
+@media (max-width: 700px) {
+  .calendar {
+    max-height: 280px;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-y: hidden;
+    overflow-x: auto;
+    align-items: stretch;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+
+    .day {
+      margin: 5px;
+      scroll-snap-align: start;
+      min-width: 200px;
+    }
+  }
+}

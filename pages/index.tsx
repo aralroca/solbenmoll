@@ -67,19 +67,12 @@ export default function Home() {
         <p>
           Tots els productes que servim són ecològics amb el certificat CCPAE.
         </p>
-        <h2>Quan i on repartim?</h2>
-        <p>
-          El dia que fem el repartiment es cada dimecres, i repartim a diferents
-          punts de recollida de Barcelona i rodalies. Us podeu adjuntar a algun
-          d’aquests punts, o, si no en teniu cap de proper, es pot crear un nou
-          punt a partir d’una comanda setmanal de 8 cistellaires.
-        </p>
         <Link href="/les-meves-cistelles">
           <a style={{ textDecoration: 'none' }}>
             <div
               style={{
                 color: 'white',
-                margin: '0 auto',
+                margin: '30px auto',
                 backgroundColor: '#99b67e',
                 borderRadius: 30,
                 textAlign: 'center',
@@ -92,6 +85,13 @@ export default function Home() {
             </div>
           </a>
         </Link>
+        <h2>Quan i on repartim?</h2>
+        <p>
+          El dia que fem el repartiment es cada dimecres, i repartim a diferents
+          punts de recollida de Barcelona i rodalies. Us podeu adjuntar a algun
+          d’aquests punts, o, si no en teniu cap de proper, es pot crear un nou
+          punt a partir d’una comanda setmanal de 8 cistellaires.
+        </p>
       </div>
     </>
   )

@@ -86,8 +86,16 @@ body {
 }
 
 .product-image {
-  border-radius: 2vw;
   background-color: #e2e2e2;
+}
+
+.product-image:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s;
+}
+
+.product-image-link > div {
+  border-radius: 2vw;
 }
 
 .my-baskets {
@@ -97,6 +105,56 @@ body {
   column-gap: 10px;
 }
 
+.button {
+  padding: 10px;
+  cursor: pointer;
+  color: white;
+  background-color: #99b67e;
+  border: 1px solid #99b67e;
+  text-align: center;
+  text-align-last: center;
+  border-radius: 30px;
+  appearance: none;
+  outline: none;
+}
+
+.footer {
+  color: black;
+  background-color: white;
+  border-top: 1px solid #e7e7e7;
+  margin-top: 50px;
+  width: 100vw;
+  font-size: 12px;
+
+  & > div {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 50px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    a {
+      margin: 0 5px;
+    }
+  }
+}
+
+a {
+  color: currentColor;
+  text-decoration: underline;
+
+  &:hover {
+    color: #335514;
+  }
+}
+
 .banner {
   background-color: #28211b;
 }
@@ -104,5 +162,19 @@ body {
 @media (max-width: 700px) {
   .my-baskets {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .footer > div,
+  .footer .links {
+    flex-direction: column;
+    align-items: center;
+
+    > div {
+      margin: 10px 0;
+    }
+
+    > a {
+      margin: 5px 0;
+    }
   }
 }
