@@ -25,10 +25,10 @@ function Contacte() {
         <MailIcon width={18} height={18} />
         <a
           style={{ marginLeft: 10 }}
-          href="mailto:info@solbenmoll.com"
+          href="mailto:solbenmoll@gmail.com"
           target="_blank"
         >
-          info@solbenmoll.com
+          solbenmoll@gmail.com
         </a>
       </div>
       <div style={containerStyles}>
