@@ -42,13 +42,18 @@ function getSunday(d) {
 function getWeek(date, lang) {
   const locale = `${lang}-${lang.toUpperCase()}`
 
-  const optionsShort = { month: 'short', day: 'numeric' }
   const monday = getMonday(date)
-  const mondayName = monday.toLocaleDateString(locale, optionsShort)
+  const mondayName = monday.toLocaleDateString(locale, {
+    month: 'short',
+    day: 'numeric',
+  })
 
-  const optionsLong = { year: 'numeric', month: 'short', day: 'numeric' }
   const sunday = getSunday(date)
-  const sundayName = sunday.toLocaleDateString(locale, optionsLong)
+  const sundayName = sunday.toLocaleDateString(locale, {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  })
 
   const name = `${mondayName} - ${sundayName}`.replace(/de /g, '')
 
