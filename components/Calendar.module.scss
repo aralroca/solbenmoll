@@ -6,6 +6,16 @@
   justify-content: center;
   min-height: 100px;
   border-radius: 4px;
+  
+  .item {
+    padding: 5px;
+    width: 100%;
+    font-size: 12px;
+    cursor: pointer;
+    margin: 5px 0;
+    background-color: #99b67e33;
+    border: none;
+  }
 
   .day {
     padding: 30px 10px;
@@ -14,7 +24,7 @@
     opacity: 0.6;
     border-radius: 4px;
     text-align: center;
-    height: 200px;
+    min-height: 200px;
     box-shadow: 2px 2px 10px 0px rgba(102, 102, 102, 0.5);
     background-color: #99b67e33;
 
@@ -27,7 +37,6 @@
 
 @media (max-width: 900px) {
   .calendar {
-    max-height: 280px;
     justify-content: flex-start;
     flex-wrap: nowrap;
     overflow-y: hidden;

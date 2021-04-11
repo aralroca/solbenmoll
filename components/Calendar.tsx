@@ -1,20 +1,27 @@
 import useTranslation from 'next-translate/useTranslation'
 import styles from './Calendar.module.scss'
 
-function Calendar(props) {
-  const { lang } = useTranslation()
+function Calendar({ subscriptions = [], onClickSubscription = (v) => { }, ...props }) {
+  const { t, lang } = useTranslation('my-baskets')
   const weeks = getWeeks(lang)
 
   return (
     <div className={styles.calendar} {...props}>
       {weeks.map((week, index) => {
-        const active = index % 4 === 0 // todo
+        const active = subscriptions.filter(s => index % parseInt(s.time) === 0)
         return (
           <div
             key={week.name}
-            className={`${styles.day} ${active ? styles.active : ''}`}
+            className={`${styles.day} ${active.length ? styles.active : ''}`}
           >
-            {active ? <b>{week.name}</b> : week.name}
+            {active.length ? <b>{week.name}</b> : week.name}
+            {active.map(a => (
+              <button className={styles.item} type="button" onClick={() => onClickSubscription(a)} key={week.name + a.id}>
+                {t(`name-basket-${a.basket}`)}
+                {(a.ous || a.fruita || a.ceba) ? ' + extras' : ''}
+                {` (${a.price} €)`}
+              </button>
+            ))}
           </div>
         )
       })}
