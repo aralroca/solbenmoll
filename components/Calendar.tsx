@@ -1,27 +1,53 @@
 import useTranslation from 'next-translate/useTranslation'
+import calcPrice from '../helpers/calcPrice'
 import styles from './Calendar.module.scss'
 
-function Calendar({ subscriptions = [], onClickSubscription = (v) => { }, ...props }) {
+const defaultSubs = {
+  time: undefined,
+  basket: undefined,
+  ous: false,
+  ceba: false,
+  fruita: false,
+}
+
+function Calendar({
+  exceptions = {},
+  subscription = defaultSubs,
+  onClickSubscription = (v) => {},
+  ...props
+}) {
   const { t, lang } = useTranslation('my-baskets')
   const weeks = getWeeks(lang)
 
   return (
     <div className={styles.calendar} {...props}>
       {weeks.map((week, index) => {
-        const active = subscriptions.filter(s => index % parseInt(s.time) === 0)
+        const sub = exceptions[week.name] || subscription
+        const active = index % parseInt(sub.time) === 0
         return (
           <div
             key={week.name}
-            className={`${styles.day} ${active.length ? styles.active : ''}`}
+            title={active ? 'Editar contingut setmana' : undefined}
+            onClick={() => onClickSubscription({ ...sub, week })}
+            className={`${styles.day} ${active ? styles.active : ''}`}
           >
-            {active.length ? <b>{week.name}</b> : week.name}
-            {active.map(a => (
-              <button className={styles.item} type="button" onClick={() => onClickSubscription(a)} key={week.name + a.id}>
-                {t(`name-basket-${a.basket}`)}
-                {(a.ous || a.fruita || a.ceba) ? ' + extras' : ''}
-                {` (${a.price} €)`}
-              </button>
-            ))}
+            {active ? (
+              <b style={{ marginBottom: 15 }}>{week.name}</b>
+            ) : (
+              week.name
+            )}
+            {active && (
+              <>
+                <div>{'🥦 ' + t(`name-basket-${sub.basket}`)}</div>
+                {sub.ous && <div>🥚 Ous</div>}
+                {sub.fruita && <div>🍇 Fruita</div>}
+                {sub.ceba && <div>🧅 Ceba i patata</div>}
+                <div
+                  style={{ textAlign: 'end', marginTop: 'auto' }}
+                  className="price"
+                >{`${calcPrice(sub)} €`}</div>
+              </>
+            )}
           </div>
         )
       })}
