@@ -14,5 +14,5 @@ export default function calcPrice({
     ous.count * 2.3 +
     ceba.count * 4.5 +
     fruita.count * 5.5
-  )
+  ).toFixed(2)
 }

@@ -14,7 +14,7 @@ const defaultSubs = {
 function Calendar({
   exceptions = {},
   subscription = defaultSubs,
-  onClickSubscription = (v) => { },
+  onClickSubscription = (v) => {},
   ...props
 }) {
   const { t, lang } = useTranslation('my-baskets')
@@ -33,7 +33,9 @@ function Calendar({
           <div
             key={week.name}
             title={active ? 'Editar contingut setmana' : undefined}
-            onClick={() => onClickSubscription({ ...sub, week })}
+            onClick={
+              active ? () => onClickSubscription({ ...sub, week }) : undefined
+            }
             className={`${styles.day} ${active ? styles.active : ''}`}
           >
             {active ? (
@@ -44,17 +46,38 @@ function Calendar({
             {active && (
               <>
                 {sub.petita.count > 0 && (
-                  <div>{'🥦 ' + t(`name-basket-petita`)}</div>
+                  <div>
+                    <b>{`${sub.petita.count}x `}</b>
+                    {t(`name-basket-petita`) + ' 🫑'}
+                  </div>
                 )}
                 {sub.mitjana.count > 0 && (
-                  <div>{'🥦 ' + t(`name-basket-mitjana`)}</div>
+                  <div>
+                    <b>{`${sub.mitjana.count}x `}</b>
+                    {t(`name-basket-mitjana`) + ' 🥦'}
+                  </div>
                 )}
                 {sub.gran.count > 0 && (
-                  <div>{'🥦 ' + t(`name-basket-gran`)}</div>
+                  <div>
+                    <b>{`${sub.gran.count}x `}</b>
+                    {t(`name-basket-gran`) + ' 🥬'}
+                  </div>
                 )}
-                {sub.ous.count > 0 && <div>🥚 Ous</div>}
-                {sub.fruita.count > 0 && <div>🍇 Fruita</div>}
-                {sub.ceba.count > 0 && <div>🧅 Ceba i patata</div>}
+                {sub.ous.count > 0 && (
+                  <div>
+                    <b>{`${sub.ous.count}x `}</b>🥚 Ous
+                  </div>
+                )}
+                {sub.fruita.count > 0 && (
+                  <div>
+                    <b>{`${sub.fruita.count}x `}</b>🍇 Fruita
+                  </div>
+                )}
+                {sub.ceba.count > 0 && (
+                  <div>
+                    <b>{`${sub.ceba.count}x `}</b>🧅 Ceba i patata
+                  </div>
+                )}
                 <div
                   style={{ textAlign: 'end', marginTop: 'auto' }}
                   className="price"

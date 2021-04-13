@@ -9,7 +9,7 @@ import Body from '../components/Modal/partials/Body'
 
 import calcPrice from '../helpers/calcPrice'
 
-function MyBaskets() {
+function Subscription() {
   const { t } = useTranslation('my-baskets')
   const [calendar, setCalendar] = useState(undefined)
   const [key, setKey] = useState(Date.now())
@@ -58,7 +58,7 @@ function MyBaskets() {
             <Header>{editing.week.name}</Header>
             <Body>
               <SubsForm
-                displayCancelBtn
+                isEditing
                 onCancel={onCancelEdit}
                 defaultValues={editing}
                 key={'editing' + key}
@@ -97,13 +97,13 @@ const defaults = {
   gran: { time: 0, count: 0 },
 }
 
-const voidFn = (v) => {}
+const voidFn = (v) => { }
 
 function SubsForm({
   defaultValues = defaults,
   onFinish = voidFn,
   onCancel = voidFn,
-  displayCancelBtn = false,
+  isEditing = false,
 }) {
   const [petita, setPetita] = useState(defaultValues.petita)
   const [mitjana, setMitjana] = useState(defaultValues.mitjana)
@@ -159,6 +159,8 @@ function SubsForm({
                 type="number"
                 min={0}
                 id={key}
+                required={!isEditing && state[key].times > 0}
+                className={isEditing ? 'editing' : ''}
                 disabled={isExtra && times.length === 0}
                 max={100}
                 value={state[key].count}
@@ -171,42 +173,45 @@ function SubsForm({
                   fn((p) => ({ ...p, count: val }))
                 }}
               />
-              <select
-                value={state[key].time.toString()}
-                style={
-                  state[key].time === 0
-                    ? { fontStyle: 'italic', color: '#625a50' }
-                    : {}
-                }
-                disabled={isExtra && times.length === 0}
-                onChange={(e) => {
-                  const fn = setters[`set${capitalized}`]
-                  const val = parseInt(e.target.value, 10)
-                  if (val === 0) return fn({ count: 0, time: 0 })
-                  fn((p) => ({
-                    count: p.count === 0 && val !== 0 ? 1 : p.count,
-                    time: val,
-                  }))
-                }}
-              >
-                <option className="useless" value="0">
-                  {state[key].time === 0
-                    ? 'Cada quan ho vol rebre?'
-                    : 'No ho vull rebre'}
-                </option>
-                <option disabled={isExtra && !times.includes(1)} value="1">
-                  Setmanal
-                </option>
-                <option disabled={isExtra && !times.includes(2)} value="2">
-                  Cada dues setmanes
-                </option>
-                <option disabled={isExtra && !times.includes(3)} value="3">
-                  Cada tres setmanes
-                </option>
-                <option disabled={isExtra && !times.includes(4)} value="4">
-                  Cada quatre setmanes
-                </option>
-              </select>
+              {!isEditing && (
+                <select
+                  required={!isEditing && state[key].count > 0}
+                  value={(state[key].time || '').toString()}
+                  style={
+                    state[key].time === 0
+                      ? { fontStyle: 'italic', color: '#625a50' }
+                      : {}
+                  }
+                  disabled={isExtra && times.length === 0}
+                  onChange={(e) => {
+                    const fn = setters[`set${capitalized}`]
+                    const val = parseInt(e.target.value || '0', 10)
+                    if (val === 0) return fn({ count: 0, time: 0 })
+                    fn((p) => ({
+                      count: p.count === 0 && val !== 0 ? 1 : p.count,
+                      time: val,
+                    }))
+                  }}
+                >
+                  <option className="useless" value="">
+                    {state[key].time === 0
+                      ? 'Cada quan ho vol rebre?'
+                      : 'No ho vull rebre'}
+                  </option>
+                  <option disabled={isExtra && !times.includes(1)} value="1">
+                    Setmanal
+                  </option>
+                  <option disabled={isExtra && !times.includes(2)} value="2">
+                    Cada dues setmanes
+                  </option>
+                  <option disabled={isExtra && !times.includes(3)} value="3">
+                    Cada tres setmanes
+                  </option>
+                  <option disabled={isExtra && !times.includes(4)} value="4">
+                    Cada quatre setmanes
+                  </option>
+                </select>
+              )}
             </div>
           </React.Fragment>
         )
@@ -225,10 +230,13 @@ function SubsForm({
       </div>
       <div className="submit">
         <span className="price">{price} €</span>
-        <button disabled={price === 0} className="button">
+        <button
+          disabled={!isEditing && parseInt(price, 10) === 0}
+          className="button"
+        >
           Desar canvis
         </button>
-        {displayCancelBtn && (
+        {isEditing && (
           <button
             style={{ marginTop: 15 }}
             type="button"
@@ -243,4 +251,4 @@ function SubsForm({
   )
 }
 
-export default MyBaskets
+export default Subscription
