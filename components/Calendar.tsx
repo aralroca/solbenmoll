@@ -3,7 +3,7 @@ import calcPrice from '../helpers/calcPrice'
 import styles from './Calendar.module.scss'
 
 const defaultSubs = {
-  peita: {},
+  petita: {},
   mitjana: {},
   gran: {},
   ous: {},
