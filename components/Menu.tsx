@@ -51,7 +51,7 @@ function Menu({ onClose }) {
         </a>
       </Link>
       {ctx.new && (
-        <Link href="/les-meves-cistelles">
+        <Link href="/subscripcio">
           <a>
             <div>{t`my-baskets`.toUpperCase()}</div>
           </a>

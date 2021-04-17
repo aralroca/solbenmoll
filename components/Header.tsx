@@ -57,7 +57,7 @@ function Header() {
                   <LoginIcon width={iconSize} height={iconSize} />
                 </a>
               </Link>
-              <Link href="/les-meves-cistelles">
+              <Link href="/subscripcio">
                 <a title={t`my-baskets`}>
                   <BasketIcon width={iconSize} height={iconSize} />
                 </a>

@@ -14,7 +14,7 @@ const defaultSubs = {
 function Calendar({
   exceptions = {},
   subscription = defaultSubs,
-  onClickSubscription = (v) => {},
+  onClickSubscription = (v) => { },
   ...props
 }) {
   const { t, lang } = useTranslation('my-baskets')
@@ -27,6 +27,9 @@ function Calendar({
         const pActive = index % parseInt(sub.petita.time) === 0
         const mActive = index % parseInt(sub.mitjana.time) === 0
         const gActive = index % parseInt(sub.gran.time) === 0
+        const oActive = index % parseInt(sub.ous.time) === 0
+        const fActive = index % parseInt(sub.fruita.time) === 0
+        const cActive = index % parseInt(sub.ceba.time) === 0
         const active = pActive || mActive || gActive
 
         return (
@@ -45,35 +48,35 @@ function Calendar({
             )}
             {active && (
               <>
-                {sub.petita.count > 0 && (
+                {sub.petita.count > 0 && pActive && (
                   <div>
                     <b>{`${sub.petita.count}x `}</b>
-                    {t(`name-basket-petita`) + ' 🫑'}
+                    {t(`name-basket-petita`) + ' 🥑'}
                   </div>
                 )}
-                {sub.mitjana.count > 0 && (
+                {sub.mitjana.count > 0 && mActive && (
                   <div>
                     <b>{`${sub.mitjana.count}x `}</b>
                     {t(`name-basket-mitjana`) + ' 🥦'}
                   </div>
                 )}
-                {sub.gran.count > 0 && (
+                {sub.gran.count > 0 && gActive && (
                   <div>
                     <b>{`${sub.gran.count}x `}</b>
                     {t(`name-basket-gran`) + ' 🥬'}
                   </div>
                 )}
-                {sub.ous.count > 0 && (
+                {sub.ous.count > 0 && oActive && (
                   <div>
                     <b>{`${sub.ous.count}x `}</b>Ous 🥚
                   </div>
                 )}
-                {sub.fruita.count > 0 && (
+                {sub.fruita.count > 0 && fActive && (
                   <div>
                     <b>{`${sub.fruita.count}x `}</b>Fruita 🍇
                   </div>
                 )}
-                {sub.ceba.count > 0 && (
+                {sub.ceba.count > 0 && cActive && (
                   <div>
                     <b>{`${sub.ceba.count}x `}</b>Ceba i patata 🧅
                   </div>

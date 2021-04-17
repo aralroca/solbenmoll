@@ -106,6 +106,7 @@ function SubsForm({
   onCancel = voidFn,
   isEditing = false,
 }) {
+  const { t } = useTranslation('my-baskets')
   const [petita, setPetita] = useState(defaultValues.petita)
   const [mitjana, setMitjana] = useState(defaultValues.mitjana)
   const [gran, setGran] = useState(defaultValues.gran)
@@ -154,7 +155,7 @@ function SubsForm({
 
         return (
           <React.Fragment key={key}>
-            <label htmlFor={key}>{capitalized}:</label>
+            <label htmlFor={key}>{t(`product-${key}`)}:</label>
             <div style={{ marginBottom: 20 }}>
               <input
                 type="number"
@@ -199,16 +200,16 @@ function SubsForm({
                       ? 'Cada quan ho vol rebre?'
                       : 'No ho vull rebre'}
                   </option>
-                  <option disabled={isExtra && !times.includes(1)} value="1">
+                  <option disabled={isExtra && !times.some(t => 1 % t === 0)} value="1">
                     Setmanal
                   </option>
-                  <option disabled={isExtra && !times.includes(2)} value="2">
+                  <option disabled={isExtra && !times.some(t => 2 % t === 0)} value="2">
                     Cada dues setmanes
                   </option>
-                  <option disabled={isExtra && !times.includes(3)} value="3">
+                  <option disabled={isExtra && !times.some(t => 3 % t === 0)} value="3">
                     Cada tres setmanes
                   </option>
-                  <option disabled={isExtra && !times.includes(4)} value="4">
+                  <option disabled={isExtra && !times.some(t => 4 % t === 0)} value="4">
                     Cada quatre setmanes
                   </option>
                 </select>

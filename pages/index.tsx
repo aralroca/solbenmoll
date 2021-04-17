@@ -87,7 +87,7 @@ export default function Home({ baskets, extras }) {
         <p>{t`section-3.content-3`}</p>
 
         {ctx.new && (
-          <Link href="/les-meves-cistelles">
+          <Link href="/subscripcio">
             <a style={{ textDecoration: 'none' }}>
               <div
                 style={{
