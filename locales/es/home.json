@@ -18,6 +18,8 @@
   },
   "section-4": {
     "title": "Cuándo y donde repartimos?",
-    "content": "El día que hacemos reparto son los miércoles, y repartimos en diferentes puntos de recogida de Barcelona y cercanias. Podéis recoger vuestra cesta en uno de estos puntos, o, si no tenéis ninguno cerca, podemos crear un nuevo punto a partir de un pedido semanal de 8 cestas."
+    "content": "El día que hacemos reparto son los miércoles, y repartimos en diferentes puntos de recogida de Barcelona y cercanias. Podéis recoger vuestra cesta en uno de estos puntos, o, si no tenéis ninguno cerca, podemos crear un nuevo punto a partir de un pedido semanal de 8 cestas.",
+    "button": "Ver todos los puntos de recogida",
+    "open-map": "Abrir mapa"
   }
 }

@@ -1,11 +1,13 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
-import Anchor from '../components/Anchor'
-import prisma from '../lib/prisma'
-import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+
+import Anchor from '../components/Anchor'
+import PickUpPointsMap from '../components/PickUpPointsMap'
+import prisma from '../lib/prisma'
 import { useCtx } from './_app'
+import { useEffect } from 'react'
 
 export async function getStaticProps() {
   const selectB = { id: true, price: true, products: true, kg: true }
@@ -109,6 +111,7 @@ export default function Home({ baskets, extras }) {
 
         <h2>{t`section-4.title`}</h2>
         <p>{t`section-4.content`}</p>
+        <PickUpPointsMap />
       </div>
     </>
   )
