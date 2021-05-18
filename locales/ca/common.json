@@ -9,14 +9,20 @@
   "login": "Inicia sessió",
   "menu": "Menú",
   "home": "Inici",
+  "signup": "Registra't",
+  "repeat-password": "Repeteix la contrasenya",
   "products": "Productes",
+  "account": "El meu compte",
   "my-baskets": "Les meves cistelles",
   "privacy": "Política de privacitat",
   "login-description": "Per subscriure't a les cistelles necessita un compte.",
   "email": "E-mail",
+  "logout": "Tancar la sessió",
   "password": "Contrasenya",
   "enter": "Entrar",
   "error": {
-    "login": "L'usuari o contrasenya no són correctes."
+    "login": "L'usuari o contrasenya no són correctes.",
+    "register": "Hi ha hagut un error durant el registre",
+    "repeat-password": "Les contrasenyes introduïdes no coincideixen"
   }
 }

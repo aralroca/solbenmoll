@@ -2,14 +2,14 @@ import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 
 import Breadcrumb from '../components/Breadcrumb'
-import LoginForm from '../components/LoginForm'
+import SignupForm from '../components/SignupForm'
 import Spinner from '../components/Spinner'
 import { useAuth } from '../auth/client'
 
-function Login() {
+function Register() {
   const { t } = useTranslation('common')
   const { user } = useAuth()
-  const title = t`login`
+  const title = t`signup`
 
   if (user) {
     Router.push('/compte')
@@ -32,9 +32,9 @@ function Login() {
       />
       <h1 className="center">{title}</h1>
       <p className="center">{t`login-description`}</p>
-      <LoginForm />
+      <SignupForm />
     </div>
   )
 }
 
-export default Login
+export default Register

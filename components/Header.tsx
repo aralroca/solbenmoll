@@ -2,18 +2,20 @@ import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
 import BarsIcon from './Icons/Bars'
-import Image from 'next/image'
-import PhoneIcon from './Icons/Phone'
-import LoginIcon from './Icons/Login'
 import BasketIcon from './Icons/Basket'
-import { useState } from 'react'
+import Image from 'next/image'
+import LoginIcon from './Icons/Login'
+import PhoneIcon from './Icons/Phone'
 import useTranslation from 'next-translate/useTranslation'
+import { useAuth } from '../auth/client'
 import { useCtx } from '../pages/_app'
+import { useState } from 'react'
 
 const Menu = dynamic(() => import('./Menu'), { ssr: false })
 
 function Header() {
   const ctx = useCtx()
+  const { user } = useAuth()
   const iconSize = 18
   const [menuOpen, setMenuOpen] = useState(false)
   const { t } = useTranslation('common')
@@ -52,8 +54,8 @@ function Header() {
           </Link>
           {ctx.new && (
             <>
-              <Link href="/inici-sessio">
-                <a title={t`login`}>
+              <Link href={user ? '/compte' : '/inici-sessio'}>
+                <a title={t(user ? 'account' : 'login')}>
                   <LoginIcon width={iconSize} height={iconSize} />
                 </a>
               </Link>

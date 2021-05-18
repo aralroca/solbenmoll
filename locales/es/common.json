@@ -9,14 +9,20 @@
   "login": "Inicia sesión",
   "menu": "Menú",
   "home": "Inicio",
+  "signup": "Registrate",
+  "repeat-password": "Repite la contraseña",
   "products": "Productos",
+  "account": "Mi cuenta",
   "my-baskets": "Mis cestas",
   "privacy": "Política de privacidad",
   "login-description": "Para subscribirte a les cestas necesita una cuenta.",
   "email": "Email",
+  "logout": "Cerrar la sessión",
   "password": "Contraseña",
   "enter": "Entrar",
   "error": {
-    "login": "El usuario o contraseña no son correctas."
+    "login": "El usuario o contraseña no son correctas.",
+    "register": "Ha habido un error durante el registro",
+    "repeat-password": "Las contraseñas introducidas no coinciden"
   }
 }

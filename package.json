@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@prisma/client": "2.21.2",
+    "firebase": "8.6.1",
     "next": "10.2.0",
     "next-plugin-preact": "3.0.4",
     "next-translate": "1.0.6",

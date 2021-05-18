@@ -1,8 +1,10 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, createContext, useContext } from 'react'
+
 import Footer from '../components/Footer'
 import Header from '../components/Header'
+import { AuthProvider } from '../auth/client'
 
 import './layout.scss'
 
@@ -59,26 +61,31 @@ function MyApp({ Component, pageProps }) {
   usePersistLocaleCookie()
 
   return (
-    <Ctx.Provider value={{ new: Boolean(query.new) }}>
-      <Head>
-        <title>Sòl Ben Moll</title>
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="alternate"
-          href={`https://solbenmoll.com${path}`}
-          hrefLang="ca"
-        />
-        <link
-          rel="alternate"
-          href={`http://solbenmoll.com/es${path}`}
-          hrefLang="es"
-        />
-        <link rel="canonical" href={`https://solbenmoll.com${prefix}${path}`} />
-      </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </Ctx.Provider>
+    <AuthProvider>
+      <Ctx.Provider value={{ new: Boolean(query.new) }}>
+        <Head>
+          <title>Sòl Ben Moll</title>
+          <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="alternate"
+            href={`https://solbenmoll.com${path}`}
+            hrefLang="ca"
+          />
+          <link
+            rel="alternate"
+            href={`http://solbenmoll.com/es${path}`}
+            hrefLang="es"
+          />
+          <link
+            rel="canonical"
+            href={`https://solbenmoll.com${prefix}${path}`}
+          />
+        </Head>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </Ctx.Provider>
+    </AuthProvider>
   )
 }
 

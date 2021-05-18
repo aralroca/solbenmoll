@@ -2,17 +2,16 @@ import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 
 import Breadcrumb from '../components/Breadcrumb'
-import LoginForm from '../components/LoginForm'
 import Spinner from '../components/Spinner'
-import { useAuth } from '../auth/client'
+import { logout, useAuth } from '../auth/client'
 
-function Login() {
+function Account() {
   const { t } = useTranslation('common')
   const { user } = useAuth()
-  const title = t`login`
+  const title = t`account`
 
-  if (user) {
-    Router.push('/compte')
+  if (user === null) {
+    Router.push('/inici-sessio')
   }
 
   if (typeof user === 'undefined') {
@@ -31,10 +30,15 @@ function Login() {
         ]}
       />
       <h1 className="center">{title}</h1>
-      <p className="center">{t`login-description`}</p>
-      <LoginForm />
+      <div className="center">
+        <button
+          type="button"
+          onClick={logout}
+          className="button"
+        >{t`logout`}</button>
+      </div>
     </div>
   )
 }
 
-export default Login
+export default Account
