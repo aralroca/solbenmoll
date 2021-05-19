@@ -8,6 +8,13 @@
   "subscription": "Subscripción",
   "login": "Inicia sesión",
   "menu": "Menú",
+  "save": "Guardar",
+  "saving": "Guardando...",
+  "saved": "Se han guardado los cambios correctamente",
+  "change-email": "Cambiar email",
+  "change-password": "Cambiar contraseña",
+  "new-password": "Nueva contraseña",
+  "current-password": "Contraseña actual",
   "home": "Inicio",
   "signup": "Registrate",
   "repeat-password": "Repite la contraseña",
@@ -18,11 +25,17 @@
   "login-description": "Para subscribirte a les cestas necesita una cuenta.",
   "email": "Email",
   "logout": "Cerrar la sessión",
+  "delete-account": "Eliminar cuenta",
+  "delete-account-details": "Confirmo que quiero eliminar mi cuenta de forma definitiva",
+  "delete-account-confirm": "¿Estás seguro que quieres eliminar la cuenta? No hay marcha atrás.",
   "password": "Contraseña",
   "enter": "Entrar",
   "error": {
     "login": "El usuario o contraseña no son correctas.",
     "register": "Ha habido un error durante el registro",
-    "repeat-password": "Las contraseñas introducidas no coinciden"
+    "repeat-password": "Las contraseñas introducidas no coinciden",
+    "auth/wrong-password": "La contraseña actual es incorrecta",
+    "auth/email-already-in-use": "El email ya se encuentra en uso",
+    "same-password": "La nueva contraseña debe ser distinta a la actual"
   }
 }

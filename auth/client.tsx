@@ -31,6 +31,33 @@ export function logout() {
   return firebase.auth().signOut()
 }
 
+export function reauthenticate(currentPassword) {
+  const user = firebase.auth().currentUser
+  const cred = firebase.auth.EmailAuthProvider.credential(
+    user.email,
+    currentPassword
+  )
+  return user.reauthenticateWithCredential(cred)
+}
+
+export function changePassword(currentPassword, newPassword) {
+  return reauthenticate(currentPassword).then(() =>
+    firebase.auth().currentUser.updatePassword(newPassword)
+  )
+}
+
+export function changeEmail(currentPassword, newEmail) {
+  return reauthenticate(currentPassword).then(() =>
+    firebase.auth().currentUser.updateEmail(newEmail)
+  )
+}
+
+export function deleteAccount(currentPassword) {
+  return reauthenticate(currentPassword).then(() =>
+    firebase.auth().currentUser.delete()
+  )
+}
+
 const AuthCtx = createContext({ user: undefined })
 
 export function AuthProvider({ children }) {

@@ -4,9 +4,8 @@ import { useState } from 'react'
 
 import { login } from '../auth/client'
 
-import styles from './LoginForm.module.scss'
-
 function LoginForm() {
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const { t } = useTranslation('common')
   const margin = { margin: 10 }
@@ -16,17 +15,21 @@ function LoginForm() {
     const [email, password] = Array.prototype.slice
       .call(e.target)
       .map((f) => f.value)
+    setLoading(true)
     setError('')
-    login({ email, password }).catch(() => setError('error.login'))
+    login({ email, password }).catch(() => {
+      setError('error.login')
+      setLoading(false)
+    })
   }
 
   return (
-    <form className={styles.loginForm} onSubmit={onSubmit}>
+    <form className="form" onSubmit={onSubmit}>
       <label>{t`email`}:</label>
       <input required type="email" />
       <label>{t`password`}:</label>
       <input minLength={6} required type="password" />
-      <button className="button">{t`enter`}</button>
+      <button disabled={loading} className="button">{t`enter`}</button>
       <div className="center" style={margin}>
         <Link href="/registre">
           <a>{t`signup`}</a>

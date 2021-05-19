@@ -13,6 +13,7 @@ function Register() {
 
   if (user) {
     Router.push('/compte')
+    return <Spinner />
   }
 
   if (typeof user === 'undefined') {

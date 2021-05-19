@@ -4,9 +4,8 @@ import { useState } from 'react'
 
 import { register } from '../auth/client'
 
-import styles from './SignupForm.module.scss'
-
 function SignupForm() {
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const { t } = useTranslation('common')
   const margin = { margin: 10 }
@@ -22,19 +21,22 @@ function SignupForm() {
     } else {
       setError('')
     }
-
-    register({ email, password }).catch(() => setError('error.register'))
+    setLoading(true)
+    register({ email, password }).catch(() => {
+      setError('error.register')
+      setLoading(false)
+    })
   }
 
   return (
-    <form className={styles.signupForm} onSubmit={onSubmit}>
+    <form className="form" onSubmit={onSubmit}>
       <label>{t`email`}:</label>
       <input required type="email" />
       <label>{t`password`}:</label>
       <input minLength={6} required type="password" />
       <label>{t`repeat-password`}:</label>
       <input minLength={6} required type="password" />
-      <button className="button">{t`enter`}</button>
+      <button disabled={loading} className="button">{t`enter`}</button>
       <div className="center" style={margin}>
         <Link href="/inici-sessio">
           <a>{t`login`}</a>
