@@ -2,7 +2,7 @@ import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
 import { useState } from 'react'
 
-import { login } from '../auth/client'
+import { login } from '../firebase/client'
 
 function LoginForm() {
   const [loading, setLoading] = useState(false)

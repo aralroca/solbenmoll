@@ -4,8 +4,8 @@ import InstaIcon from '../components/Icons/Insta'
 import MailIcon from '../components/Icons/Mail'
 
 function Contacte() {
-  const { t } = useTranslation('contact')
-  const title = t`title`
+  const { t } = useTranslation('common')
+  const title = t`contact-content.title`
   const containerStyles = { display: 'flex', alignItems: 'center', margin: 5 }
 
   return (
@@ -15,12 +15,12 @@ function Contacte() {
         links={[
           {
             href: '/',
-            name: 'common:home',
+            name: 'home',
           },
         ]}
       />
       <h1>{title}</h1>
-      <h2>{t`description`}</h2>
+      <h2>{t`contact-content.description`}</h2>
       <div style={containerStyles}>
         <MailIcon width={18} height={18} />
         <a

@@ -4,7 +4,7 @@ import Router from 'next/router'
 import Breadcrumb from '../components/Breadcrumb'
 import LoginForm from '../components/LoginForm'
 import Spinner from '../components/Spinner'
-import { useAuth } from '../auth/client'
+import { useAuth } from '../firebase/client'
 
 function Login() {
   const { t } = useTranslation('common')
@@ -12,7 +12,7 @@ function Login() {
   const title = t`login`
 
   if (user) {
-    Router.push('/compte')
+    Router.push('/subscripcio')
     return <Spinner />
   }
 

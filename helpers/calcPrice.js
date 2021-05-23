@@ -1,18 +1,12 @@
-// @todo Replace constants to DB prices
-export default function calcPrice({
-  petita,
-  mitjana,
-  gran,
-  ous,
-  ceba,
-  fruita,
-}) {
-  return (
-    petita.count * 10 +
-    mitjana.count * 14.5 +
-    gran.count * 20 +
-    ous.count * 2.3 +
-    ceba.count * 4.5 +
-    fruita.count * 5.5
-  ).toFixed(2)
+import products from '../constants/products'
+
+export default function calcPrice(subs) {
+  return Object.keys(subs)
+    .reduce((t, id) => {
+      const product = products[id]
+      if (!product) return t
+
+      return t + subs[id].count * product.price
+    }, 0)
+    .toFixed(2)
 }

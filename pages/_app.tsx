@@ -1,14 +1,12 @@
 import Head from 'next/head'
 import { useRouter } from 'next/router'
-import { useEffect, createContext, useContext } from 'react'
+import { useEffect } from 'react'
 
 import Footer from '../components/Footer'
 import Header from '../components/Header'
-import { AuthProvider } from '../auth/client'
+import { AuthProvider } from '../firebase/client'
 
 import './layout.scss'
-
-const Ctx = createContext({ new: false })
 
 function Layout({ children }) {
   return (
@@ -53,7 +51,7 @@ function usePersistLocaleCookie() {
 }
 
 function MyApp({ Component, pageProps }) {
-  const { query, locale, defaultLocale, asPath } = useRouter()
+  const { locale, defaultLocale, asPath } = useRouter()
   const path = asPath === '/' ? '' : asPath
   const prefix = locale === defaultLocale ? '' : '/' + locale
 
@@ -62,33 +60,26 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <AuthProvider>
-      <Ctx.Provider value={{ new: Boolean(query.new) }}>
-        <Head>
-          <title>Sòl Ben Moll</title>
-          <link rel="icon" href="/favicon.ico" />
-          <link
-            rel="alternate"
-            href={`https://solbenmoll.com${path}`}
-            hrefLang="ca"
-          />
-          <link
-            rel="alternate"
-            href={`http://solbenmoll.com/es${path}`}
-            hrefLang="es"
-          />
-          <link
-            rel="canonical"
-            href={`https://solbenmoll.com${prefix}${path}`}
-          />
-        </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </Ctx.Provider>
+      <Head>
+        <title>Sòl Ben Moll</title>
+        <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="alternate"
+          href={`https://solbenmoll.com${path}`}
+          hrefLang="ca"
+        />
+        <link
+          rel="alternate"
+          href={`http://solbenmoll.com/es${path}`}
+          hrefLang="es"
+        />
+        <link rel="canonical" href={`https://solbenmoll.com${prefix}${path}`} />
+      </Head>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </AuthProvider>
   )
 }
-
-export const useCtx = () => useContext(Ctx)
 
 export default MyApp

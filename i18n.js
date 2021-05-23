@@ -3,9 +3,7 @@ module.exports = {
   defaultLocale: 'ca',
   pages: {
     '*': ['common'],
-    '/': ['home', 'my-baskets'],
-    '/subscripcio': ['my-baskets'],
-    '/producte/[[...productId]]': ['my-baskets'],
-    '/contacte': ['contact'],
   },
+  loadLocaleFrom: (lang) =>
+    import(`./translations/${lang}.json`).then((m) => m.default),
 }

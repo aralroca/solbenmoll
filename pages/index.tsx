@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { useEffect } from 'react'
 import Link from 'next/link'
 import useTranslation from 'next-translate/useTranslation'
 import { useRouter } from 'next/router'
@@ -6,32 +7,14 @@ import { useRouter } from 'next/router'
 import Anchor from '../components/Anchor'
 import Center from '../components/Center'
 import PickUpPointsMap from '../components/PickUpPointsMap'
-import prisma from '../lib/prisma'
-import { useCtx } from './_app'
-import { useEffect } from 'react'
+import products from '../constants/products'
 
-export async function getStaticProps() {
-  const selectB = { id: true, price: true, products: true, kg: true }
-  const selectE = { id: true, price: true, kg: true }
-  const orderBy = { price: 'asc' }
-  const where = { available: true }
-  const baskets = await prisma.basket.findMany({
-    select: selectB,
-    where,
-    orderBy,
-  } as any)
-  const extras = await prisma.extra.findMany({
-    select: selectE,
-    where,
-    orderBy,
-  } as any)
-  return { props: { baskets, extras } }
-}
-
-export default function Home({ baskets, extras }) {
+export default function Home() {
   const { query } = useRouter()
-  const { t, lang } = useTranslation('home')
-  const ctx = useCtx()
+  const { t, lang } = useTranslation('common')
+  const prods = Object.keys(products).map((id) => ({ id, ...products[id] }))
+  const baskets = prods.filter((p) => p.isBasket)
+  const extras = prods.filter((p) => !p.isBasket)
 
   function navigateToText() {
     document.querySelector('#que-fem').scrollIntoView({ behavior: 'smooth' })
@@ -46,7 +29,7 @@ export default function Home({ baskets, extras }) {
       <Image
         onClick={navigateToText}
         alt="Sòl Ben Moll banner"
-        title={t`banner-title`}
+        title={t`home-content.banner-title`}
         src={`/assets/banner-${lang}.jpg`}
         layout="responsive"
         loading="lazy"
@@ -58,8 +41,8 @@ export default function Home({ baskets, extras }) {
       <div className="content">
         <Anchor id="que-fem" />
 
-        <h1>{t`section-1.title`}</h1>
-        <p>{t`section-1.content`}</p>
+        <h1>{t`home-content.section-1.title`}</h1>
+        <p>{t`home-content.section-1.content`}</p>
 
         <Center>
           <Image
@@ -71,57 +54,53 @@ export default function Home({ baskets, extras }) {
           />
         </Center>
 
-        <h2>{t`section-2.title`}</h2>
-        <p>{t`section-2.content`}</p>
-        <p>{t`section-2.content-2`}</p>
+        <h2>{t`home-content.section-2.title`}</h2>
+        <p>{t`home-content.section-2.content`}</p>
+        <p>{t`home-content.section-2.content-2`}</p>
 
-        <h2>{t`section-3.title`}</h2>
-        <p>{t`section-3.content`}</p>
+        <h2>{t`home-content.section-3.title`}</h2>
+        <p>{t`home-content.section-3.content`}</p>
         <ul>
           {baskets.map((basket) => (
             <li key={basket.id}>
-              {t(`my-baskets:product-${basket.id}`)}
-              {` (${t('my-baskets:resume', {
-                count: basket.products.length,
+              {t(`product-${basket.id}`)}
+              {` (${t('resume', {
+                count: basket.numProducts,
                 kg: basket.kg,
                 price: basket.price,
               })})`}
             </li>
           ))}
         </ul>
-        <p>{t`section-3.content-2`}</p>
+        <p>{t`home-content.section-3.content-2`}</p>
         <ul>
           {extras.map((extra) => (
-            <li key={extra.id}>
-              {t(`my-baskets:details-extra-${extra.id}`, extra)}
-            </li>
+            <li key={extra.id}>{t(`details-extra-${extra.id}`, extra)}</li>
           ))}
         </ul>
-        <p>{t`section-3.content-3`}</p>
+        <p>{t`home-content.section-3.content-3`}</p>
 
-        {ctx.new && (
-          <Link href="/subscripcio">
-            <a style={{ textDecoration: 'none' }}>
-              <div
-                style={{
-                  color: 'white',
-                  margin: '30px auto',
-                  backgroundColor: '#99b67e',
-                  borderRadius: 30,
-                  textAlign: 'center',
-                  padding: 10,
-                  width: '100%',
-                  maxWidth: 250,
-                }}
-              >
-                {t`section-3.button`}
-              </div>
-            </a>
-          </Link>
-        )}
+        <Link href="/subscripcio">
+          <a style={{ textDecoration: 'none' }}>
+            <div
+              style={{
+                color: 'white',
+                margin: '30px auto',
+                backgroundColor: '#99b67e',
+                borderRadius: 30,
+                textAlign: 'center',
+                padding: 10,
+                width: '100%',
+                maxWidth: 250,
+              }}
+            >
+              {t`home-content.section-3.button`}
+            </div>
+          </a>
+        </Link>
 
-        <h2>{t`section-4.title`}</h2>
-        <p>{t`section-4.content`}</p>
+        <h2>{t`home-content.section-4.title`}</h2>
+        <p>{t`home-content.section-4.content`}</p>
         <PickUpPointsMap />
       </div>
     </>

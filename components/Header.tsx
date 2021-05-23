@@ -7,14 +7,12 @@ import Image from 'next/image'
 import LoginIcon from './Icons/Login'
 import PhoneIcon from './Icons/Phone'
 import useTranslation from 'next-translate/useTranslation'
-import { useAuth } from '../auth/client'
-import { useCtx } from '../pages/_app'
+import { useAuth } from '../firebase/client'
 import { useState } from 'react'
 
 const Menu = dynamic(() => import('./Menu'), { ssr: false })
 
 function Header() {
-  const ctx = useCtx()
   const { user } = useAuth()
   const iconSize = 18
   const [menuOpen, setMenuOpen] = useState(false)
@@ -52,19 +50,17 @@ function Header() {
               <PhoneIcon width={iconSize} height={iconSize} />
             </a>
           </Link>
-          {ctx.new && (
-            <>
-              <Link href={user ? '/compte' : '/inici-sessio'}>
-                <a title={t(user ? 'account' : 'login')}>
-                  <LoginIcon width={iconSize} height={iconSize} />
-                </a>
-              </Link>
-              <Link href="/subscripcio">
-                <a title={t`my-baskets`}>
-                  <BasketIcon width={iconSize} height={iconSize} />
-                </a>
-              </Link>
-            </>
+          <Link href="/subscripcio">
+            <a title={t`my-baskets`}>
+              <BasketIcon width={iconSize} height={iconSize} />
+            </a>
+          </Link>
+          {user && (
+            <Link href="/compte">
+              <a title={t('account')}>
+                <LoginIcon width={iconSize} height={iconSize} />
+              </a>
+            </Link>
           )}
         </nav>
       </header>

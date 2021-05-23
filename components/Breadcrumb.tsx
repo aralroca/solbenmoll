@@ -8,7 +8,7 @@ import styles from './Breadcrumb.module.scss'
 
 function Breadcrumb({ currentPageName, links, hide = false }) {
   const { defaultLocale } = useRouter()
-  const { t, lang } = useTranslation()
+  const { t, lang } = useTranslation('common')
   const prefix = lang === defaultLocale ? '' : '/' + lang
 
   if (!currentPageName || hide) return null

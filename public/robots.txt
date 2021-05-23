@@ -1,2 +1,9 @@
 User-agent: *
-Disallow: /
+Disallow: /es/subscripcio/
+Disallow: /ca/subscripcio/
+Disallow: /es/inici-sessio/
+Disallow: /ca/inici-sessio/
+Disallow: /es/registre/
+Disallow: /ca/registre/
+Disallow: /es/compte/
+Disallow: /ca/compte/

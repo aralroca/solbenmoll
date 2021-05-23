@@ -1,10 +1,10 @@
 import useTranslation from 'next-translate/useTranslation'
 import Link from 'next/link'
 import { useEffect, useRef } from 'react'
-import { useCtx } from '../pages/_app'
+import { useAuth } from '../firebase/client'
 
 function Menu({ onClose }) {
-  const ctx = useCtx()
+  const { user } = useAuth()
   const initTouch = { x: undefined, y: undefined }
   const lastTouch = useRef(initTouch)
   const { t } = useTranslation('common')
@@ -50,21 +50,20 @@ function Menu({ onClose }) {
           <div>{t`info`.toUpperCase()}</div>
         </a>
       </Link>
-      {ctx.new && (
-        <Link href="/subscripcio">
+      <Link href="/subscripcio">
+        <a>
+          <div>{t`my-baskets`.toUpperCase()}</div>
+        </a>
+      </Link>
+
+      {user && (
+        <Link href="/compte">
           <a>
-            <div>{t`my-baskets`.toUpperCase()}</div>
+            <div>{t`account`.toUpperCase()}</div>
           </a>
         </Link>
       )}
 
-      {ctx.new && (
-        <Link href="/inici-sessio">
-          <a>
-            <div>{t`login`.toUpperCase()}</div>
-          </a>
-        </Link>
-      )}
       <Link href="/contacte">
         <a>
           <div>{t`contact`.toUpperCase()}</div>

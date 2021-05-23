@@ -10,7 +10,7 @@ import {
   changePassword,
   changeEmail,
   deleteAccount,
-} from '../auth/client'
+} from '../firebase/client'
 
 const initialStatus = { error: '', loading: false, success: false }
 
@@ -47,7 +47,7 @@ export default function Account() {
         links={[
           {
             href: '/',
-            name: 'common:home',
+            name: 'home',
           },
         ]}
       />

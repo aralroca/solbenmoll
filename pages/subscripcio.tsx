@@ -1,28 +1,50 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
+import Router from 'next/router'
 
 import Body from '../components/Modal/partials/Body'
 import Breadcrumb from '../components/Breadcrumb'
 import Calendar from '../components/Calendar'
 import Header from '../components/Modal/partials/Header'
 import Modal from '../components/Modal'
+import Spinner from '../components/Spinner'
 import SubsForm from '../components/SubscriptionForm'
+import {
+  deleteSubscription,
+  getSubscription,
+  setException,
+  setSubscription,
+  useAuth,
+} from '../firebase/client'
 
-function Subscription() {
-  const { t } = useTranslation('my-baskets')
+export default function Subscription() {
+  const { t } = useTranslation('common')
+  const { user } = useAuth()
+  const [loadingSubscription, setLoadingSubscription] = useState(true)
   const [calendar, setCalendar] = useState(undefined)
   const [key, setKey] = useState(Date.now())
   const [exceptions, setExceptions] = useState({})
   const [editing, setEditing] = useState(undefined)
 
   function onAdd(sub) {
+    setSubscription(sub)
     setCalendar(sub)
     setKey(Date.now())
     window.scroll({ top: 0 })
   }
 
+  function onDelete() {
+    if (!window.confirm(t`delete-subscription-confirm`)) return
+    setCalendar(undefined)
+    setExceptions({})
+    deleteSubscription()
+    window.scroll({ top: 0 })
+  }
+
   function onEdit(sub) {
-    setExceptions((o) => ({ ...o, [editing.week.id]: sub }))
+    const newExceptions = { ...exceptions, [editing.week.id]: sub }
+    setException(editing.week.id, sub)
+    setExceptions(newExceptions)
     onCancelEdit()
   }
 
@@ -36,14 +58,33 @@ function Subscription() {
     setEditing(undefined)
   }
 
+  useEffect(loadSubscription, [user])
+  function loadSubscription() {
+    if (!user || calendar) return
+    getSubscription().then(([sub, exc]) => {
+      setCalendar(sub)
+      setExceptions(exc)
+      setLoadingSubscription(false)
+    })
+  }
+
+  if (user === null) {
+    Router.push('/inici-sessio')
+    return <Spinner />
+  }
+
+  if (typeof user === 'undefined' || loadingSubscription) {
+    return <Spinner />
+  }
+
   return (
     <div className="content">
       <Breadcrumb
-        currentPageName={t`common:subscription`}
+        currentPageName={t`subscription`}
         links={[
           {
             href: '/',
-            name: 'common:home',
+            name: 'home',
           },
         ]}
       />
@@ -77,6 +118,12 @@ function Subscription() {
             subscription={calendar}
             onClickSubscription={onClickSubscription}
           />
+          <div style={{ textAlign: 'right', marginTop: 15, fontSize: 12 }}>
+            <a
+              onClick={onDelete}
+              href="javascript:void(0)"
+            >{t`common:delete-subscription`}</a>
+          </div>
         </>
       ) : (
         <>
@@ -87,5 +134,3 @@ function Subscription() {
     </div>
   )
 }
-
-export default Subscription

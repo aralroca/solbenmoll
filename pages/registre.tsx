@@ -1,12 +1,13 @@
 import useTranslation from 'next-translate/useTranslation'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 
 import Breadcrumb from '../components/Breadcrumb'
 import SignupForm from '../components/SignupForm'
 import Spinner from '../components/Spinner'
-import { useAuth } from '../auth/client'
+import { useAuth } from '../firebase/client'
 
 function Register() {
+  const { query } = useRouter()
   const { t } = useTranslation('common')
   const { user } = useAuth()
   const title = t`signup`
@@ -33,7 +34,7 @@ function Register() {
       />
       <h1 className="center">{title}</h1>
       <p className="center">{t`login-description`}</p>
-      <SignupForm />
+      {query.new ? <SignupForm /> : <p className="center">Pròximament...</p>}
     </div>
   )
 }

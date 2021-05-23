@@ -19,7 +19,7 @@ function Calendar({
   onClickSubscription = (v) => {},
   ...props
 }) {
-  const { t, lang } = useTranslation('my-baskets')
+  const { t, lang } = useTranslation('common')
   const weeks = getWeeks(lang)
 
   return (

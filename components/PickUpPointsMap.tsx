@@ -104,7 +104,7 @@ const initialState = {
 }
 
 function PickUpPointsMap() {
-  const { t } = useTranslation('home')
+  const { t } = useTranslation('common')
   const [isVisible, setVisible] = useState(false)
   const [ref] = useOnVisible('300px 0px', () => setVisible(true))
   const [selectedPoint, setSelectedPoint] = useState(null)
@@ -160,9 +160,9 @@ function PickUpPointsMap() {
             cursor: 'pointer',
           }}
           onClick={reset}
-          title={t`section-4.button`}
+          title={t`home-content.section-4.button`}
         >
-          {t`section-4.button`}
+          {t`home-content.section-4.button`}
         </button>
       )}
       {pickUpPoints.map((p) => (
@@ -198,7 +198,7 @@ function PickUpPointsMap() {
             style={{ fontSize: 12, margin: '0 10px' }}
             href={selectedPoint.url}
             target="_blank"
-          >{t`section-4.open-map`}</a>
+          >{t`home-content.section-4.open-map`}</a>
         </Popup>
       )}
     </ReactMapGL>
