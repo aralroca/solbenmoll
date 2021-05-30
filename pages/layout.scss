@@ -8,12 +8,16 @@ body {
     Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
+.MuiAlert-message {
+  width: 100%;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   top: 0;
-  z-index: 2;
+  z-index: 9998;
   width: calc(100vw - 40px);
   position: fixed;
   background-color: white;
@@ -55,7 +59,7 @@ body {
   top: 0;
   overflow-y: auto;
   left: 0;
-  z-index: 3;
+  z-index: 9999;
   user-select: none;
   height: 100vh;
   height: -webkit-fill-available;
@@ -100,7 +104,7 @@ body {
 }
 
 .underline {
-  border-bottom: 1px solid #111;
+  border-bottom: 1px solid #99b67e66;
 }
 
 .product-image:hover {
@@ -250,7 +254,7 @@ a {
   margin-right: 10px;
 }
 
-.subscription-form {
+form {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -322,6 +326,13 @@ a {
   }
 }
 
+.pickuppoint-form select {
+  border-radius: 30px;
+  margin: 10px 0;
+  width: 100%;
+  border-left: 2px solid #89a370;
+}
+
 :root {
   --allHeight: 100vh;
 }
@@ -332,12 +343,21 @@ a {
   max-width: 400px;
   margin: 0 auto;
 
-  input {
+  input,
+  textarea {
     padding: 10px;
     border: 1px solid #e6e6e6;
     border-radius: 4px;
     margin-bottom: 15px;
   }
+
+  textarea {
+    resize: vertical;
+  }
+}
+
+.MuiPopover-root {
+  z-index: 10001;
 }
 
 .modal {
@@ -349,7 +369,7 @@ a {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  z-index: 13;
+  z-index: 10000;
   background-color: rgba(0, 0, 0, 0.3);
 
   .modal-content {

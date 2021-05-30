@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import Footer from '../components/Footer'
 import Header from '../components/Header'
 import { AuthProvider } from '../firebase/client'
+import { SubscriptionProvider } from '../helpers/useSubscription'
 
 import './layout.scss'
 
@@ -62,25 +63,33 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <AuthProvider>
-      <Head>
-        <title>Sòl Ben Moll</title>
-        <meta name="description" content={t`home-content.section-1.content`} />
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="alternate"
-          href={`https://solbenmoll.com${path}`}
-          hrefLang="ca"
-        />
-        <link
-          rel="alternate"
-          href={`http://solbenmoll.com/es${path}`}
-          hrefLang="es"
-        />
-        <link rel="canonical" href={`https://solbenmoll.com${prefix}${path}`} />
-      </Head>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <SubscriptionProvider>
+        <Head>
+          <title>Sòl Ben Moll</title>
+          <meta
+            name="description"
+            content={t`home-content.section-1.content`}
+          />
+          <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="alternate"
+            href={`https://solbenmoll.com${path}`}
+            hrefLang="ca"
+          />
+          <link
+            rel="alternate"
+            href={`http://solbenmoll.com/es${path}`}
+            hrefLang="es"
+          />
+          <link
+            rel="canonical"
+            href={`https://solbenmoll.com${prefix}${path}`}
+          />
+        </Head>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </SubscriptionProvider>
     </AuthProvider>
   )
 }

@@ -31,3 +31,12 @@ export default {
     kg: 2,
   },
 }
+
+export const defaults = {
+  ceba: { time: 0, count: 0 },
+  fruita: { time: 0, count: 0 },
+  gran: { time: 0, count: 0 },
+  mitjana: { time: 0, count: 0 },
+  ous: { time: 0, count: 0 },
+  petita: { time: 0, count: 0 },
+}

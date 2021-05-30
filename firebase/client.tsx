@@ -2,6 +2,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import { defaults } from '../constants/products'
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp({
@@ -80,11 +81,11 @@ export function getSubscription() {
   return Promise.all([subscription, exceptions])
 }
 
-export function deleteSubscription() {
+export function deleteSubscription(subscription) {
   const user = firebase.auth().currentUser
   const docRef = db.collection('user_subscriptions').doc(user.uid)
   const excRef = docRef.collection('exceptions')
-  const deleteSubs = docRef.delete()
+  const deleteSubs = docRef.set({ ...subscription, ...defaults })
   const deleteExc = excRef.onSnapshot((snapshot) => {
     snapshot.docs.forEach((doc) => {
       excRef.doc(doc.id).delete()

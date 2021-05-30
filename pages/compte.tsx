@@ -1,34 +1,56 @@
 import { useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
+import Image from 'next/image'
+import MenuItem from '@material-ui/core/MenuItem'
+import ListItemText from '@material-ui/core/ListItemText'
+import Select from '@material-ui/core/Select'
+import Checkbox from '@material-ui/core/Checkbox'
 
+import Anchor, { AnchorWrapper } from '../components/Anchor'
 import Breadcrumb from '../components/Breadcrumb'
+import Center from '../components/Center'
+import PickUpPointStatus from '../components/PickUpPointStatus'
 import Spinner from '../components/Spinner'
+import allExceptions from '../constants/exceptions'
+import getPickUpPointName from '../helpers/getPickUpPointName'
+import useSubscription from '../helpers/useSubscription'
 import {
   logout,
-  useAuth,
   changePassword,
   changeEmail,
+  setSubscription,
   deleteAccount,
 } from '../firebase/client'
+import PickUpForm from '../components/PickUpForm'
 
 const initialStatus = { error: '', loading: false, success: false }
 
 export default function Account() {
-  const { t } = useTranslation('common')
-  const { user } = useAuth()
+  const { t, lang } = useTranslation('common')
+  const {
+    user,
+    calendar = {},
+    setCalendar,
+    loadingSubscription,
+  } = useSubscription()
   const [changePasswordStatus, setChangePasswordStatus] = useState(
     initialStatus
   )
+  const [exceptionStatus, setExceptionStatus] = useState(initialStatus)
   const [changeEmailStatus, setChangeEmailStatus] = useState(initialStatus)
   const [deleteAccountStatus, setDeleteAccountStatus] = useState(initialStatus)
   const title = t`account`
   const margin = { marginTop: 10 }
+  const getExceptionsStr = (e) =>
+    e.map((id) => allExceptions[id][lang]).join(', ') || '-'
+  const exceptionsStr = getExceptionsStr(calendar.excepcions || [])
 
   function reset() {
     setChangePasswordStatus(initialStatus)
     setChangeEmailStatus(initialStatus)
     setDeleteAccountStatus(initialStatus)
+    setExceptionStatus(initialStatus)
   }
 
   if (user === null) {
@@ -36,7 +58,7 @@ export default function Account() {
     return <Spinner />
   }
 
-  if (typeof user === 'undefined') {
+  if (typeof user === 'undefined' || loadingSubscription) {
     return <Spinner />
   }
 
@@ -51,10 +73,107 @@ export default function Account() {
           },
         ]}
       />
-      <h1 className="center">{title}</h1>
+      <h1 className="center underline">{title}</h1>
+
+      <PickUpPointStatus />
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-around',
+          fontSize: 14,
+          flexWrap: 'wrap',
+        }}
+      >
+        <div style={{ maxWidth: 320 }}>
+          <p>
+            <b>{t`pickup-point`}:</b>
+            {` ${getPickUpPointName(calendar, t)}`}
+          </p>
+          <p>
+            <b>{t`exceptions`}:</b>
+            {` ${exceptionsStr}`}
+          </p>
+          <p>
+            <b>{t`email`}:</b>
+            {` ${user.email}`}
+          </p>
+        </div>
+        <div>
+          <p>
+            <a href="#pickup-point">{t`pickup-point-edit`}</a>
+          </p>
+          <p>
+            <a href="#exceptions">{t`exceptions-change`}</a>
+          </p>
+          <p>
+            <a href="#change-email">{t`change-email`}</a>
+          </p>
+          <p>
+            <a href="#change-password">{t`change-password`}</a>
+          </p>
+          <p>
+            <a href="#logout">{t`logout`}</a>
+          </p>
+          <p>
+            <a href="#delete-account">{t`delete-account`}</a>
+          </p>
+        </div>
+      </div>
+
+      {/* PICK UP POINT */}
+      <AnchorWrapper>
+        <Anchor top={-80} id="pickup-point" />
+        <h2 className="underline">{t`pickup-point`}</h2>
+        <PickUpForm onBeforeSubmit={reset} />
+      </AnchorWrapper>
+
+      {/* EXCEPTIONS */}
+      <AnchorWrapper>
+        <Anchor top={-80} id="exceptions" />
+        <h2 className="underline">{t`exceptions`}</h2>
+        <form
+          className="form"
+          onSubmit={onChangeExceptions(calendar, setExceptionStatus, reset)}
+        >
+          <Select
+            multiple
+            style={{ fontSize: 14, padding: 10 }}
+            value={calendar.excepcions || []}
+            displayEmpty
+            onChange={(e: any) =>
+              setCalendar((c) => ({ ...c, excepcions: e.target.value }))
+            }
+            renderValue={() => t`exceptions-change`}
+          >
+            {Object.entries(allExceptions).map(([id, name]) => (
+              <MenuItem key={id} value={id}>
+                <Checkbox checked={(calendar.excepcions || []).includes(id)} />
+                <ListItemText primary={name[lang]} />
+              </MenuItem>
+            ))}
+          </Select>
+          <p>{exceptionsStr}</p>
+          <button disabled={exceptionStatus.loading} className="button">
+            {exceptionStatus.loading ? t`saving` : t`save`}
+          </button>
+          {exceptionStatus.error && (
+            <div style={margin} className="errorMsg">
+              {t(exceptionStatus.error)}
+            </div>
+          )}
+          {exceptionStatus.success && (
+            <div style={margin} className="successMsg">
+              {t`saved`}
+            </div>
+          )}
+        </form>
+      </AnchorWrapper>
 
       {/* CHANGE EMAIL */}
-      <h2 className="underline">{t`change-email`}</h2>
+      <AnchorWrapper>
+        <Anchor top={-80} id="change-email" />
+        <h2 className="underline">{t`change-email`}</h2>
+      </AnchorWrapper>
       <form
         className="form"
         onSubmit={onChangeEmail(setChangeEmailStatus, reset)}
@@ -62,7 +181,7 @@ export default function Account() {
         <label>{t`email`}:</label>
         <input type="email" defaultValue={user.email} />
         <label>{t`current-password`}:</label>
-        <input minLength={6} required type="password" />
+        <input autoComplete="off" minLength={6} required type="password" />
         <button disabled={changeEmailStatus.loading} className="button">
           {changeEmailStatus.loading ? t`saving` : t`save`}
         </button>
@@ -79,17 +198,20 @@ export default function Account() {
       </form>
 
       {/* CHANGE PASSWORD */}
-      <h2 className="underline">{t`change-password`}</h2>
+      <AnchorWrapper>
+        <Anchor top={-80} id="change-password" />
+        <h2 className="underline">{t`change-password`}</h2>
+      </AnchorWrapper>
       <form
         className="form"
         onSubmit={onChangePassword(setChangePasswordStatus, reset)}
       >
         <label>{t`current-password`}:</label>
-        <input minLength={6} required type="password" />
+        <input autoComplete="off" minLength={6} required type="password" />
         <label>{t`new-password`}:</label>
-        <input minLength={6} required type="password" />
+        <input autoComplete="off" minLength={6} required type="password" />
         <label>{t`repeat-password`}:</label>
-        <input minLength={6} required type="password" />
+        <input autoComplete="off" minLength={6} required type="password" />
         <button disabled={changePasswordStatus.loading} className="button">
           {changePasswordStatus.loading ? t`saving` : t`save`}
         </button>
@@ -106,7 +228,10 @@ export default function Account() {
       </form>
 
       {/* LOGOUT */}
-      <h2 className="underline">{t`logout`}</h2>
+      <AnchorWrapper>
+        <Anchor top={-80} id="logout" />
+        <h2 className="underline">{t`logout`}</h2>
+      </AnchorWrapper>
       <div className="form">
         <button
           className="button default"
@@ -117,13 +242,17 @@ export default function Account() {
       </div>
 
       {/* DELETE ACCOUNT */}
-      <h2 className="underline">{t`delete-account`}</h2>
+      <AnchorWrapper>
+        <Anchor top={-80} id="delete-account" />
+        <h2 className="underline">{t`delete-account`}</h2>
+      </AnchorWrapper>
+      <p>{t`delete-account-description`}</p>
       <form
         className="form"
         onSubmit={onDeleteAccount(setDeleteAccountStatus, reset, t)}
       >
         <label>{t`current-password`}:</label>
-        <input minLength={6} required type="password" />
+        <input autoComplete="off" minLength={6} required type="password" />
         <button
           disabled={deleteAccountStatus.loading}
           className="button default"
@@ -141,8 +270,32 @@ export default function Account() {
           </div>
         )}
       </form>
+      <Center
+        style={{ marginTop: 60, padding: 30, borderTop: '1px solid #99b67e66' }}
+      >
+        <Image
+          layout="fixed"
+          loading="lazy"
+          src="/assets/qui-som.png"
+          width={250}
+          height={169}
+        />
+      </Center>
     </div>
   )
+}
+
+function onChangeExceptions(subscription, setStatus, reset) {
+  return (e) => {
+    e.preventDefault()
+    reset()
+    setStatus((s) => ({ ...s, loading: true }))
+    setSubscription(subscription)
+      .then(() => setStatus({ ...initialStatus, success: true }))
+      .catch((e) =>
+        setStatus({ error: `error.${e.code}`, loading: false, success: false })
+      )
+  }
 }
 
 function onChangePassword(setStatus, reset) {

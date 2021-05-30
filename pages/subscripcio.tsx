@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 
@@ -10,13 +10,14 @@ import Modal from '../components/Modal'
 import Spinner from '../components/Spinner'
 import SubsForm from '../components/SubscriptionForm'
 import { Message } from '../components/Message'
+import { defaults } from '../constants/products'
 import {
   deleteSubscription,
-  getSubscription,
   setException,
   setSubscription,
-  useAuth,
 } from '../firebase/client'
+import useSubscription from '../helpers/useSubscription'
+import PickUpPointStatus from '../components/PickUpPointStatus'
 
 const initialFeedback = {
   title: '',
@@ -26,13 +27,18 @@ const initialFeedback = {
 
 export default function Subscription() {
   const { t } = useTranslation('common')
-  const { user } = useAuth()
-  const [loadingSubscription, setLoadingSubscription] = useState(true)
-  const [calendar, setCalendar] = useState(undefined)
+  const {
+    calendar,
+    exceptions,
+    hasSubscription,
+    loadingSubscription,
+    setCalendar,
+    setExceptions,
+    user,
+  } = useSubscription()
   const [feedback, setFeedback] = useState(initialFeedback)
   const [editSubscription, setEditSubscription] = useState(false)
   const [key, setKey] = useState(Date.now())
-  const [exceptions, setExceptions] = useState({})
   const [editing, setEditing] = useState(undefined)
 
   function displayError(e) {
@@ -43,8 +49,9 @@ export default function Subscription() {
     })
   }
 
-  function onAdd(sub) {
-    setSubscription(sub)
+  function onSaveSubscription(sub) {
+    const newCalendar = { ...calendar, ...sub }
+    setSubscription(newCalendar)
       .then(() =>
         setFeedback({
           title: t`feedback.title`,
@@ -54,7 +61,7 @@ export default function Subscription() {
       )
       .catch(displayError)
     setEditSubscription(false)
-    setCalendar(sub)
+    setCalendar(newCalendar)
     setKey(Date.now())
     window.scroll({ top: 0 })
   }
@@ -65,10 +72,10 @@ export default function Subscription() {
 
   function onDelete() {
     if (!window.confirm(t`delete-subscription-confirm`)) return
-    setCalendar(undefined)
+    setCalendar((c) => ({ ...c, ...defaults }))
     setExceptions({})
     setEditSubscription(false)
-    deleteSubscription()
+    deleteSubscription(calendar)
       .then(() =>
         setFeedback({
           title: t`feedback.title`,
@@ -80,7 +87,7 @@ export default function Subscription() {
     window.scroll({ top: 0 })
   }
 
-  function onEdit(sub) {
+  function onEditWeek(sub) {
     const newExceptions = { ...exceptions, [editing.week.id]: sub }
     setException(editing.week.id, sub)
       .then(() => {
@@ -105,16 +112,6 @@ export default function Subscription() {
   function onCancelEdit() {
     setKey(Date.now())
     setEditing(undefined)
-  }
-
-  useEffect(loadSubscription, [user])
-  function loadSubscription() {
-    if (!user || calendar) return
-    getSubscription().then(([sub, exc]) => {
-      setCalendar(sub)
-      setExceptions(exc)
-      setLoadingSubscription(false)
-    })
   }
 
   if (user === null) {
@@ -142,6 +139,10 @@ export default function Subscription() {
             href: '/',
             name: 'home',
           },
+          {
+            href: '/compte',
+            name: 'account',
+          },
         ]}
       />
       <Modal
@@ -160,59 +161,76 @@ export default function Subscription() {
                 onCancel={onCancelEdit}
                 defaultValues={editing}
                 key={'editing' + key}
-                onFinish={onEdit}
+                onFinish={onEditWeek}
               />
             </Body>
           </>
         )}
       </Modal>
 
-      {calendar && !editSubscription ? (
-        <>
-          <h1 style={{ margin: 0 }}>{t`calendar`}</h1>
-          <Calendar
-            exceptions={exceptions}
-            subscription={calendar}
-            onClickSubscription={onClickSubscription}
-          />
-          <div style={{ textAlign: 'right', marginTop: 15, fontSize: 12 }}>
-            <a
-              onClick={onEditSubscription}
-              href="javascript:void(0)"
-            >{t`common:edit-subscription`}</a>
-          </div>
-        </>
-      ) : (
-        <Fragment key={'' + editSubscription}>
-          {editSubscription ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'flex-end',
-                flexWrap: 'wrap',
-              }}
-            >
-              <h1 style={{ margin: 0 }}>{t`common:subscription`}</h1>
-              <a
-                style={{ fontSize: 12 }}
-                onClick={onDelete}
-                href="javascript:void(0)"
-              >{t`common:delete-subscription`}</a>
-            </div>
-          ) : (
-            <h1 style={{ margin: 0 }}>{t`common:subscription`}</h1>
-          )}
-          <p>{t`subscription-description`}</p>
-          <SubsForm
-            onCancel={() => setEditSubscription(false)}
-            isEditing={editSubscription}
-            key={key}
-            onFinish={onAdd}
-            defaultValues={editSubscription ? calendar : undefined}
-          />
-        </Fragment>
-      )}
+      {(() => {
+        if (calendar.estatPuntRecollida !== 'accepted') {
+          return (
+            <>
+              <h1 className="center underline">{t`common:subscription`}</h1>
+              <PickUpPointStatus />
+              <SubsForm key="display-form" />
+            </>
+          )
+        }
+
+        if (hasSubscription && !editSubscription) {
+          return (
+            <>
+              <h1 className="center underline">{t`calendar`}</h1>
+              <Calendar
+                exceptions={exceptions}
+                subscription={calendar}
+                onClickSubscription={onClickSubscription}
+              />
+              <div style={{ textAlign: 'right', marginTop: 15, fontSize: 12 }}>
+                <a
+                  onClick={onEditSubscription}
+                  href="javascript:void(0)"
+                >{t`common:edit-subscription`}</a>
+              </div>
+            </>
+          )
+        }
+
+        return (
+          <Fragment key={'' + editSubscription}>
+            {editSubscription ? (
+              <div
+                className="underline"
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-end',
+                  flexWrap: 'wrap',
+                }}
+              >
+                <h1 style={{ margin: 0 }}>{t`common:subscription`}</h1>
+                <a
+                  style={{ fontSize: 12 }}
+                  onClick={onDelete}
+                  href="javascript:void(0)"
+                >{t`common:delete-subscription`}</a>
+              </div>
+            ) : (
+              <h1 className="center underline">{t`common:subscription`}</h1>
+            )}
+            <p>{t`subscription-description`}</p>
+            <SubsForm
+              onCancel={() => setEditSubscription(false)}
+              isEditing={editSubscription}
+              key={key}
+              onFinish={onSaveSubscription}
+              defaultValues={editSubscription ? calendar : undefined}
+            />
+          </Fragment>
+        )
+      })()}
     </div>
   )
 }

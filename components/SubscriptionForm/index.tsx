@@ -1,17 +1,10 @@
 import useTranslation from 'next-translate/useTranslation'
 import React, { useState, useEffect } from 'react'
 
-import calcPrice from '../../helpers/calcPrice'
 import FormField from './FormField'
-
-const defaults = {
-  ceba: { time: 0, count: 0 },
-  fruita: { time: 0, count: 0 },
-  gran: { time: 0, count: 0 },
-  mitjana: { time: 0, count: 0 },
-  ous: { time: 0, count: 0 },
-  petita: { time: 0, count: 0 },
-}
+import calcPrice from '../../helpers/calcPrice'
+import useSubscription from '../../helpers/useSubscription'
+import { defaults } from '../../constants/products'
 
 const voidFn = (v) => {}
 
@@ -23,6 +16,7 @@ function SubsForm({
   isWeekEditing = false,
 }) {
   const { t } = useTranslation('common')
+  const { calendar } = useSubscription()
   const [petita, setPetita] = useState(defaultValues.petita)
   const [mitjana, setMitjana] = useState(defaultValues.mitjana)
   const [gran, setGran] = useState(defaultValues.gran)
@@ -36,6 +30,9 @@ function SubsForm({
     .filter((b) => b.count)
     .map((b) => b.time)
   const times = Array.from(new Set(baskets))
+  const acceptedPoint = calendar?.estatPuntRecollida === 'accepted'
+  const disabled =
+    (!isWeekEditing && parseInt(price, 10) === 0) || !acceptedPoint
 
   function submit(e) {
     e.preventDefault()
@@ -92,10 +89,7 @@ function SubsForm({
       </div>
       <div className="submit">
         <span className="price">{price} €</span>
-        <button
-          disabled={!isWeekEditing && parseInt(price, 10) === 0}
-          className="button"
-        >
+        <button disabled={disabled} className="button">
           {t`save`}
         </button>
         {isEditing && (
