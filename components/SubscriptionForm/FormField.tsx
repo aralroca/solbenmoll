@@ -26,7 +26,7 @@ function FormField({ id, state, isEditing, isExtra, times, setters }) {
   return (
     <>
       <label htmlFor={id}>{t(`product-${id}`)}:</label>
-      <div style={{ marginBottom: 20 }}>
+      <div style={{ marginBottom: 20, display: 'flex' }}>
         <input
           type="number"
           min={0}
