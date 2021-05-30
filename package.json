@@ -10,6 +10,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
+    "@material-ui/lab": "^4.0.0-alpha.58",
     "firebase": "8.6.1",
     "next": "10.2.0",
     "next-plugin-preact": "3.0.4",

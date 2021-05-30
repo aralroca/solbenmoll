@@ -21,6 +21,7 @@ function Calendar({
 }) {
   const { t, lang } = useTranslation('common')
   const weeks = getWeeks(lang)
+  const border = '2px solid #89a37144'
 
   return (
     <div className={styles.calendar} {...props}>
@@ -38,7 +39,15 @@ function Calendar({
             className={`${styles.day} ${active ? styles.active : ''}`}
           >
             {active ? (
-              <b style={{ marginBottom: 15 }}>{week.name}</b>
+              <b
+                style={{
+                  marginBottom: 15,
+                  borderBottom: border,
+                  color: '#89a371',
+                }}
+              >
+                {week.name}
+              </b>
             ) : (
               week.name
             )}
@@ -81,7 +90,11 @@ function Calendar({
                   </div>
                 )}
                 <div
-                  style={{ textAlign: 'end', marginTop: 'auto' }}
+                  style={{
+                    textAlign: 'end',
+                    marginTop: 'auto',
+                    borderTop: border,
+                  }}
                   className="price"
                 >{`${calcPrice(sub)} €`}</div>
               </>

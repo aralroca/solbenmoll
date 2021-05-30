@@ -13,13 +13,14 @@ const defaults = {
   petita: { time: 0, count: 0 },
 }
 
-const voidFn = (v) => { }
+const voidFn = (v) => {}
 
 function SubsForm({
   defaultValues = defaults,
   onFinish = voidFn,
   onCancel = voidFn,
   isEditing = false,
+  isWeekEditing = false,
 }) {
   const { t } = useTranslation('common')
   const [petita, setPetita] = useState(defaultValues.petita)
@@ -69,7 +70,7 @@ function SubsForm({
       .map((key) => (
         <FormField
           id={key}
-          isEditing={isEditing}
+          isEditing={isWeekEditing}
           isExtra={isExtra}
           key={key}
           setters={setters}
@@ -92,7 +93,7 @@ function SubsForm({
       <div className="submit">
         <span className="price">{price} €</span>
         <button
-          disabled={!isEditing && parseInt(price, 10) === 0}
+          disabled={!isWeekEditing && parseInt(price, 10) === 0}
           className="button"
         >
           {t`save`}

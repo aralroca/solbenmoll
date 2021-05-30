@@ -58,6 +58,7 @@
   "details-extra-fruita": "Fruita ({{kg}}kg, 3 productes, {{price}}€)",
   "details-extra-ous": "Ous ({{price}}€ la mitja dotzena)",
   "edit": "Editar contingut setmana",
+  "edit-subscription": "Editar subscripció",
   "email": "E-mail",
   "enter": "Entrar",
   "extras": "Extres",
@@ -91,9 +92,16 @@
   "saving": "Desant...",
   "signup": "Registra't",
   "subscription": "Subscripció",
+  "subscription-description": "Per subscriure's és necessari que com a mínim seleccioni una de les cistelles. Els extres només es poden afegir sempre i quan coincideixin amb la periodicitat d'una de les cistelles.",
   "title": "Les meves cistelles",
   "what-include": "Aquesta setmana la cistella inclou:",
   "when": "Cada quan ho vol rebre?",
+  "feedback": {
+    "title": "Desat correctament",
+    "subscription-deleted": "La subscripció ha estat esborrada.",
+    "subscription-saved": "La teva nova subscripció ha estat desada.",
+    "subscription-week-saved": "S'han desat els canvis de la setmana {{week}}."
+  },
   "error": {
     "login": "L'usuari o contrasenya no són correctes.",
     "register": "Hi ha hagut un error durant el registre",
