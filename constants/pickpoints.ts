@@ -87,4 +87,12 @@ export default [
     color: '#99b67e',
     id: 'sol-ben-moll',
   },
+  {
+    name: 'Mataró',
+    url: 'https://www.google.es/maps/place/Carrer+Josep+Sabater+i+Sust,+28,+08301+Matar%C3%B3,+Barcelona/@41.5438075,2.4495491,18.06z/data=!4m13!1m7!3m6!1s0x12a4b525440f4397:0x52b56635d32bd905!2sCarrer+Josep+Sabater+i+Sust,+08301+Matar%C3%B3,+Barcelona!3b1!8m2!3d41.5446378!4d2.4494801!3m4!1s0x12a4b5254317db27:0xc63d45201762fafa!8m2!3d41.5441893!4d2.4498496',
+    lat: 41.5438075,
+    lng: 2.4495491,
+    color: '#A7F89F',
+    id: 'mataro',
+  },
 ]
