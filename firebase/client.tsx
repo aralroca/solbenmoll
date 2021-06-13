@@ -24,8 +24,16 @@ function onAuthStateChanged(onChange) {
   })
 }
 
-export function register({ email, password }) {
-  return firebase.auth().createUserWithEmailAndPassword(email, password)
+export function register({ displayName, email, password }) {
+  return firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then((u) => u.user.updateProfile({ displayName }))
+}
+
+export function changeDisplayName(displayName) {
+  const user = firebase.auth().currentUser
+  return user.updateProfile({ displayName })
 }
 
 export function login({ email, password }) {
