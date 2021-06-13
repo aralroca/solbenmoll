@@ -93,6 +93,6 @@ export default [
     lat: 41.5438075,
     lng: 2.4495491,
     color: '#A7F89F',
-    id: 'mataro',
+    id: 'mataro-',
   },
 ]
