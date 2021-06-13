@@ -1,7 +1,6 @@
-import pickUpPoints, { THIRD_PARTY } from '../constants/pickpoints'
+import pickUpPoints from '../constants/pickpoints'
 
-export default function getPickUpPointName(calendar, t) {
-  if (calendar.puntRecollida === THIRD_PARTY) return t`third`
+export default function getPickUpPointName(calendar) {
   const point = pickUpPoints.find((p) => p.id === calendar.puntRecollida)
   if (point) return point.name
   return '-'

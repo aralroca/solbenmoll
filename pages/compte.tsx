@@ -2,55 +2,41 @@ import { useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import Image from 'next/image'
-import MenuItem from '@material-ui/core/MenuItem'
-import ListItemText from '@material-ui/core/ListItemText'
-import Select from '@material-ui/core/Select'
-import Checkbox from '@material-ui/core/Checkbox'
 
 import Anchor, { AnchorWrapper } from '../components/Anchor'
 import Breadcrumb from '../components/Breadcrumb'
 import Center from '../components/Center'
+import ExceptionsForm from '../components/ExceptionsForm'
+import PickUpForm from '../components/PickUpForm'
 import PickUpPointStatus from '../components/PickUpPointStatus'
 import Spinner from '../components/Spinner'
-import allExceptions from '../constants/exceptions'
+import getExceptionsStr from '../helpers/getExceptionsStr'
 import getPickUpPointName from '../helpers/getPickUpPointName'
 import useSubscription from '../helpers/useSubscription'
 import {
   logout,
   changePassword,
   changeEmail,
-  setSubscription,
   deleteAccount,
 } from '../firebase/client'
-import PickUpForm from '../components/PickUpForm'
 
 const initialStatus = { error: '', loading: false, success: false }
 
 export default function Account() {
   const { t, lang } = useTranslation('common')
-  const {
-    user,
-    calendar = {},
-    setCalendar,
-    loadingSubscription,
-  } = useSubscription()
-  const [changePasswordStatus, setChangePasswordStatus] = useState(
-    initialStatus
-  )
-  const [exceptionStatus, setExceptionStatus] = useState(initialStatus)
+  const { user, calendar = {}, loadingSubscription } = useSubscription()
+  const [changePasswordStatus, setChangePasswordStatus] =
+    useState(initialStatus)
   const [changeEmailStatus, setChangeEmailStatus] = useState(initialStatus)
   const [deleteAccountStatus, setDeleteAccountStatus] = useState(initialStatus)
   const title = t`account`
   const margin = { marginTop: 10 }
-  const getExceptionsStr = (e) =>
-    e.map((id) => allExceptions[id][lang]).join(', ') || '-'
-  const exceptionsStr = getExceptionsStr(calendar.excepcions || [])
+  const exceptionsStr = getExceptionsStr(calendar.excepcions || [], lang)
 
   function reset() {
     setChangePasswordStatus(initialStatus)
     setChangeEmailStatus(initialStatus)
     setDeleteAccountStatus(initialStatus)
-    setExceptionStatus(initialStatus)
   }
 
   if (user === null) {
@@ -87,7 +73,7 @@ export default function Account() {
         <div style={{ maxWidth: 320 }}>
           <p>
             <b>{t`pickup-point`}:</b>
-            {` ${getPickUpPointName(calendar, t)}`}
+            {` ${getPickUpPointName(calendar)}`}
           </p>
           <p>
             <b>{t`exceptions`}:</b>
@@ -131,42 +117,7 @@ export default function Account() {
       <AnchorWrapper>
         <Anchor top={-80} id="exceptions" />
         <h2 className="underline">{t`exceptions`}</h2>
-        <form
-          className="form"
-          onSubmit={onChangeExceptions(calendar, setExceptionStatus, reset)}
-        >
-          <Select
-            multiple
-            style={{ fontSize: 14, padding: 10 }}
-            value={calendar.excepcions || []}
-            displayEmpty
-            onChange={(e: any) =>
-              setCalendar((c) => ({ ...c, excepcions: e.target.value }))
-            }
-            renderValue={() => t`exceptions-change`}
-          >
-            {Object.entries(allExceptions).map(([id, name]) => (
-              <MenuItem key={id} value={id}>
-                <Checkbox checked={(calendar.excepcions || []).includes(id)} />
-                <ListItemText primary={name[lang]} />
-              </MenuItem>
-            ))}
-          </Select>
-          <p>{exceptionsStr}</p>
-          <button disabled={exceptionStatus.loading} className="button">
-            {exceptionStatus.loading ? t`saving` : t`save`}
-          </button>
-          {exceptionStatus.error && (
-            <div style={margin} className="errorMsg">
-              {t(exceptionStatus.error)}
-            </div>
-          )}
-          {exceptionStatus.success && (
-            <div style={margin} className="successMsg">
-              {t`saved`}
-            </div>
-          )}
-        </form>
+        <ExceptionsForm onBeforeSubmit={reset} />
       </AnchorWrapper>
 
       {/* CHANGE EMAIL */}
@@ -285,30 +236,15 @@ export default function Account() {
   )
 }
 
-function onChangeExceptions(subscription, setStatus, reset) {
-  return (e) => {
-    e.preventDefault()
-    reset()
-    setStatus((s) => ({ ...s, loading: true }))
-    setSubscription(subscription)
-      .then(() => setStatus({ ...initialStatus, success: true }))
-      .catch((e) =>
-        setStatus({ error: `error.${e.code}`, loading: false, success: false })
-      )
-  }
-}
-
 function onChangePassword(setStatus, reset) {
   return (e) => {
     e.preventDefault()
     reset()
     setStatus((s) => ({ ...s, loading: true }))
 
-    const [
-      currentPassword,
-      newPassword,
-      repeatPassword,
-    ] = Array.prototype.slice.call(e.target).map((f) => f.value)
+    const [currentPassword, newPassword, repeatPassword] = Array.prototype.slice
+      .call(e.target)
+      .map((f) => f.value)
 
     if (newPassword !== repeatPassword) {
       return setStatus({

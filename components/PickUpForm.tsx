@@ -1,21 +1,19 @@
 import useTranslation from 'next-translate/useTranslation'
-import React, { useState, Fragment } from 'react'
+import React, { useState } from 'react'
 
 import PickUpPointsMap from './PickUpPointsMap'
-import pickUpPoints, { THIRD_PARTY } from '../constants/pickpoints'
+import pickUpPoints from '../constants/pickpoints'
 import useSubscription from '../helpers/useSubscription'
 import { setSubscription } from '../firebase/client'
 
 const initialStatus = { error: '', loading: false, success: false }
 const margin = { marginTop: 10 }
+const voidFn = () => {}
 
-export default function PickUpForm({ onBeforeSubmit }) {
+export default function PickUpForm({ onBeforeSubmit = voidFn }) {
   const [status, setStatus] = useState(initialStatus)
   const { t } = useTranslation('common')
   const { calendar = {}, hasSubscription, setCalendar } = useSubscription()
-  const [managedByThirdParties, setManagedByThidParties] = useState(
-    calendar.puntRecollida === THIRD_PARTY
-  )
   const [point, setPoint] = useState(() =>
     pickUpPoints.find((p) => p.id === calendar.puntRecollida)
   )
@@ -28,7 +26,7 @@ export default function PickUpForm({ onBeforeSubmit }) {
       .call(e.target)
       .filter((f) => f.name === 'anotations')
       .map((f) => f.value)
-    const puntRecollida = managedByThirdParties ? THIRD_PARTY : point.id
+    const puntRecollida = point.id
     const estatPuntRecollida = 'pending'
     const subscription = {
       ...calendar,
@@ -53,43 +51,22 @@ export default function PickUpForm({ onBeforeSubmit }) {
         className="form pickuppoint-form"
         onSubmit={onSubmit}
       >
-        <label>{t`pickup-point-managed-by`}:</label>
+        <label>{t`pickup-point`}:</label>
         <select
-          value={managedByThirdParties ? 'third' : 'us'}
-          onChange={(e) => setManagedByThidParties(e.target.value === 'third')}
+          required
+          value={point?.id}
+          onChange={(e) =>
+            setPoint(pickUpPoints.find((p) => p.id === e.target.value))
+          }
         >
-          <option value="us">{t`us`}</option>
-          <option value="third">{t`third`}</option>
+          {!point && <option key="empty">-</option>}
+          {pickUpPoints.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.name}
+            </option>
+          ))}
         </select>
-
-        {managedByThirdParties ? (
-          <>
-            <label>{t`anotations`}:</label>
-            <textarea
-              defaultValue={calendar.puntRecollidaAnotacions}
-              name="anotations"
-            ></textarea>
-          </>
-        ) : (
-          <Fragment key={point?.id}>
-            <label>{t`pickup-point`}:</label>
-            <select
-              required
-              value={point?.id}
-              onChange={(e) =>
-                setPoint(pickUpPoints.find((p) => p.id === e.target.value))
-              }
-            >
-              {!point && <option key="empty">-</option>}
-              {pickUpPoints.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-            <PickUpPointsMap point={point} onChangePoint={setPoint} />
-          </Fragment>
-        )}
+        <PickUpPointsMap point={point} onChangePoint={setPoint} />
 
         <button
           style={{ marginTop: 15 }}
