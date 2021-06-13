@@ -33,7 +33,6 @@ export default function Home() {
         src={`/assets/banner-${lang}.jpg`}
         layout="responsive"
         loading="lazy"
-        placeholder="blur"
         className="banner"
         height={569}
         width={1400}
