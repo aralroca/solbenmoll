@@ -12,7 +12,7 @@ function SignupForm() {
 
   function onSubmit(e) {
     e.preventDefault()
-    const [email, password, repeatPassword] = Array.prototype.slice
+    const [displayName, email, password, repeatPassword] = Array.prototype.slice
       .call(e.target)
       .map((f) => f.value)
 
@@ -22,7 +22,7 @@ function SignupForm() {
       setError('')
     }
     setLoading(true)
-    register({ email, password }).catch(() => {
+    register({ displayName, email, password }).catch(() => {
       setError('error.register')
       setLoading(false)
     })
@@ -30,6 +30,8 @@ function SignupForm() {
 
   return (
     <form className="form" onSubmit={onSubmit}>
+      <label>{t`display-name`}:</label>
+      <input required type="text" />
       <label>{t`email`}:</label>
       <input required type="email" />
       <label>{t`password`}:</label>

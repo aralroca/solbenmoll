@@ -18,6 +18,7 @@ import {
   changePassword,
   changeEmail,
   deleteAccount,
+  changeDisplayName,
 } from '../firebase/client'
 
 const initialStatus = { error: '', loading: false, success: false }
@@ -28,10 +29,13 @@ export default function Account() {
   const [changePasswordStatus, setChangePasswordStatus] =
     useState(initialStatus)
   const [changeEmailStatus, setChangeEmailStatus] = useState(initialStatus)
+  const [changeDisplayNameStatus, setChangeDisplayNameStatus] =
+    useState(initialStatus)
   const [deleteAccountStatus, setDeleteAccountStatus] = useState(initialStatus)
   const title = t`account`
   const margin = { marginTop: 10 }
   const exceptionsStr = getExceptionsStr(calendar.excepcions || [], lang)
+  const displayName = user?.providerData?.[0]?.displayName
 
   function reset() {
     setChangePasswordStatus(initialStatus)
@@ -80,6 +84,10 @@ export default function Account() {
             {` ${exceptionsStr}`}
           </p>
           <p>
+            <b>{t`display-name`}:</b>
+            {` ${displayName || '-'}`}
+          </p>
+          <p>
             <b>{t`email`}:</b>
             {` ${user.email}`}
           </p>
@@ -90,6 +98,9 @@ export default function Account() {
           </p>
           <p>
             <a href="#exceptions">{t`exceptions-change`}</a>
+          </p>
+          <p>
+            <a href="#change-display-name">{t`change-display-name`}</a>
           </p>
           <p>
             <a href="#change-email">{t`change-email`}</a>
@@ -119,6 +130,32 @@ export default function Account() {
         <h2 className="underline">{t`exceptions`}</h2>
         <ExceptionsForm onBeforeSubmit={reset} />
       </AnchorWrapper>
+
+      {/* CHANGE DISPLAY NAME */}
+      <AnchorWrapper>
+        <Anchor top={-80} id="change-display-name" />
+        <h2 className="underline">{t`change-display-name`}</h2>
+      </AnchorWrapper>
+      <form
+        className="form"
+        onSubmit={onChangeDisplayName(setChangeDisplayNameStatus, reset)}
+      >
+        <label>{t`display-name`}:</label>
+        <input type="text" defaultValue={displayName} />
+        <button disabled={changeDisplayNameStatus.loading} className="button">
+          {changeDisplayNameStatus.loading ? t`saving` : t`save`}
+        </button>
+        {changeDisplayNameStatus.error && (
+          <div style={margin} className="errorMsg">
+            {t(changeDisplayNameStatus.error)}
+          </div>
+        )}
+        {changeDisplayNameStatus.success && (
+          <div style={margin} className="successMsg">
+            {t`saved`}
+          </div>
+        )}
+      </form>
 
       {/* CHANGE EMAIL */}
       <AnchorWrapper>
@@ -281,6 +318,24 @@ function onChangeEmail(setStatus, reset) {
       .map((f) => f.value)
 
     changeEmail(currentPassword, email)
+      .then(() => setStatus({ ...initialStatus, success: true }))
+      .catch((e) =>
+        setStatus({ error: `error.${e.code}`, loading: false, success: false })
+      )
+  }
+}
+
+function onChangeDisplayName(setStatus, reset) {
+  return async (e) => {
+    e.preventDefault()
+    reset()
+    setStatus((s) => ({ ...s, loading: true }))
+
+    const [displayName] = Array.prototype.slice
+      .call(e.target)
+      .map((f) => f.value)
+
+    changeDisplayName(displayName)
       .then(() => setStatus({ ...initialStatus, success: true }))
       .catch((e) =>
         setStatus({ error: `error.${e.code}`, loading: false, success: false })
