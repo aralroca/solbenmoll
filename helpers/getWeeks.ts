@@ -24,12 +24,14 @@ function getMonday(d) {
 }
 
 function getSunday(d) {
-  const date = new Date(d)
+  let date = new Date(d)
   setTwelveOclock(date)
   const today = date.getDate()
   const dayOfTheWeek = date.getDay()
-  const newDate = date.setDate(today - dayOfTheWeek + 7)
-  return new Date(newDate)
+  if (dayOfTheWeek !== 0) {
+    date = new Date(date.setDate(today - dayOfTheWeek + 7))
+  }
+  return date
 }
 
 function getWeek(date, lang) {
