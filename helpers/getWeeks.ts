@@ -1,3 +1,5 @@
+import LIMIT_DAY from '../constants/limit-day'
+
 export default function getWeeks(lang = 'ca') {
   const dayCursor = new Date()
 
@@ -34,6 +36,14 @@ function getSunday(d) {
   return date
 }
 
+function isEditableWeek(monday) {
+  const limitDay = new Date(monday)
+  limitDay.setDate(limitDay.getDate() - (8 - LIMIT_DAY))
+  limitDay.setHours(0)
+
+  return new Date() < limitDay
+}
+
 function getWeek(date, lang) {
   const locale = `${lang}-${lang.toUpperCase()}`
 
@@ -50,8 +60,9 @@ function getWeek(date, lang) {
     day: 'numeric',
   })
 
+  const isEditable = isEditableWeek(monday)
   const name = `${mondayName} - ${sundayName}`.replace(/de /g, '')
   const id = `${monday.getTime()}-${sunday.getTime()}`
 
-  return { monday, sunday, name, id }
+  return { monday, sunday, name, id, isEditable }
 }

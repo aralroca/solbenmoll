@@ -34,8 +34,11 @@ function Calendar({
         return (
           <div
             key={week.id}
-            title={active ? t`edit` : undefined}
-            onClick={() => onClickSubscription({ ...sub, week })}
+            title={t`edit`}
+            onClick={() => {
+              if (!week.isEditable) return alert(t`closed-order`)
+              onClickSubscription({ ...sub, week })
+            }}
             className={`${styles.day} ${active ? styles.active : ''}`}
           >
             {active ? (
