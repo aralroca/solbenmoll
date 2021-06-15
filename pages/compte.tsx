@@ -14,6 +14,7 @@ import Spinner from '../components/Spinner'
 import getExceptionsStr from '../helpers/getExceptionsStr'
 import getPickUpPointName from '../helpers/getPickUpPointName'
 import useSubscription from '../helpers/useSubscription'
+import aboutImg from '../public/assets/qui-som.png'
 import {
   changePassword,
   changeEmail,
@@ -277,7 +278,9 @@ export default function Account() {
         <Image
           layout="fixed"
           loading="lazy"
-          src="/assets/qui-som.png"
+          placeholder="blur"
+          src={aboutImg}
+          alt="Sòl Ben Moll"
           width={250}
           height={169}
         />
