@@ -3,7 +3,9 @@ import { getSubscription, useAuth } from '../firebase/client'
 
 const defaults = {
   calendar: undefined,
+  isAdmin: false,
   exceptions: {},
+  logout: () => {},
   hasSubscription: false,
   loadingSubscription: true,
   setCalendar: undefined,
@@ -18,7 +20,7 @@ export default function useSubscription() {
 }
 
 export function SubscriptionProvider({ children }) {
-  const { user } = useAuth()
+  const { user, isAdmin, logout } = useAuth()
   const [loadingSubscription, setLoadingSubscription] = useState(
     defaults.loadingSubscription
   )
@@ -42,6 +44,8 @@ export function SubscriptionProvider({ children }) {
     <Ctx.Provider
       value={{
         user,
+        isAdmin,
+        logout,
         calendar,
         loadingSubscription,
         exceptions,

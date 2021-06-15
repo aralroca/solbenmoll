@@ -12,6 +12,7 @@
   "closed-order": "Ho sentim però les comandes es poden editar fins a una setmana d'antelació com a màxim.",
   "change-display-name": "Canviar nom",
   "contact": "Contacte",
+  "admin": "Panell d'administrador",
   "contact-content": {
     "title": "Contacte",
     "description": "Si voleu subscriure's com a cistellaires, o teniu qualsevol dubte, no dubteu en contactar a solbenmoll@gmail.com."
@@ -135,5 +136,8 @@
     "auth/wrong-password": "La contrasenya actual és incorrecte",
     "auth/email-already-in-use": "El e-mail ja es troba en ús",
     "same-password": "La nova contrasenya ha de ser diferent a la actual"
-  }
+  },
+  "admin-pendings-applications": "Sol·licituds pendents",
+  "admin-products": "Productes setmana",
+  "admin-subscriptions": "Comandes setmana"
 }
