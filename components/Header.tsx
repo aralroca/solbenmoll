@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 
@@ -6,9 +7,9 @@ import BasketIcon from './Icons/Basket'
 import Image from 'next/image'
 import LoginIcon from './Icons/Login'
 import PhoneIcon from './Icons/Phone'
+import solbenmoll from '../public/solbenmoll.svg'
 import useTranslation from 'next-translate/useTranslation'
 import { useAuth } from '../firebase/client'
-import { useState } from 'react'
 
 const Menu = dynamic(() => import('./Menu'), { ssr: false })
 

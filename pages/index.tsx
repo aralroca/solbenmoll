@@ -8,6 +8,7 @@ import Anchor from '../components/Anchor'
 import Center from '../components/Center'
 import PickUpPointsMap from '../components/PickUpPointsMap'
 import products from '../constants/products'
+import aboutImg from '../public/assets/qui-som.png'
 
 export default function Home() {
   const { query } = useRouter()
@@ -31,8 +32,10 @@ export default function Home() {
         alt="Sòl Ben Moll banner"
         title={t`home-content.banner-title`}
         src={`/assets/banner-${lang}.jpg`}
+        blurDataURL="/assets/banner-blur.jpg"
         layout="responsive"
-        loading="lazy"
+        priority
+        placeholder="blur"
         className="banner"
         height={569}
         width={1400}
@@ -47,7 +50,9 @@ export default function Home() {
           <Image
             layout="fixed"
             loading="lazy"
-            src="/assets/qui-som.png"
+            placeholder="blur"
+            src={aboutImg}
+            alt="Sòl Ben Moll"
             width={250}
             height={169}
           />

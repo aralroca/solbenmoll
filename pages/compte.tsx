@@ -2,6 +2,7 @@ import { useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import Anchor, { AnchorWrapper } from '../components/Anchor'
 import Breadcrumb from '../components/Breadcrumb'
@@ -13,8 +14,8 @@ import Spinner from '../components/Spinner'
 import getExceptionsStr from '../helpers/getExceptionsStr'
 import getPickUpPointName from '../helpers/getPickUpPointName'
 import useSubscription from '../helpers/useSubscription'
+import aboutImg from '../public/assets/qui-som.png'
 import {
-  logout,
   changePassword,
   changeEmail,
   deleteAccount,
@@ -25,7 +26,13 @@ const initialStatus = { error: '', loading: false, success: false }
 
 export default function Account() {
   const { t, lang } = useTranslation('common')
-  const { user, calendar = {}, loadingSubscription } = useSubscription()
+  const {
+    user,
+    isAdmin,
+    calendar = {},
+    loadingSubscription,
+    logout,
+  } = useSubscription()
   const [changePasswordStatus, setChangePasswordStatus] =
     useState(initialStatus)
   const [changeEmailStatus, setChangeEmailStatus] = useState(initialStatus)
@@ -35,7 +42,7 @@ export default function Account() {
   const title = t`account`
   const margin = { marginTop: 10 }
   const exceptionsStr = getExceptionsStr(calendar.excepcions || [], lang)
-  const displayName = user?.providerData?.[0]?.displayName
+  const displayName = user?.displayName
 
   function reset() {
     setChangePasswordStatus(initialStatus)
@@ -93,6 +100,13 @@ export default function Account() {
           </p>
         </div>
         <div>
+          {isAdmin && (
+            <p style={{ color: 'red' }}>
+              <Link href="/admin">
+                <a>{t`admin`}</a>
+              </Link>
+            </p>
+          )}
           <p>
             <a href="#pickup-point">{t`pickup-point-edit`}</a>
           </p>
@@ -264,7 +278,9 @@ export default function Account() {
         <Image
           layout="fixed"
           loading="lazy"
-          src="/assets/qui-som.png"
+          placeholder="blur"
+          src={aboutImg}
+          alt="Sòl Ben Moll"
           width={250}
           height={169}
         />

@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Router, { useRouter } from 'next/router'
 
+import logo from '../public/assets/logo-96.png'
+
 const langNames = {
   es: 'Castellano',
   ca: 'Català',
@@ -21,7 +23,8 @@ function Footer() {
             <a className="logo" title={brand}>
               <Image
                 alt={brand}
-                src="/assets/logo-96.png"
+                placeholder="blur"
+                src={logo}
                 layout="fixed"
                 width={60}
                 loading="lazy"

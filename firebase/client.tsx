@@ -40,10 +40,6 @@ export function login({ email, password }) {
   return firebase.auth().signInWithEmailAndPassword(email, password)
 }
 
-export function logout() {
-  return firebase.auth().signOut()
-}
-
 export function reauthenticate(currentPassword) {
   const user = firebase.auth().currentUser
   const cred = firebase.auth.EmailAuthProvider.credential(
@@ -129,14 +125,34 @@ export function setSubscription(subscription) {
   })
 }
 
-const AuthCtx = createContext({ user: undefined })
+const AuthCtx = createContext({
+  user: undefined,
+  isAdmin: false,
+  logout: () => {},
+})
+const admins = new Set([
+  'jM0K3ixkxEPShMgNlC3ekR14Fsq2',
+  'm9EzZBSR9MaRVzG8Ib6sQzX6mLw1',
+])
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState()
+  const isAdmin = admins.has((user as any)?.uid || '')
+
+  async function logout() {
+    await firebase.auth().signOut()
+    setUser(null)
+  }
+
   useEffect(() => {
     onAuthStateChanged(setUser)
   }, [])
-  return <AuthCtx.Provider value={{ user }}>{children}</AuthCtx.Provider>
+
+  return (
+    <AuthCtx.Provider value={{ user, isAdmin, logout }}>
+      {children}
+    </AuthCtx.Provider>
+  )
 }
 
 export function useAuth() {
