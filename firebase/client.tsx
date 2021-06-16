@@ -16,6 +16,11 @@ if (firebase.apps.length === 0) {
   })
 }
 
+const admins = new Set([
+  'jM0K3ixkxEPShMgNlC3ekR14Fsq2',
+  'm9EzZBSR9MaRVzG8Ib6sQzX6mLw1',
+])
+
 const db = firebase.firestore()
 
 function onAuthStateChanged(onChange) {
@@ -31,9 +36,11 @@ export function register({ displayName, email, password }) {
     .then((u) => u.user.updateProfile({ displayName }))
 }
 
-export function changeDisplayName(displayName) {
+export function changeDisplayName(displayName, subscription) {
   const user = firebase.auth().currentUser
-  return user.updateProfile({ displayName })
+  return user.updateProfile({ displayName }).then(() => {
+    setSubscription(subscription)
+  })
 }
 
 export function login({ email, password }) {
@@ -55,10 +62,10 @@ export function changePassword(currentPassword, newPassword) {
   )
 }
 
-export function changeEmail(currentPassword, newEmail) {
-  return reauthenticate(currentPassword).then(() =>
-    firebase.auth().currentUser.updateEmail(newEmail)
-  )
+export function changeEmail(currentPassword, newEmail, subscription) {
+  return reauthenticate(currentPassword)
+    .then(() => firebase.auth().currentUser.updateEmail(newEmail))
+    .then(() => setSubscription(subscription))
 }
 
 export function deleteAccount(currentPassword) {
@@ -110,19 +117,43 @@ export function setException(weekId, exception) {
     .set({ ...exception, end })
 }
 
+export function changeApplicationStatus(id, subscription, status = 'accepted') {
+  return db
+    .collection('user_subscriptions')
+    .doc(id)
+    .update({
+      ...subscription,
+      estatPuntRecollida: status,
+      updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
+    })
+}
+
 export function setSubscription(subscription) {
   const user = firebase.auth().currentUser
   const docRef = db.collection('user_subscriptions').doc(user.uid)
 
   return docRef.get().then((doc) => {
-    if (doc.exists) {
-      return docRef.update(subscription)
+    const subs = {
+      ...subscription,
+      email: user.email,
+      displayName: user.displayName,
+      updatedAt: firebase.firestore.Timestamp.fromDate(new Date()),
     }
+
+    if (doc.exists) return docRef.update(subs)
+
     return docRef.set({
       createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
-      ...subscription,
+      ...subs,
     })
   })
+}
+
+export async function getAllSubscriptions() {
+  const snapshot = await db.collection('user_subscriptions').get()
+  return snapshot.docs
+    .map((doc) => ({ ...doc.data(), id: doc.id }))
+    .filter((doc) => !admins.has(doc.id))
 }
 
 const AuthCtx = createContext({
@@ -130,10 +161,6 @@ const AuthCtx = createContext({
   isAdmin: false,
   logout: () => {},
 })
-const admins = new Set([
-  'jM0K3ixkxEPShMgNlC3ekR14Fsq2',
-  'm9EzZBSR9MaRVzG8Ib6sQzX6mLw1',
-])
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState()

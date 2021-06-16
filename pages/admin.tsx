@@ -1,22 +1,54 @@
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Card from '@material-ui/core/Card';
-import Box from '@material-ui/core/Box';
+import Tabs from '@material-ui/core/Tabs'
+import Tab from '@material-ui/core/Tab'
+import Card from '@material-ui/core/Card'
+import Box from '@material-ui/core/Box'
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableContainer from '@material-ui/core/TableContainer'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import Paper from '@material-ui/core/Paper'
+import Button from '@material-ui/core/Button'
 
 import Breadcrumb from '../components/Breadcrumb'
 import Spinner from '../components/Spinner'
+import pickupPoints from '../constants/pickpoints'
 import useSubscription from '../helpers/useSubscription'
-import { useEffect, useState } from 'react';
+import {
+  changeApplicationStatus,
+  getAllSubscriptions,
+} from '../firebase/client'
+import { useEffect, useState } from 'react'
+
+const initialState: any = null
+const pickUpPointsAsObj = pickupPoints.reduce((t, p) => {
+  t[p.id] = p
+  return t
+}, {})
 
 export default function Admin() {
   const { t } = useTranslation('common')
+  const [subscriptions, setSubscriptions] = useState(initialState)
   const [tab, onChangeTab] = useState(0)
   const { user, isAdmin, loadingSubscription } = useSubscription()
   const title = t`admin`
+  const pendings =
+    subscriptions?.filter?.((s) => s.estatPuntRecollida === 'pending') || []
+  const accepted =
+    subscriptions?.filter?.((s) => s.estatPuntRecollida === 'accepted') || []
+  const rejected =
+    subscriptions?.filter?.((s) => s.estatPuntRecollida === 'rejected') || []
+  const acceptedNum = accepted.length ?? '-'
+  const pendingNum = pendings.length ?? '-'
+  const rejectedNum = rejected.length ?? '-'
 
+  useEffect(() => {
+    getAllSubscriptions().then(setSubscriptions)
+  }, [])
 
   if (user === null) {
     Router.push('/inici-sessio')
@@ -56,39 +88,154 @@ export default function Admin() {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab label={t`admin-subscriptions`} />
-          <Tab label={t`admin-products`} />
-          <Tab label={t`admin-pendings-applications`} />
+          <Tab label={`${t('admin-subscriptions')} (${acceptedNum})`} />
+          <Tab label={`${t('admin-pendings-applications')} (${pendingNum})`} />
+          <Tab label={`${t('admin-rejected-applications')} (${rejectedNum})`} />
+          <Tab label={t('admin-products')} />
         </Tabs>
       </AppBar>
-      <Card><Box p={3}>
-        {tab}
-      </Box>
+      <Card>
+        <Box p={3}>
+          {!subscriptions && <Spinner style={{ padding: 0 }} />}
+          {subscriptions &&
+            (() => {
+              switch (tab) {
+                case 0:
+                  return <Subscriptions users={accepted} />
+                case 1:
+                  return (
+                    <ApplicationTable
+                      users={pendings}
+                      setSubscriptions={setSubscriptions}
+                    />
+                  )
+                case 2:
+                  return (
+                    <ApplicationTable
+                      users={rejected}
+                      actions={['accept', 'pending']}
+                      setSubscriptions={setSubscriptions}
+                    />
+                  )
+                case 3:
+                  return <Products />
+              }
+            })()}
+        </Box>
       </Card>
     </div>
   )
 }
 
-function Applications({ onLoadApplications }) {
-  useEffect(() => {
-    onLoadApplications()
-  }, [])
-
-  return <Spinner style={{ padding: 0 }} />
+function Subscriptions({ users }) {
+  return <div>En construcció...</div>
 }
 
-function Subscriptions({ onLoadSubscriptions }) {
-  useEffect(() => {
-    onLoadSubscriptions()
-  }, [])
-
-  return <Spinner style={{ padding: 0 }} />
+function Products() {
+  return <div>En construcció...</div>
 }
 
-function Products({ onLoadProducts }) {
-  useEffect(() => {
-    onLoadProducts()
-  }, [])
+function ApplicationTable({
+  users,
+  actions = ['accept', 'reject'],
+  setSubscriptions,
+}) {
+  const { t } = useTranslation('common')
+  const margin = { margin: '0 5px' }
 
-  return <Spinner style={{ padding: 0 }} />
+  function updateStatus(user, status) {
+    setSubscriptions((s) =>
+      s.map((u) =>
+        u.id === user.id ? { ...u, estatPuntRecollida: status } : u
+      )
+    )
+    changeApplicationStatus(user.id, user, status)
+  }
+
+  function accept(user) {
+    if (!window.confirm(t`accept-confirm`)) return
+    updateStatus(user, 'accepted')
+  }
+
+  function reject(user) {
+    if (!window.confirm(t`reject-confirm`)) return
+    updateStatus(user, 'rejected')
+  }
+
+  function markAsPending(user) {
+    if (!window.confirm(t`mark-as-pending-confirm`)) return
+    updateStatus(user, 'pending')
+  }
+
+  return (
+    <TableContainer key="pending" component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell>{t`display-name`}</TableCell>
+            <TableCell>{t`email`}</TableCell>
+            <TableCell>{t`pickup-point`}</TableCell>
+            <TableCell>{t`action`}</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {users.map((user) => {
+            const p = pickUpPointsAsObj[user.puntRecollida] || {}
+            const actionsAvailable = {
+              accept: (
+                <Button
+                  onClick={() => accept(user)}
+                  style={margin}
+                  key="accept"
+                  variant="outlined"
+                >{t`accept`}</Button>
+              ),
+              reject: (
+                <Button
+                  onClick={() => reject(user)}
+                  style={margin}
+                  key="reject"
+                  variant="outlined"
+                >{t`reject`}</Button>
+              ),
+              pending: (
+                <Button
+                  onClick={() => markAsPending(user)}
+                  style={margin}
+                  key="pending"
+                  variant="outlined"
+                >{t`mark-as-pending`}</Button>
+              ),
+            }
+
+            return (
+              <TableRow key={user.id}>
+                <TableCell component="th" scope="row">
+                  {user.displayName}
+                </TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  <div style={{ display: 'flex' }}>
+                    <div
+                      style={{
+                        marginRight: 10,
+                        backgroundColor: p.color,
+                        width: 16,
+                        height: 16,
+                        borderRadius: '50%',
+                      }}
+                    />
+                    {p.name}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  {actions.map((action) => actionsAvailable[action] || null)}
+                </TableCell>
+              </TableRow>
+            )
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  )
 }

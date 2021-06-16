@@ -102,7 +102,6 @@
   "subscription-description": "Per subscriure's és necessari que com a mínim seleccioni una de les cistelles. Els extres només es poden afegir sempre i quan coincideixin amb la periodicitat d'una de les cistelles.",
   "title": "Les meves cistelles",
   "when": "Cada quan ho vol rebre?",
-  "pickup-point-managed-by": "Punt de recollida gestionat per",
   "us": "Nosaltres",
   "exceptions": "Excepcions",
   "exceptions-change": "Editar llista d'excepcions",
@@ -135,9 +134,18 @@
     "repeat-password": "Les contrasenyes introduïdes no coincideixen",
     "auth/wrong-password": "La contrasenya actual és incorrecte",
     "auth/email-already-in-use": "El e-mail ja es troba en ús",
-    "same-password": "La nova contrasenya ha de ser diferent a la actual"
+    "same-password": "La nova contrasenya ha de ser diferent a la actual",
+    "invalid-argument": "Camp incorrecte"
   },
   "admin-pendings-applications": "Sol·licituds pendents",
+  "admin-rejected-applications": "Sol·licituds rebutjades",
   "admin-products": "Productes setmana",
-  "admin-subscriptions": "Comandes setmana"
+  "admin-subscriptions": "Comandes setmana",
+  "action": "Acció",
+  "accept": "Acceptar",
+  "accept-confirm": "Està segur d'acceptar?",
+  "reject": "Rebutxar",
+  "reject-confirm": "Està segur de rebutxar?",
+  "mark-as-pending": "Marcar com a pendent",
+  "mark-as-pending-confirm": "Està segur de marcar-lo com a pendent?"
 }
