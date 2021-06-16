@@ -42,7 +42,10 @@ export default function Account() {
   const title = t`account`
   const margin = { marginTop: 10 }
   const exceptionsStr = getExceptionsStr(calendar.excepcions || [], lang)
-  const displayName = user?.displayName
+  const displayName = calendar?.displayName || user?.displayName
+  const email = calendar?.email || user?.email
+
+  console.log({ calendar })
 
   function reset() {
     setChangePasswordStatus(initialStatus)
@@ -96,7 +99,7 @@ export default function Account() {
           </p>
           <p>
             <b>{t`email`}:</b>
-            {` ${user.email}`}
+            {` ${email}`}
           </p>
         </div>
         <div>
@@ -152,7 +155,11 @@ export default function Account() {
       </AnchorWrapper>
       <form
         className="form"
-        onSubmit={onChangeDisplayName(setChangeDisplayNameStatus, reset)}
+        onSubmit={onChangeDisplayName(
+          setChangeDisplayNameStatus,
+          calendar,
+          reset
+        )}
       >
         <label>{t`display-name`}:</label>
         <input type="text" defaultValue={displayName} />
@@ -178,7 +185,7 @@ export default function Account() {
       </AnchorWrapper>
       <form
         className="form"
-        onSubmit={onChangeEmail(setChangeEmailStatus, reset)}
+        onSubmit={onChangeEmail(setChangeEmailStatus, calendar, reset)}
       >
         <label>{t`email`}:</label>
         <input type="email" defaultValue={user.email} />
@@ -323,7 +330,7 @@ function onChangePassword(setStatus, reset) {
   }
 }
 
-function onChangeEmail(setStatus, reset) {
+function onChangeEmail(setStatus, subscription, reset) {
   return async (e) => {
     e.preventDefault()
     reset()
@@ -333,7 +340,7 @@ function onChangeEmail(setStatus, reset) {
       .call(e.target)
       .map((f) => f.value)
 
-    changeEmail(currentPassword, email)
+    changeEmail(currentPassword, email, subscription)
       .then(() => setStatus({ ...initialStatus, success: true }))
       .catch((e) =>
         setStatus({ error: `error.${e.code}`, loading: false, success: false })
@@ -341,7 +348,7 @@ function onChangeEmail(setStatus, reset) {
   }
 }
 
-function onChangeDisplayName(setStatus, reset) {
+function onChangeDisplayName(setStatus, subscription, reset) {
   return async (e) => {
     e.preventDefault()
     reset()
@@ -351,7 +358,7 @@ function onChangeDisplayName(setStatus, reset) {
       .call(e.target)
       .map((f) => f.value)
 
-    changeDisplayName(displayName)
+    changeDisplayName(displayName, subscription)
       .then(() => setStatus({ ...initialStatus, success: true }))
       .catch((e) =>
         setStatus({ error: `error.${e.code}`, loading: false, success: false })
