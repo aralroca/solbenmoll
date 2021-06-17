@@ -45,8 +45,6 @@ export default function Account() {
   const displayName = calendar?.displayName || user?.displayName
   const email = calendar?.email || user?.email
 
-  console.log({ calendar })
-
   function reset() {
     setChangePasswordStatus(initialStatus)
     setChangeEmailStatus(initialStatus)

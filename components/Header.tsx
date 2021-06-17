@@ -56,13 +56,11 @@ function Header() {
               <BasketIcon width={iconSize} height={iconSize} />
             </a>
           </Link>
-          {user && (
-            <Link href="/compte">
-              <a title={t('account')}>
-                <LoginIcon width={iconSize} height={iconSize} />
-              </a>
-            </Link>
-          )}
+          <Link href="/compte">
+            <a title={t('account')}>
+              <LoginIcon width={iconSize} height={iconSize} />
+            </a>
+          </Link>
         </nav>
       </header>
     </>
