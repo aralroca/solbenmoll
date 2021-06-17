@@ -172,7 +172,7 @@ function ApplicationTable({
         `,
       })
       alert(
-        `S'ha enviat un email al usuari per informar-li que la sol·licitud a ${p.name} s'ha ${statusName}.`
+        `S'ha enviat un email a ${user.email} per informar-li que la sol·licitud a ${p.name} s'ha ${statusName}.`
       )
     })
   }
