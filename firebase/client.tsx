@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import firebase from 'firebase/app'
+import { defaults } from '../constants/products'
+
 import 'firebase/auth'
 import 'firebase/firestore'
-import { defaults } from '../constants/products'
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp({
@@ -73,6 +74,16 @@ export function deleteAccount(currentPassword) {
   return reauthenticate(currentPassword)
     .then(() => db.collection('user_subscriptions').doc(user.uid).delete())
     .then(() => user.delete())
+}
+
+export function sendEmail({ to, subject, body }) {
+  db.collection('mail').add({
+    to,
+    message: {
+      subject,
+      html: body,
+    },
+  })
 }
 
 export function getSubscription() {

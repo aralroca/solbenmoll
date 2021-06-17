@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import AppBar from '@material-ui/core/AppBar'
@@ -21,8 +22,8 @@ import useSubscription from '../helpers/useSubscription'
 import {
   changeApplicationStatus,
   getAllSubscriptions,
+  sendEmail,
 } from '../firebase/client'
-import { useEffect, useState } from 'react'
 
 const initialState: any = null
 const pickUpPointsAsObj = pickupPoints.reduce((t, p) => {
@@ -149,7 +150,31 @@ function ApplicationTable({
         u.id === user.id ? { ...u, estatPuntRecollida: status } : u
       )
     )
-    changeApplicationStatus(user.id, user, status)
+    changeApplicationStatus(user.id, user, status).then(async () => {
+      if (status !== 'accepted' && status !== 'rejected') return
+
+      const statusName = { accepted: 'acceptat', rejected: 'rebutjat' }[status]
+      const p = pickUpPointsAsObj[user.puntRecollida] || {}
+
+      await sendEmail({
+        to: user.email,
+        subject: `Sòl Ben Moll ha ${statusName} la sol·licitud`,
+        body: `
+            <h2>La sol·licitud s'ha ${statusName}</h2>
+            <p>Hola <b>${
+              user.displayName || user.email
+            }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${
+          p.name
+        }"</b></p>
+            <p>Atentament,<p>
+            <p><i>L'Equip de Sòl Ben Moll</i></b>
+            <p><i>solbenmoll@gmail.com</i></p>
+        `,
+      })
+      alert(
+        `S'ha enviat un email al usuari per informar-li que la sol·licitud a ${p.name} s'ha ${statusName}.`
+      )
+    })
   }
 
   function accept(user) {
