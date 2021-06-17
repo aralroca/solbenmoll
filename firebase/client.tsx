@@ -69,9 +69,10 @@ export function changeEmail(currentPassword, newEmail, subscription) {
 }
 
 export function deleteAccount(currentPassword) {
-  return reauthenticate(currentPassword).then(() =>
-    firebase.auth().currentUser.delete()
-  )
+  const user = firebase.auth().currentUser
+  return reauthenticate(currentPassword)
+    .then(() => db.collection('user_subscriptions').doc(user.uid).delete())
+    .then(() => user.delete())
 }
 
 export function getSubscription() {
