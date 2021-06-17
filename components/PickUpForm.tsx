@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import PickUpPointsMap from './PickUpPointsMap'
 import pickUpPoints from '../constants/pickpoints'
 import useSubscription from '../helpers/useSubscription'
-import { setSubscription } from '../firebase/client'
+import { sendEmail, setSubscription } from '../firebase/client'
 
 const initialStatus = { error: '', loading: false, success: false }
 const margin = { marginTop: 10 }
@@ -13,7 +13,14 @@ const voidFn = () => {}
 export default function PickUpForm({ onBeforeSubmit = voidFn }) {
   const [status, setStatus] = useState(initialStatus)
   const { t } = useTranslation('common')
-  const { calendar = {}, hasSubscription, setCalendar } = useSubscription()
+  const {
+    user,
+    calendar = {},
+    hasSubscription,
+    setCalendar,
+  } = useSubscription()
+  const displayName = calendar?.displayName || user?.displayName
+  const email = calendar?.email || user?.email
   const [point, setPoint] = useState(() =>
     pickUpPoints.find((p) => p.id === calendar.puntRecollida)
   )
@@ -37,10 +44,21 @@ export default function PickUpForm({ onBeforeSubmit = voidFn }) {
     setStatus((s) => ({ ...s, loading: true }))
     setCalendar(subscription)
     setSubscription(subscription)
-      .then(() => setStatus({ ...initialStatus, success: true }))
+      .then(() => {
+        setStatus({ ...initialStatus, success: true })
+      })
       .catch((e) =>
         setStatus({ error: `error.${e.code}`, loading: false, success: false })
       )
+    sendEmail({
+      to: 'solbenmoll@gmail.com',
+      subject: `${displayName} ha sol·licitat ${point.name}`,
+      body: `
+          <h2>Nova sol·licitud</h2>
+          <p>El/la <b>${displayName}</b> (${email}) ha sol·licitat com a punt de recollida el <b>"${point.name}"</b></p>
+          <p>Per acceptar/rebutjar la sol·licitud, accedeix al <a href="https://solbenmoll.com/ca/admin">panell d'administració</a> de la web.</p>
+        `,
+    })
   }
 
   return (

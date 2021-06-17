@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import Image from 'next/image'
