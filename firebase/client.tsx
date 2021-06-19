@@ -76,6 +76,10 @@ export function deleteAccount(currentPassword) {
     .then(() => user.delete())
 }
 
+export function recoverPassword(email) {
+  return firebase.auth().sendPasswordResetEmail(email)
+}
+
 export function sendEmail({ to, subject, body }) {
   db.collection('mail').add({
     to,

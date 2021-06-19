@@ -124,6 +124,7 @@
   },
   "feedback": {
     "title": "Desat correctament",
+    "recover": "S'ha enviat un email de recuperació de la contrasenya a {{email}}. Si no el troba en la bústia d'entrada, revisi l'apartat de correu no desitjat.",
     "subscription-deleted": "La subscripció ha estat esborrada.",
     "subscription-saved": "La teva nova subscripció ha estat desada.",
     "subscription-week-saved": "S'han desat els canvis de la setmana {{week}}."
@@ -131,6 +132,7 @@
   "error": {
     "login": "L'usuari o contrasenya no són correctes.",
     "register": "Hi ha hagut un error durant el registre",
+    "recover": "Hi ha hagut un error al enviar l'email de recuperació de la contrasenya",
     "repeat-password": "Les contrasenyes introduïdes no coincideixen",
     "auth/wrong-password": "La contrasenya actual és incorrecte",
     "auth/email-already-in-use": "El e-mail ja es troba en ús",
@@ -142,6 +144,8 @@
   "admin-products": "Productes setmana",
   "admin-subscriptions": "Comandes setmana",
   "action": "Acció",
+  "forgot": "Has oblidat la contrasenya?",
+  "recover": "Recuperar contrasenya",
   "accept": "Acceptar",
   "accept-confirm": "Està segur d'acceptar?",
   "reject": "Rebutxar",

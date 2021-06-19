@@ -34,6 +34,9 @@ function LoginForm() {
         <Link href="/registre">
           <a>{t`signup`}</a>
         </Link>
+        <Link href="/recuperar-contrasenya">
+          <a>{t`forgot`}</a>
+        </Link>
       </div>
       {error && (
         <div style={margin} className="errorMsg">
