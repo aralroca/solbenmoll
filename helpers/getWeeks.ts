@@ -17,6 +17,15 @@ function setTwelveOclock(date) {
   date.setMilliseconds(0)
 }
 
+// https://stackoverflow.com/a/6117889/4467741
+function getWeekNumber(d) {
+  d = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()))
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7))
+  const yearStart: any = new Date(Date.UTC(d.getUTCFullYear(), 0, 1))
+  const weekNo = Math.ceil(((d - yearStart) / 86400000 + 1) / 7)
+  return [d.getUTCFullYear(), weekNo]
+}
+
 function getMonday(d) {
   const date = new Date(d)
   setTwelveOclock(date)
@@ -64,5 +73,12 @@ function getWeek(date, lang) {
   const name = `${mondayName} - ${sundayName}`.replace(/de /g, '')
   const id = `${monday.getTime()}-${sunday.getTime()}`
 
-  return { monday, sunday, name, id, isEditable }
+  return {
+    monday,
+    sunday,
+    name,
+    id,
+    isEditable,
+    weekIndex: getWeekNumber(monday),
+  }
 }

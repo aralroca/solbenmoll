@@ -91,46 +91,18 @@ export function sendEmail({ to, subject, body }) {
 }
 
 export function getSubscription() {
-  const user = firebase.auth().currentUser
-  const docRef = db.collection('user_subscriptions').doc(user.uid)
-  const subscription = docRef.get().then((doc) => doc.data())
-  const exceptions = docRef
-    .collection('exceptions')
-    .where('end', '>=', new Date())
+  return db
+    .collection('user_subscriptions')
+    .doc(firebase.auth().currentUser.uid)
     .get()
-    .then((col) =>
-      col.docs.reduce((t, doc) => {
-        t[doc.id] = doc.data()
-        return t
-      }, {})
-    )
-
-  return Promise.all([subscription, exceptions])
+    .then((doc) => doc.data())
 }
 
 export function deleteSubscription(subscription) {
-  const user = firebase.auth().currentUser
-  const docRef = db.collection('user_subscriptions').doc(user.uid)
-  const excRef = docRef.collection('exceptions')
-  const deleteSubs = docRef.set({ ...subscription, ...defaults })
-  const deleteExc = excRef.onSnapshot((snapshot) => {
-    snapshot.docs.forEach((doc) => {
-      excRef.doc(doc.id).delete()
-    })
-  })
-
-  return Promise.all([deleteSubs, deleteExc])
-}
-
-export function setException(weekId, exception) {
-  const end = new Date(parseInt(weekId.split('-')[1]))
-  const user = firebase.auth().currentUser
   return db
     .collection('user_subscriptions')
-    .doc(user.uid)
-    .collection('exceptions')
-    .doc(weekId)
-    .set({ ...exception, end })
+    .doc(firebase.auth().currentUser.uid)
+    .set({ ...subscription, ...defaults })
 }
 
 export function changeApplicationStatus(id, subscription, status = 'accepted') {
@@ -167,9 +139,8 @@ export function setSubscription(subscription) {
 
 export async function getAllSubscriptions() {
   const snapshot = await db.collection('user_subscriptions').get()
-  return snapshot.docs
-    .map((doc) => ({ ...doc.data(), id: doc.id }))
-    .filter((doc) => !admins.has(doc.id))
+  return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+  // .filter((doc) => !admins.has(doc.id))
 }
 
 const AuthCtx = createContext({

@@ -1,5 +1,6 @@
-export default function getDaySubscription(subscription, index) {
+export default function getDaySubscription(subscription, weekIndex) {
   const daySub = { ...subscription }
+  const [year, index] = weekIndex
   let active = false
 
   Object.keys(daySub).forEach((k) => {

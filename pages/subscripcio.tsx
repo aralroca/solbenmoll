@@ -7,17 +7,15 @@ import Breadcrumb from '../components/Breadcrumb'
 import Calendar from '../components/Calendar'
 import Header from '../components/Modal/partials/Header'
 import Modal from '../components/Modal'
+import PickUpPointStatus from '../components/PickUpPointStatus'
 import Spinner from '../components/Spinner'
 import SubsForm from '../components/SubscriptionForm'
+import useSubscription from '../helpers/useSubscription'
 import { Message } from '../components/Message'
 import { defaults } from '../constants/products'
-import {
-  deleteSubscription,
-  setException,
-  setSubscription,
-} from '../firebase/client'
-import useSubscription from '../helpers/useSubscription'
-import PickUpPointStatus from '../components/PickUpPointStatus'
+import { deleteSubscription, setSubscription } from '../firebase/client'
+
+const MAX_WEEKS_EXCEPTIONS = 20
 
 const initialFeedback = {
   title: '',
@@ -27,15 +25,8 @@ const initialFeedback = {
 
 export default function Subscription() {
   const { t } = useTranslation('common')
-  const {
-    calendar,
-    exceptions,
-    hasSubscription,
-    loadingSubscription,
-    setCalendar,
-    setExceptions,
-    user,
-  } = useSubscription()
+  const { calendar, hasSubscription, loadingSubscription, setCalendar, user } =
+    useSubscription()
   const [feedback, setFeedback] = useState(initialFeedback)
   const [editSubscription, setEditSubscription] = useState(false)
   const [key, setKey] = useState(Date.now())
@@ -73,7 +64,6 @@ export default function Subscription() {
   function onDelete() {
     if (!window.confirm(t`delete-subscription-confirm`)) return
     setCalendar((c) => ({ ...c, ...defaults }))
-    setExceptions({})
     setEditSubscription(false)
     deleteSubscription(calendar)
       .then(() =>
@@ -88,8 +78,20 @@ export default function Subscription() {
   }
 
   function onEditWeek(sub) {
-    const newExceptions = { ...exceptions, [editing.week.id]: sub }
-    setException(editing.week.id, sub)
+    const newExceptions = {
+      ...(calendar.weekExceptions || {}),
+      [editing.week.id]: sub,
+    }
+    const weekExceptions = Object.keys(newExceptions)
+      .sort()
+      .reverse()
+      .slice(0, MAX_WEEKS_EXCEPTIONS)
+      .reduce((t, c) => {
+        t[c] = newExceptions[c]
+        return t
+      }, {})
+    const newSubs = { ...calendar, weekExceptions }
+    setSubscription(newSubs)
       .then(() => {
         setFeedback({
           title: t`feedback.title`,
@@ -100,7 +102,7 @@ export default function Subscription() {
         })
       })
       .catch(displayError)
-    setExceptions(newExceptions)
+    setCalendar(newSubs)
     onCancelEdit()
   }
 
@@ -184,7 +186,6 @@ export default function Subscription() {
             <>
               <h1 className="center underline">{t`calendar`}</h1>
               <Calendar
-                exceptions={exceptions}
                 subscription={calendar}
                 onClickSubscription={onClickSubscription}
               />

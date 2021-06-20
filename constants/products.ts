@@ -39,4 +39,5 @@ export const defaults = {
   mitjana: { time: 0, count: 0 },
   ous: { time: 0, count: 0 },
   petita: { time: 0, count: 0 },
+  weekExceptions: {},
 }

@@ -11,24 +11,25 @@ const defaultSubs = {
   mitjana: {},
   ous: {},
   petita: {},
+  weekExceptions: {},
 }
 
 function Calendar({
-  exceptions = {},
   subscription = defaultSubs,
   onClickSubscription = (v) => {},
   ...props
 }) {
   const { t, lang } = useTranslation('common')
   const weeks = getWeeks(lang)
+  const exceptions = subscription.weekExceptions || {}
   const border = '2px solid #89a37144'
 
   return (
     <div className={styles.calendar} {...props}>
-      {weeks.map((week, index) => {
+      {weeks.map((week) => {
         const [sub, active] = getDaySubscription(
           exceptions[week.id] || subscription,
-          index
+          week.weekIndex
         )
 
         return (

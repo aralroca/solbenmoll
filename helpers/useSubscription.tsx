@@ -4,12 +4,10 @@ import { getSubscription, useAuth } from '../firebase/client'
 const defaults = {
   calendar: undefined,
   isAdmin: false,
-  exceptions: {},
   logout: () => {},
   hasSubscription: false,
   loadingSubscription: true,
   setCalendar: undefined,
-  setExceptions: undefined,
   user: undefined,
 }
 
@@ -25,7 +23,6 @@ export function SubscriptionProvider({ children }) {
     defaults.loadingSubscription
   )
   const [calendar, setCalendar] = useState(defaults.calendar)
-  const [exceptions, setExceptions] = useState(defaults.exceptions)
   const hasSubscription = Object.values(calendar || {}).some(
     (s: any) => s.count > 0
   )
@@ -33,9 +30,8 @@ export function SubscriptionProvider({ children }) {
   useEffect(loadSubscription, [user])
   function loadSubscription() {
     if (!user || calendar) return
-    getSubscription().then(([sub, exc]) => {
+    getSubscription().then((sub) => {
       setCalendar(sub)
-      setExceptions(exc)
       setLoadingSubscription(false)
     })
   }
@@ -48,9 +44,7 @@ export function SubscriptionProvider({ children }) {
         logout,
         calendar,
         loadingSubscription,
-        exceptions,
         setCalendar,
-        setExceptions,
         hasSubscription,
       }}
     >

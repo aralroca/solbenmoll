@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 import AppBar from '@material-ui/core/AppBar'
@@ -18,12 +18,15 @@ import Button from '@material-ui/core/Button'
 import Breadcrumb from '../components/Breadcrumb'
 import Spinner from '../components/Spinner'
 import pickupPoints from '../constants/pickpoints'
+import products from '../constants/products'
 import useSubscription from '../helpers/useSubscription'
 import {
   changeApplicationStatus,
   getAllSubscriptions,
   sendEmail,
 } from '../firebase/client'
+import getWeeks from '../helpers/getWeeks'
+import getDaySubscription from '../helpers/getDaySubscription'
 
 const initialState: any = null
 const pickUpPointsAsObj = pickupPoints.reduce((t, p) => {
@@ -32,7 +35,7 @@ const pickUpPointsAsObj = pickupPoints.reduce((t, p) => {
 }, {})
 
 export default function Admin() {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const [subscriptions, setSubscriptions] = useState(initialState)
   const [tab, onChangeTab] = useState(0)
   const { user, isAdmin, loadingSubscription } = useSubscription()
@@ -43,7 +46,6 @@ export default function Admin() {
     subscriptions?.filter?.((s) => s.estatPuntRecollida === 'accepted') || []
   const rejected =
     subscriptions?.filter?.((s) => s.estatPuntRecollida === 'rejected') || []
-  const acceptedNum = accepted.length ?? '-'
   const pendingNum = pendings.length ?? '-'
   const rejectedNum = rejected.length ?? '-'
 
@@ -66,7 +68,7 @@ export default function Admin() {
   }
 
   return (
-    <div className="content">
+    <div className="content" key={lang}>
       <Breadcrumb
         currentPageName={title}
         links={[
@@ -89,7 +91,7 @@ export default function Admin() {
           variant="scrollable"
           scrollButtons="auto"
         >
-          <Tab label={`${t('admin-subscriptions')} (${acceptedNum})`} />
+          <Tab label={t('admin-subscriptions')} />
           <Tab label={`${t('admin-pendings-applications')} (${pendingNum})`} />
           <Tab label={`${t('admin-rejected-applications')} (${rejectedNum})`} />
           <Tab label={t('admin-products')} />
@@ -129,7 +131,91 @@ export default function Admin() {
 }
 
 function Subscriptions({ users }) {
-  return <div>En construcció...</div>
+  const { t, lang } = useTranslation('common')
+  const allWeeks = getWeeks(lang)
+  const [week, setWeek] = useState(allWeeks[0])
+  const productsKeys = Object.keys(products)
+  const usersPerPickPoint = users.reduce((t, u) => {
+    if (!t[u.puntRecollida]) t[u.puntRecollida] = []
+    t[u.puntRecollida].push(u)
+    return t
+  }, {})
+
+  const tables = Object.keys(usersPerPickPoint).map((point) => {
+    const pUsers = usersPerPickPoint[point]
+    const p = pickUpPointsAsObj[pUsers[0].puntRecollida] || {}
+
+    return (
+      <Fragment key={point}>
+        <h3 style={{ display: 'flex', alignItems: 'center' }}>
+          <div
+            style={{
+              marginRight: 10,
+              backgroundColor: p.color,
+              width: 16,
+              height: 16,
+              borderRadius: '50%',
+            }}
+          />
+          {p.name}
+        </h3>
+        <TableContainer key="pending" component={Paper}>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>{t`display-name`}</TableCell>
+                <TableCell>{t`exceptions`}</TableCell>
+                {productsKeys.map((prod) => (
+                  <TableCell key={prod}>{t(`product-${prod}`)}</TableCell>
+                ))}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {pUsers.map((user) => {
+                const exceptions = user.weekExceptions || {}
+                const [sub, active] = getDaySubscription(
+                  exceptions[week.id] || user,
+                  week.weekIndex
+                )
+
+                if (!active) return null
+
+                return (
+                  <TableRow key={user.id}>
+                    <TableCell component="th" scope="row">
+                      {user.displayName}
+                    </TableCell>
+                    <TableCell>{user.excepcions?.join?.(', ')}</TableCell>
+                    {productsKeys.map((p) => (
+                      <TableCell key={p}>{sub[p]?.count || '-'}</TableCell>
+                    ))}
+                  </TableRow>
+                )
+              })}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Fragment>
+    )
+  })
+
+  return (
+    <>
+      <select
+        value={week.name}
+        onChange={(e) =>
+          setWeek(allWeeks.find((w) => w.name === e.target.value))
+        }
+      >
+        {allWeeks.map((w) => (
+          <option key={w.name} value={w.name}>
+            {w.name}
+          </option>
+        ))}
+      </select>
+      {tables}
+    </>
+  )
 }
 
 function Products() {
@@ -160,16 +246,16 @@ function ApplicationTable({
         to: user.email,
         subject: `Sòl Ben Moll ha ${statusName} la sol·licitud`,
         body: `
-            <h2>La sol·licitud s'ha ${statusName}</h2>
-            <p>Hola <b>${
-              user.displayName || user.email
-            }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${
+        <h2>La sol·licitud s'ha ${statusName}</h2>
+        <p>Hola <b>${
+          user.displayName || user.email
+        }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${
           p.name
         }"</b></p>
-            <p>Atentament,<p>
-            <p><i>L'Equip de Sòl Ben Moll</i></b>
-            <p><i>solbenmoll@gmail.com</i></p>
-        `,
+        <p>Atentament,<p>
+          <p><i>L'Equip de Sòl Ben Moll</i></b>
+          <p><i>solbenmoll@gmail.com</i></p>
+          `,
       })
       alert(
         `S'ha enviat un email a ${user.email} per informar-li que la sol·licitud a ${p.name} s'ha ${statusName}.`
