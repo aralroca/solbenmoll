@@ -230,7 +230,7 @@ function Subscriptions({ users }) {
           </option>
         ))}
       </select>
-      <Button theme="default" onClick={() => window.print()}>
+      <Button variant="outlined" onClick={() => window.print()}>
         Imprimir
       </Button>
       <div id="table-to-print">{tables}</div>
@@ -267,11 +267,9 @@ function ApplicationTable({
         subject: `Sòl Ben Moll ha ${statusName} la sol·licitud`,
         body: `
         <h2>La sol·licitud s'ha ${statusName}</h2>
-        <p>Hola <b>${
-          user.displayName || user.email
-        }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${
-          p.name
-        }"</b></p>
+        <p>Hola <b>${user.displayName || user.email
+          }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${p.name
+          }"</b></p>
         <p>Atentament,<p>
           <p><i>L'Equip de Sòl Ben Moll</i></b>
           <p><i>solbenmoll@gmail.com</i></p>
