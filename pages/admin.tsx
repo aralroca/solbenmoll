@@ -230,7 +230,7 @@ function Subscriptions({ users }) {
           </option>
         ))}
       </select>
-      <Button variant="outlined" onClick={() => window.print()}>
+      <Button onClick={() => window.print()}>
         Imprimir
       </Button>
       <div id="table-to-print">{tables}</div>
