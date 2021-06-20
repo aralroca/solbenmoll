@@ -473,3 +473,25 @@ body.modal-open {
     grid-template-columns: 1fr;
   }
 }
+
+@media print {
+  @page {
+    size: landscape;
+  }
+
+  .admin h2,
+  .admin h3 div,
+  .admin .footer,
+  .admin header,
+  .admin .breadcrumb,
+  .admin button {
+    display: none;
+  }
+
+  .admin .MuiPaper-root,
+  .admin select {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}

@@ -32,7 +32,7 @@ function Breadcrumb({ currentPageName, links, hide = false }) {
   }
 
   return (
-    <div className={styles.breadcrumbWrapper}>
+    <div className={'breadcrumb ' + styles.breadcrumbWrapper}>
       <Head>
         <script
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}

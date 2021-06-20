@@ -17,6 +17,7 @@ import Button from '@material-ui/core/Button'
 
 import Breadcrumb from '../components/Breadcrumb'
 import Spinner from '../components/Spinner'
+import exceptionsObj from '../constants/exceptions'
 import pickupPoints from '../constants/pickpoints'
 import products from '../constants/products'
 import useSubscription from '../helpers/useSubscription'
@@ -147,7 +148,13 @@ function Subscriptions({ users }) {
 
     return (
       <Fragment key={point}>
-        <h3 style={{ display: 'flex', alignItems: 'center' }}>
+        <h3
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            borderBottom: `3px solid ${p.color}`,
+          }}
+        >
           <div
             style={{
               marginRight: 10,
@@ -163,10 +170,16 @@ function Subscriptions({ users }) {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>{t`display-name`}</TableCell>
-                <TableCell>{t`exceptions`}</TableCell>
+                <TableCell>
+                  <b>{t`display-name`}</b>
+                </TableCell>
+                <TableCell>
+                  <b>{t`exceptions`}</b>
+                </TableCell>
                 {productsKeys.map((prod) => (
-                  <TableCell key={prod}>{t(`product-${prod}`)}</TableCell>
+                  <TableCell key={prod}>
+                    <b>{t(`product-${prod}`)}</b>
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -185,7 +198,11 @@ function Subscriptions({ users }) {
                     <TableCell component="th" scope="row">
                       {user.displayName}
                     </TableCell>
-                    <TableCell>{user.excepcions?.join?.(', ')}</TableCell>
+                    <TableCell>
+                      {user.excepcions
+                        ?.map?.((k) => exceptionsObj[k][lang])
+                        ?.join?.(', ')}
+                    </TableCell>
                     {productsKeys.map((p) => (
                       <TableCell key={p}>{sub[p]?.count || '-'}</TableCell>
                     ))}
@@ -213,7 +230,10 @@ function Subscriptions({ users }) {
           </option>
         ))}
       </select>
-      {tables}
+      <Button theme="default" onClick={() => window.print()}>
+        Imprimir
+      </Button>
+      <div id="table-to-print">{tables}</div>
     </>
   )
 }

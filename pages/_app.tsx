@@ -10,9 +10,9 @@ import { SubscriptionProvider } from '../helpers/useSubscription'
 
 import './layout.scss'
 
-function Layout({ children }) {
+function Layout({ children, className = '' }) {
   return (
-    <div className="layout">
+    <div className={`layout ${className}`}>
       <Header />
       {children}
       <Footer />
@@ -88,7 +88,7 @@ function AppContent({ Component, pageProps }) {
         />
         <link rel="canonical" href={`https://solbenmoll.com${prefix}${path}`} />
       </Head>
-      <Layout>
+      <Layout className={path.includes('admin') ? 'admin' : ''}>
         <Component {...pageProps} />
       </Layout>
     </SubscriptionProvider>
