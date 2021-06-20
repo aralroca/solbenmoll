@@ -139,8 +139,9 @@ export function setSubscription(subscription) {
 
 export async function getAllSubscriptions() {
   const snapshot = await db.collection('user_subscriptions').get()
-  return snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-  // .filter((doc) => !admins.has(doc.id))
+  return snapshot.docs
+    .map((doc) => ({ ...doc.data(), id: doc.id }))
+    .filter((doc) => !admins.has(doc.id))
 }
 
 const AuthCtx = createContext({
