@@ -58,6 +58,8 @@
   "details-extra-ous": "Ous ({{price}}€ la mitja dotzena)",
   "edit": "Editar contingut setmana",
   "edit-subscription": "Editar subscripció",
+  "move-subscription": "Desplaçar subscripció 1 setmana",
+  "move-subscription-description": "Al acceptar farà que tot lo programat en el calendari es desplaçi una setmana. Desitja continuar?",
   "email": "E-mail",
   "enter": "Entrar",
   "extras": "Extres",
@@ -121,6 +123,7 @@
     "recover": "S'ha enviat un email de recuperació de la contrasenya a {{email}}. Si no el troba en la bústia d'entrada, revisi l'apartat de correu no desitjat.",
     "subscription-deleted": "La subscripció ha estat esborrada.",
     "subscription-saved": "La teva nova subscripció ha estat desada.",
+    "subscription-moved": "La teva subscripció s'ha desplaçat 1 setmana.",
     "subscription-week-saved": "S'han desat els canvis de la setmana {{week}}."
   },
   "error": {
