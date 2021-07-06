@@ -1,9 +1,9 @@
-import LIMIT_DAY from '../constants/limit-day'
+import { LIMIT_DAY, CALENDAR_NUM_WEEKS } from '../constants/calendar'
 
 export default function getWeeks(lang = 'ca') {
   const dayCursor = new Date()
 
-  return Array.from({ length: 12 }).map(() => {
+  return Array.from({ length: CALENDAR_NUM_WEEKS }).map(() => {
     const res = getWeek(dayCursor, lang)
     dayCursor.setDate(dayCursor.getDate() + 7)
     return res

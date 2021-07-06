@@ -14,6 +14,7 @@ import useSubscription from '../helpers/useSubscription'
 import { Message } from '../components/Message'
 import { defaults } from '../constants/products'
 import { deleteSubscription, setSubscription } from '../firebase/client'
+import { CALENDAR_NUM_WEEKS } from '../constants/calendar'
 
 const MAX_WEEKS_EXCEPTIONS = 20
 
@@ -116,6 +117,22 @@ export default function Subscription() {
     setEditing(undefined)
   }
 
+  function onMoveSubscription() {
+    if (!window.confirm(t`move-subscription-description`)) return
+    const displacement = ((calendar.displacement || 0) + 1) % CALENDAR_NUM_WEEKS
+    const newSubs = { ...calendar, displacement }
+    setSubscription(newSubs)
+      .then(() => {
+        setFeedback({
+          title: t`feedback.title`,
+          message: t`feedback.subscription-moved`,
+          type: 'success',
+        })
+      })
+      .catch(displayError)
+    setCalendar(newSubs)
+  }
+
   if (user === null) {
     Router.push('/inici-sessio')
     return <Spinner />
@@ -191,9 +208,15 @@ export default function Subscription() {
               />
               <div style={{ textAlign: 'right', marginTop: 15, fontSize: 12 }}>
                 <a
+                  style={{ display: 'block' }}
                   onClick={onEditSubscription}
                   href="javascript:void(0)"
                 >{t`common:edit-subscription`}</a>
+                <a
+                  style={{ display: 'block' }}
+                  onClick={onMoveSubscription}
+                  href="javascript:void(0)"
+                >{t`common:move-subscription`}</a>
               </div>
             </>
           )

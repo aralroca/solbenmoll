@@ -33,6 +33,8 @@
   "details-extra-ous": "Huevos ({{price}}€ la media docena)",
   "edit": "Editar contenido semana",
   "edit-subscription": "Editar suscripción",
+  "move-subscription": "Desplazar suscripción 1 semana",
+  "move-subscription-description": "Al aceptar hará que todo lo programado en el calendario se desplaze una semana. ¿Desea continuar?",
   "email": "Email",
   "enter": "Entrar",
   "extras": "Extras",
@@ -121,6 +123,7 @@
     "recover": "Se ha enviado un email de recuperación de la contraseña a {{email}}. Si no lo encuentra en la bandeja de entrada, revise el apartado de correo no deseado.",
     "subscription-deleted": "La suscripción ha sido eliminada.",
     "subscription-saved": "Tu nueva suscripción ha sido guardada.",
+    "subscription-moved": "Tu suscripción se ha desplazado 1 semana.",
     "subscription-week-saved": "Se han guardado los cambios de la semana {{week}}."
   },
   "error": {
