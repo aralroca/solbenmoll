@@ -144,6 +144,9 @@ function Subscriptions({ users }) {
 
   const tables = Object.keys(usersPerPickPoint).map((point) => {
     const pUsers = usersPerPickPoint[point]
+      ?.map?.(mapSubscriptions(week))
+      ?.sort?.(sortBySubscription)
+
     const p = pickUpPointsAsObj[pUsers[0].puntRecollida] || {}
 
     return (
@@ -185,13 +188,7 @@ function Subscriptions({ users }) {
             </TableHead>
             <TableBody>
               {pUsers.map((user) => {
-                const exceptions = user.weekExceptions || {}
-                const [sub, active] = getDaySubscription(
-                  exceptions[week.id] || user,
-                  week.weekIndex
-                )
-
-                if (!active) return null
+                if (!user.active) return null
 
                 return (
                   <TableRow key={user.id}>
@@ -204,7 +201,7 @@ function Subscriptions({ users }) {
                         ?.join?.(', ')}
                     </TableCell>
                     {productsKeys.map((p) => (
-                      <TableCell key={p}>{sub[p]?.count || '-'}</TableCell>
+                      <TableCell key={p}>{user.sub[p]?.count || '-'}</TableCell>
                     ))}
                   </TableRow>
                 )
@@ -230,9 +227,7 @@ function Subscriptions({ users }) {
           </option>
         ))}
       </select>
-      <Button onClick={() => window.print()}>
-        Imprimir
-      </Button>
+      <Button onClick={() => window.print()}>Imprimir</Button>
       <div id="table-to-print">{tables}</div>
     </>
   )
@@ -267,9 +262,11 @@ function ApplicationTable({
         subject: `Sòl Ben Moll ha ${statusName} la sol·licitud`,
         body: `
         <h2>La sol·licitud s'ha ${statusName}</h2>
-        <p>Hola <b>${user.displayName || user.email
-          }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${p.name
-          }"</b></p>
+        <p>Hola <b>${
+          user.displayName || user.email
+        }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${
+          p.name
+        }"</b></p>
         <p>Atentament,<p>
           <p><i>L'Equip de Sòl Ben Moll</i></b>
           <p><i>solbenmoll@gmail.com</i></p>
@@ -367,4 +364,33 @@ function ApplicationTable({
       </Table>
     </TableContainer>
   )
+}
+
+function mapSubscriptions(week) {
+  return (user) => {
+    const exceptions = user.weekExceptions || {}
+    const [sub, active] = getDaySubscription(
+      exceptions[week.id] || user,
+      week.weekIndex
+    )
+    return { ...user, sub, active }
+  }
+}
+
+function sortBySubscription(userA, userB) {
+  const petitaA = userA?.sub?.petita?.count || 0
+  const petitaB = userB?.sub?.petita?.count || 0
+  const mitjanaA = userA?.sub?.mitjana?.count || 0
+  const mitjanaB = userB?.sub?.mitjana?.count || 0
+  const granA = userA?.sub?.gran?.count || 0
+  const granB = userB?.sub?.gran?.count || 0
+
+  if (petitaA < petitaB) return 1
+  if (petitaA > petitaB) return -1
+  if (mitjanaA < mitjanaB) return 1
+  if (mitjanaA > mitjanaB) return -1
+  if (granA < granB) return 1
+  if (granA > granB) return -1
+
+  return 0
 }
