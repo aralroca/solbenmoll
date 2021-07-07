@@ -1,4 +1,4 @@
-export default [
+const pickupPoints = [
   {
     name: 'L’anònima del Clot',
     url: "https://www.google.es/maps/place/L'An%C3%B2nima/@41.4068338,2.186325,17z/data=!3m1!4b1!4m5!3m4!1s0x12a4a32697b83883:0x4673619a674e27d9!8m2!3d41.4068298!4d2.188519",
@@ -96,3 +96,10 @@ export default [
     id: 'mataro',
   },
 ]
+
+export const pickUpPointsAsObj = pickupPoints.reduce((t, p) => {
+  t[p.id] = p
+  return t
+}, {})
+
+export default pickupPoints
