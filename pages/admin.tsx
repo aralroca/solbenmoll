@@ -17,23 +17,20 @@ import Button from '@material-ui/core/Button'
 
 import Breadcrumb from '../components/Breadcrumb'
 import Spinner from '../components/Spinner'
+import downloadCSV from '../helpers/downloadCSV'
 import exceptionsObj from '../constants/exceptions'
-import pickupPoints from '../constants/pickpoints'
+import getDaySubscription from '../helpers/getDaySubscription'
+import getWeeks from '../helpers/getWeeks'
 import products from '../constants/products'
 import useSubscription from '../helpers/useSubscription'
+import { pickUpPointsAsObj } from '../constants/pickpoints'
 import {
   changeApplicationStatus,
   getAllSubscriptions,
   sendEmail,
 } from '../firebase/client'
-import getWeeks from '../helpers/getWeeks'
-import getDaySubscription from '../helpers/getDaySubscription'
 
 const initialState: any = null
-const pickUpPointsAsObj = pickupPoints.reduce((t, p) => {
-  t[p.id] = p
-  return t
-}, {})
 
 export default function Admin() {
   const { t, lang } = useTranslation('common')
@@ -137,17 +134,24 @@ function Subscriptions({ users }) {
   const [week, setWeek] = useState(allWeeks[0])
   const productsKeys = Object.keys(products)
   const usersPerPickPoint = users.reduce((t, u) => {
+    const s = addSubscription(u, week)
+    if (!s.active) return t
     if (!t[u.puntRecollida]) t[u.puntRecollida] = []
-    t[u.puntRecollida].push(u)
+    t[u.puntRecollida].push(s)
     return t
   }, {})
+  const points = Object.keys(usersPerPickPoint)
 
-  const tables = Object.keys(usersPerPickPoint).map((point) => {
-    const pUsers = usersPerPickPoint[point]
-      ?.map?.(mapSubscriptions(week))
-      ?.sort?.(sortBySubscription)
+  // Order users
+  points.forEach((point) => {
+    usersPerPickPoint[point] =
+      usersPerPickPoint[point]?.sort?.(sortBySubscription)
+  })
 
-    const p = pickUpPointsAsObj[pUsers[0].puntRecollida] || {}
+  const tables = points.map((point) => {
+    const pUsers = usersPerPickPoint[point]?.sort?.(sortBySubscription)
+
+    const p = pickUpPointsAsObj[pUsers[0]?.puntRecollida] || {}
 
     return (
       <Fragment key={point}>
@@ -228,6 +232,9 @@ function Subscriptions({ users }) {
         ))}
       </select>
       <Button onClick={() => window.print()}>Imprimir</Button>
+      <Button onClick={() => downloadCSV(usersPerPickPoint, week)}>
+        Descarregar CSV
+      </Button>
       <div id="table-to-print">{tables}</div>
     </>
   )
@@ -366,15 +373,13 @@ function ApplicationTable({
   )
 }
 
-function mapSubscriptions(week) {
-  return (user) => {
-    const exceptions = user.weekExceptions || {}
-    const [sub, active] = getDaySubscription(
-      exceptions[week.id] || user,
-      week.weekIndex
-    )
-    return { ...user, sub, active }
-  }
+function addSubscription(user, week) {
+  const exceptions = user.weekExceptions || {}
+  const [sub, active] = getDaySubscription(
+    exceptions[week.id] || user,
+    week.weekIndex
+  )
+  return { ...user, sub, active }
 }
 
 function sortBySubscription(userA, userB) {
