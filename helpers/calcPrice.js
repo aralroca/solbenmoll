@@ -6,7 +6,7 @@ export default function calcPrice(subs) {
       const product = products[id]
       if (!product) return t
 
-      return t + subs[id].count * product.price
+      return t + (subs[id]?.count || 0) * product.price
     }, 0)
     .toFixed(2)
 }

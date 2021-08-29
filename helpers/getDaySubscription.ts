@@ -6,7 +6,7 @@ export default function getDaySubscription(subscription, weekIndex) {
 
   Object.keys(daySub).forEach((k) => {
     const isActive =
-      daySub[k].count > 0 && finalIndex % parseInt(daySub[k].time) === 0
+      daySub[k]?.count > 0 && finalIndex % parseInt(daySub[k].time) === 0
     active = active || isActive
     daySub[k] = {
       count: isActive ? daySub[k].count : 0,

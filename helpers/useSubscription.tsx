@@ -4,7 +4,7 @@ import { getSubscription, useAuth } from '../firebase/client'
 const defaults = {
   calendar: undefined,
   isAdmin: false,
-  logout: () => {},
+  logout: () => { },
   hasSubscription: false,
   loadingSubscription: true,
   setCalendar: undefined,
@@ -24,7 +24,7 @@ export function SubscriptionProvider({ children }) {
   )
   const [calendar, setCalendar] = useState(defaults.calendar)
   const hasSubscription = Object.values(calendar || {}).some(
-    (s: any) => s.count > 0
+    (s: any) => s?.count > 0
   )
 
   useEffect(loadSubscription, [user])

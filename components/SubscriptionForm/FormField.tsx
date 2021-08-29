@@ -21,7 +21,7 @@ function FormField({ id, state, isEditing, isExtra, times, setters }) {
     const val = parseInt(e.target.value || '0', 10)
     if (val === 0) return setter({ count: 0, time: 0 })
     setter((p) => ({
-      count: p.count === 0 && val !== 0 ? 1 : p.count,
+      count: !p?.count && val !== 0 ? 1 : p.count,
       time: val,
     }))
   }
@@ -38,12 +38,12 @@ function FormField({ id, state, isEditing, isExtra, times, setters }) {
           className={isEditing ? 'editing' : ''}
           disabled={!acceptedPoint || (isExtra && times.length === 0)}
           max={100}
-          value={state[id].count}
+          value={state[id]?.count}
           onChange={onChangeCount}
         />
         {!isEditing && (
           <select
-            required={!isEditing && state[id].count > 0}
+            required={!isEditing && state[id]?.count > 0}
             value={(state[id].time || '').toString()}
             style={
               state[id].time === 0

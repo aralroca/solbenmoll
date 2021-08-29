@@ -16,7 +16,7 @@ const defaultSubs = {
 
 function Calendar({
   subscription = defaultSubs,
-  onClickSubscription = (v) => {},
+  onClickSubscription = (v) => { },
   ...props
 }) {
   const { t, lang } = useTranslation('common')
@@ -57,37 +57,37 @@ function Calendar({
             )}
             {active && (
               <>
-                {sub.petita.count > 0 && (
+                {sub.petita?.count > 0 && (
                   <div>
                     <b>{`${sub.petita.count}x `}</b>
                     {t(`product-petita`) + ' 🥑'}
                   </div>
                 )}
-                {sub.mitjana.count > 0 && (
+                {sub.mitjana?.count > 0 && (
                   <div>
                     <b>{`${sub.mitjana.count}x `}</b>
                     {t(`product-mitjana`) + ' 🥦'}
                   </div>
                 )}
-                {sub.gran.count > 0 && (
+                {sub.gran?.count > 0 && (
                   <div>
                     <b>{`${sub.gran.count}x `}</b>
                     {t(`product-gran`) + ' 🥬'}
                   </div>
                 )}
-                {sub.ous.count > 0 && (
+                {sub.ous?.count > 0 && (
                   <div>
                     <b>{`${sub.ous.count}x `}</b>
                     {t(`product-ous`) + ' 🥚'}
                   </div>
                 )}
-                {sub.fruita.count > 0 && (
+                {sub.fruita?.count > 0 && (
                   <div>
                     <b>{`${sub.fruita.count}x `}</b>
                     {t(`product-fruita`) + ' 🍇'}
                   </div>
                 )}
-                {sub.ceba.count > 0 && (
+                {sub.ceba?.count > 0 && (
                   <div>
                     <b>{`${sub.ceba.count}x `}</b>
                     {t(`product-ceba`) + ' 🧅'}

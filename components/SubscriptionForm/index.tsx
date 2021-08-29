@@ -6,7 +6,7 @@ import calcPrice from '../../helpers/calcPrice'
 import useSubscription from '../../helpers/useSubscription'
 import { defaults } from '../../constants/products'
 
-const voidFn = (v) => {}
+const voidFn = (v) => { }
 
 function SubsForm({
   defaultValues = defaults,
@@ -27,8 +27,8 @@ function SubsForm({
   const setters = { setPetita, setMitjana, setGran, setOus, setCeba, setFruita }
   const price = calcPrice(state)
   const baskets = [petita, mitjana, gran]
-    .filter((b) => b.count)
-    .map((b) => b.time)
+    .filter((b) => b?.count)
+    .map((b) => b?.time)
   const times = Array.from(new Set(baskets))
   const acceptedPoint = calendar?.estatPuntRecollida === 'accepted'
   const disabled =
@@ -57,7 +57,7 @@ function SubsForm({
       setOus((o) => ({ count: noTimes ? 0 : o.count, time: 0 }))
     }
     if (noTimes || (fruita.time && !times.some((t) => fruita.time % t === 0))) {
-      setFruita((f) => ({ count: noTimes ? 0 : f.count, time: 0 }))
+      setFruita((f) => ({ count: noTimes ? 0 : f?.count, time: 0 }))
     }
   }
 
