@@ -24,12 +24,12 @@ const pickupPoints = [
     id: 'el-guinardo',
   },
   {
-    name: 'Lleialtat Santsenca',
-    url: 'https://www.google.es/maps/place/La+Lleialtat+Santsenca/@41.3728494,2.1344879,17z/data=!3m1!4b1!4m5!3m4!1s0x12a498851477e9bd:0x223f4aa26a87e0c7!8m2!3d41.3728454!4d2.1366819',
-    lat: 41.3728494,
-    lng: 2.1344879,
+    name: 'Premià de Dalt',
+    url: 'https://www.google.es/maps/place/Passatge+del+Sant+Crist,+08338+Premi%C3%A0+de+Dalt,+Barcelona/@41.5077203,2.3432835,19z/data=!3m1!4b1!4m5!3m4!1s0x12a4b6d8294913c9:0xf813030c7dc6d33c!8m2!3d41.5077203!4d2.3438307',
+    lat: 41.5077203,
+    lng: 2.3432835,
     color: '#795548',
-    id: 'lleialtat-santsenca',
+    id: 'premia-de-dalt',
   },
   {
     name: 'La Tinta',
