@@ -10,7 +10,7 @@ export default function getDaySubscription(subscription, weekIndex) {
     active = active || isActive
     daySub[k] = {
       count: isActive ? daySub[k].count : 0,
-      time: daySub[k].time,
+      time: daySub[k]?.time || 0,
     }
   })
 
