@@ -265,7 +265,7 @@ function ApplicationTable({
       const p = pickUpPointsAsObj[user.puntRecollida] || {}
 
       await sendEmail({
-        to: user.email,
+        to: [user.email, 'solbenmoll@gmail.com'],
         subject: `Sòl Ben Moll ha ${statusName} la sol·licitud`,
         body: `
         <h2>La sol·licitud s'ha ${statusName}</h2>
