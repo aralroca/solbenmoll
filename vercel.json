@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "pages/api/*.py",
+      "use": "@now/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/xlxs",
+      "dest": "/pages/api/xlxs.py"
+    }
+  ]
+}
