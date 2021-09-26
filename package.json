@@ -24,7 +24,8 @@
     "preact-render-to-string": "5.1.19",
     "react": "npm:@preact/compat@0.0.4",
     "react-dom": "npm:@preact/compat@0.0.4",
-    "react-map-gl": "6.1.16"
+    "react-map-gl": "6.1.16",
+    "xlsx-js-style": "1.0.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "11.0.1",

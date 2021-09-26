@@ -1,31 +1,51 @@
 import { pickUpPointsAsObj } from '../constants/pickpoints'
 import exceptionsObj from '../constants/exceptions'
 
-async function dataToCSV(usersPerPickPoint) {
-  const Papa = await import('papaparse')
+export function getData(usersPerPickPoint) {
   const data = []
   for (let pickPoint in usersPerPickPoint) {
     let users = usersPerPickPoint[pickPoint]
     for (let i = 0; i < users.length; i += 1) {
       const u = users[i]
+      let P = ''
+      let M = ''
+      let G = ''
+
+      if (u.sub.petita?.count) {
+        if (u.sub.petita?.count === 1) P = 'P'
+        else P = u.sub.petita?.count + 'P'
+      }
+
+      if (u.sub.mitjana?.count) {
+        if (u.sub.mitjana?.count === 1) M = 'M'
+        else M = u.sub.mitjana?.count + 'M'
+      }
+
+      if (u.sub.gran?.count) {
+        if (u.sub.gran?.count === 1) G = 'G'
+        else G = u.sub.gran?.count + 'G'
+      }
+
       data.push({
-        'Id Usuari': u.id,
-        Nom: u.displayName,
-        Email: u.email,
-        'Punt Recollida': pickUpPointsAsObj[u.puntRecollida]?.name,
-        Excepcions: u.excepcions
+        PR: pickUpPointsAsObj[u.puntRecollida]?.name,
+        nom: u.displayName,
+        id: u.id,
+        excepcions: u.excepcions
           ?.map?.((k) => exceptionsObj[k].ca)
           ?.join?.(', '),
-        Petita: u.sub.petita?.count || 0,
-        Mitjana: u.sub.mitjana?.count || 0,
-        Gran: u.sub.gran?.count || 0,
-        Ous: u.sub.ous?.count || 0,
-        'Patata i Ceba': u.sub.ceba?.count || 0,
+        Cistella: `${P}${M}${G}`,
         Fruita: u.sub.fruita?.count || 0,
+        Ous: u.sub.ous?.count || 0,
+        CP: u.sub.ceba?.count || 0,
       })
     }
   }
-  return Papa.unparse(data)
+  return data
+}
+
+export async function dataToCSV(usersPerPickPoint) {
+  const Papa = await import('papaparse')
+  return Papa.unparse(getData(usersPerPickPoint))
 }
 
 export default async function downloadCSV(data, week) {

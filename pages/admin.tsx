@@ -1,23 +1,25 @@
 import { Fragment, useEffect, useState } from 'react'
-import useTranslation from 'next-translate/useTranslation'
-import Router from 'next/router'
 import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
-import Card from '@material-ui/core/Card'
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+import Card from '@material-ui/core/Card'
+import DownloadIcon from '@material-ui/icons/GetApp';
+import Paper from '@material-ui/core/Paper'
+import Router from 'next/router'
+import Tab from '@material-ui/core/Tab'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
 import TableContainer from '@material-ui/core/TableContainer'
 import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
-import Paper from '@material-ui/core/Paper'
-import Button from '@material-ui/core/Button'
+import Tabs from '@material-ui/core/Tabs'
+import useTranslation from 'next-translate/useTranslation'
 
 import Breadcrumb from '../components/Breadcrumb'
 import Spinner from '../components/Spinner'
 import downloadCSV from '../helpers/downloadCSV'
+import downloadXLSL from '../helpers/downloadXLSL'
 import exceptionsObj from '../constants/exceptions'
 import getDaySubscription from '../helpers/getDaySubscription'
 import getWeeks from '../helpers/getWeeks'
@@ -233,7 +235,10 @@ function Subscriptions({ users }) {
       </select>
       <Button onClick={() => window.print()}>Imprimir</Button>
       <Button onClick={() => downloadCSV(usersPerPickPoint, week)}>
-        Descarregar CSV
+        <DownloadIcon /> CSV
+      </Button>
+      <Button onClick={() => downloadXLSL(usersPerPickPoint, week)}>
+        <DownloadIcon /> XLSL
       </Button>
       <div id="table-to-print">{tables}</div>
     </>
@@ -269,11 +274,9 @@ function ApplicationTable({
         subject: `Sòl Ben Moll ha ${statusName} la sol·licitud`,
         body: `
         <h2>La sol·licitud s'ha ${statusName}</h2>
-        <p>Hola <b>${
-          user.displayName || user.email
-        }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${
-          p.name
-        }"</b></p>
+        <p>Hola <b>${user.displayName || user.email
+          }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${p.name
+          }"</b></p>
         <p>Atentament,<p>
           <p><i>L'Equip de Sòl Ben Moll</i></b>
           <p><i>solbenmoll@gmail.com</i></p>
