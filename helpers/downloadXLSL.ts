@@ -4,7 +4,6 @@ import pickupPoints from '../constants/pickpoints'
 const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']
 const centerLetters = ['E', 'F', 'G', 'H']
 
-// All the Python code before transformed into typescript:
 export default async function downloadXLSL(data, week) {
 	let index = 1
 	const positions = []
