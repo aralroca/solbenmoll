@@ -41,7 +41,7 @@ function Calendar({
                 if (!week.isEditable) return alert(t`closed-order`)
                 onClickSubscription({ ...sub, week })
               }}
-              className={`${styles.day} ${active ? styles.active : ''}`}
+              className={`${styles.day} ${active && week.isEditable ? styles.active : ''}`}
             >
               {active ? (
                 <b
