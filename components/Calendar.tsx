@@ -1,4 +1,5 @@
 import useTranslation from 'next-translate/useTranslation'
+import { useMemo } from 'react'
 import calcPrice from '../helpers/calcPrice'
 import getDaySubscription from '../helpers/getDaySubscription'
 import getWeeks from '../helpers/getWeeks'
@@ -16,18 +17,22 @@ const defaultSubs = {
 
 function Calendar({
   subscription = defaultSubs,
-  onClickSubscription = (v) => { },
+  onClickSubscription = (v) => {},
   ...props
 }) {
   const { t, lang } = useTranslation('common')
   const weeks = getWeeks(lang)
   const exceptions = subscription.weekExceptions || {}
   const border = '2px solid #89a37144'
+  const firstWeek = useMemo(loadFirstWeek, [])
 
   return (
     <>
       <div className={styles.calendar} {...props}>
         {weeks.map((week) => {
+          const isFirstCreatedWeek =
+            firstWeek?.weekIndex?.[0] > week.weekIndex[0] ||
+            firstWeek?.weekIndex?.[1] > week.weekIndex[1]
           const [sub, active] = getDaySubscription(
             exceptions[week.id] || subscription,
             week.weekIndex
@@ -41,7 +46,9 @@ function Calendar({
                 if (!week.isEditable) return alert(t`closed-order`)
                 onClickSubscription({ ...sub, week })
               }}
-              className={`${styles.day} ${active && week.isEditable ? styles.active : ''}`}
+              className={`${styles.day} ${
+                active && !isFirstCreatedWeek ? styles.active : ''
+              }`}
             >
               {active ? (
                 <b
@@ -110,6 +117,20 @@ function Calendar({
       </div>
     </>
   )
+}
+
+function loadFirstWeek() {
+  const res = localStorage.getItem('firstWeek')
+  if (!res) return
+  const firstWeek = JSON.parse(res)
+  const weekMilliseconds = 604800000
+  const display = firstWeek.created + weekMilliseconds > Date.now()
+
+  if (!display) {
+    localStorage.removeItem('firstWeek')
+    return
+  }
+  return firstWeek
 }
 
 export default Calendar

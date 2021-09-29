@@ -18,6 +18,8 @@ import { Message } from '../components/Message'
 import { defaults } from '../constants/products'
 import { deleteSubscription, setSubscription } from '../firebase/client'
 
+declare const window: any
+
 const MAX_WEEKS_EXCEPTIONS = 20
 
 const initialFeedback = {
@@ -46,7 +48,7 @@ export default function Subscription() {
   function onSaveSubscription(sub) {
     const newCalendar = { ...calendar, ...sub }
     const exceptions = sub.weekExceptions || {}
-    const [firstWeek] = getWeeks(lang).filter(w => {
+    const [firstWeek] = getWeeks(lang).filter((w) => {
       const [, active] = getDaySubscription(
         exceptions[w.id] || sub,
         w.weekIndex
@@ -69,6 +71,10 @@ export default function Subscription() {
     setCalendar(newCalendar)
     setKey(Date.now())
     window.scroll({ top: 0 })
+    localStorage.setItem(
+      'firstWeek',
+      JSON.stringify({ ...firstWeek, created: Date.now() })
+    )
     setTimeout(() => alert(msg), 100)
   }
 
