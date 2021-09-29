@@ -7,27 +7,34 @@ export default async function handler(req, res) {
     return
   }
 
-  const buffer = Buffer.from(req.body, 'base64')
-  const body = new stream.PassThrough()
-  body.end(buffer)
+  try {
+    const buffer = Buffer.from(req.body, 'base64')
+    const body = new stream.PassThrough()
+    body.end(buffer)
 
-  const auth = new google.auth.GoogleAuth({
-    scopes: ['https://www.googleapis.com/auth/drive'],
-    credentials: JSON.parse(process.env.DRIVE_CREDENTIALS || '{}'),
-  })
+    const credentials = typeof process.env.DRIVE_CREDENTIALS === 'string' ?
+      JSON.parse(process.env.DRIVE_CREDENTIALS) : process.env.DRIVE_CREDENTIALS
 
-  const response = await google.drive({ version: 'v3', auth }).files.create({
-    resource: {
-      name: req.query.name + '.xlsx',
-      parents: [process.env.DRIVE_FOLDER_ID],
-    },
-    media: {
-      mimeType:
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      body,
-    },
-    fields: 'id',
-  })
+    const auth = new google.auth.GoogleAuth({
+      scopes: ['https://www.googleapis.com/auth/drive'],
+      credentials,
+    })
 
-  res.status(response.status).send('Uploaded to Drive')
+    const response = await google.drive({ version: 'v3', auth }).files.create({
+      resource: {
+        name: req.query.name + '.xlsx',
+        parents: [process.env.DRIVE_FOLDER_ID],
+      },
+      media: {
+        mimeType:
+          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        body,
+      },
+      fields: 'id',
+    })
+
+    res.status(response.status).send('Uploaded to Drive')
+  } catch (error) {
+    res.status(500).send(error.message)
+  }
 }
