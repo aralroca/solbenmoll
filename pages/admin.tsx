@@ -1,10 +1,12 @@
 import { Fragment, useEffect, useState } from 'react'
 import AppBar from '@material-ui/core/AppBar'
+import BackupIcon from '@material-ui/icons/Backup'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import Card from '@material-ui/core/Card'
-import DownloadIcon from '@material-ui/icons/GetApp';
+import DownloadIcon from '@material-ui/icons/GetApp'
 import Paper from '@material-ui/core/Paper'
+import PrintIcon from '@material-ui/icons/Print'
 import Router from 'next/router'
 import Tab from '@material-ui/core/Tab'
 import Table from '@material-ui/core/Table'
@@ -21,6 +23,7 @@ import Spinner from '../components/Spinner'
 import downloadCSV from '../helpers/downloadCSV'
 import downloadXLSL from '../helpers/downloadXLSL'
 import exceptionsObj from '../constants/exceptions'
+import getBase64XLSL from '../helpers/getBase64XLSL'
 import getDaySubscription from '../helpers/getDaySubscription'
 import getWeeks from '../helpers/getWeeks'
 import products from '../constants/products'
@@ -94,7 +97,6 @@ export default function Admin() {
           <Tab label={t('admin-subscriptions')} />
           <Tab label={`${t('admin-pendings-applications')} (${pendingNum})`} />
           <Tab label={`${t('admin-rejected-applications')} (${rejectedNum})`} />
-          <Tab label={t('admin-products')} />
         </Tabs>
       </AppBar>
       <Card>
@@ -120,8 +122,8 @@ export default function Admin() {
                       setSubscriptions={setSubscriptions}
                     />
                   )
-                case 3:
-                  return <Products />
+                default:
+                  return null
               }
             })()}
         </Box>
@@ -133,6 +135,7 @@ export default function Admin() {
 function Subscriptions({ users }) {
   const { t, lang } = useTranslation('common')
   const allWeeks = getWeeks(lang)
+  const [uploading, setUploading] = useState(false)
   const [week, setWeek] = useState(allWeeks[0])
   const productsKeys = Object.keys(products)
   const usersPerPickPoint = users.reduce((t, u) => {
@@ -233,20 +236,38 @@ function Subscriptions({ users }) {
           </option>
         ))}
       </select>
-      <Button onClick={() => window.print()}>Imprimir</Button>
+      <Button onClick={() => window.print()}>
+        <PrintIcon style={{ marginRight: 5 }} /> Imprimir
+      </Button>
       <Button onClick={() => downloadCSV(usersPerPickPoint, week)}>
         <DownloadIcon /> CSV
       </Button>
       <Button onClick={() => downloadXLSL(usersPerPickPoint, week)}>
         <DownloadIcon /> XLSL
       </Button>
+      <Button
+        disabled={uploading}
+        onClick={async () => {
+          setUploading(true)
+          const base64 = await getBase64XLSL(usersPerPickPoint)
+          const res = await fetch(`/api/uploadToDrive?name=${week.name}`, {
+            method: 'POST',
+            body: '' + base64,
+          })
+          setUploading(false)
+          if (res.status === 200) alert(`S'ha penjat el fitxer a Google Drive`)
+          else
+            alert(
+              `Oops!! Hi ha hagut un error i no s'ha pogut penjat el fitxer a Google Drive`
+            )
+        }}
+      >
+        <BackupIcon style={{ marginRight: 5 }} />{' '}
+        {uploading ? 'Pujant...' : 'XLSL a Drive'}
+      </Button>
       <div id="table-to-print">{tables}</div>
     </>
   )
-}
-
-function Products() {
-  return <div>En construcció...</div>
 }
 
 function ApplicationTable({
@@ -274,9 +295,11 @@ function ApplicationTable({
         subject: `Sòl Ben Moll ha ${statusName} la sol·licitud`,
         body: `
         <h2>La sol·licitud s'ha ${statusName}</h2>
-        <p>Hola <b>${user.displayName || user.email
-          }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${p.name
-          }"</b></p>
+        <p>Hola <b>${
+          user.displayName || user.email
+        }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${
+          p.name
+        }"</b></p>
         <p>Atentament,<p>
           <p><i>L'Equip de Sòl Ben Moll</i></b>
           <p><i>solbenmoll@gmail.com</i></p>

@@ -1,6 +1,6 @@
 import getWorkbookXLSL from './getWorkbookXLSL'
 
-export default async function downloadXLSL(data, week) {
+export default async function getBase64XLSL(data) {
   const { workbook, XLSX } = await getWorkbookXLSL(data)
-  XLSX.writeFile(workbook, `${week.name}.xlsx`)
+  return XLSX.write(workbook, { type: 'base64' })
 }
