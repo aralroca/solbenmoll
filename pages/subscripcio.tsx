@@ -10,11 +10,12 @@ import Modal from '../components/Modal'
 import PickUpPointStatus from '../components/PickUpPointStatus'
 import Spinner from '../components/Spinner'
 import SubsForm from '../components/SubscriptionForm'
+import getWeeks from '../helpers/getWeeks'
 import useSubscription from '../helpers/useSubscription'
+import { CALENDAR_NUM_WEEKS } from '../constants/calendar'
 import { Message } from '../components/Message'
 import { defaults } from '../constants/products'
 import { deleteSubscription, setSubscription } from '../firebase/client'
-import { CALENDAR_NUM_WEEKS } from '../constants/calendar'
 
 const MAX_WEEKS_EXCEPTIONS = 20
 
@@ -25,7 +26,7 @@ const initialFeedback = {
 }
 
 export default function Subscription() {
-  const { t } = useTranslation('common')
+  const { t, lang } = useTranslation('common')
   const { calendar, hasSubscription, loadingSubscription, setCalendar, user } =
     useSubscription()
   const [feedback, setFeedback] = useState(initialFeedback)
@@ -43,6 +44,9 @@ export default function Subscription() {
 
   function onSaveSubscription(sub) {
     const newCalendar = { ...calendar, ...sub }
+    const [firstWeek] = getWeeks(lang).filter(w => w.isEditable)
+    const msg = t('closed-order-details', { week: firstWeek.name })
+
     setSubscription(newCalendar)
       .then(() =>
         setFeedback({
@@ -56,6 +60,7 @@ export default function Subscription() {
     setCalendar(newCalendar)
     setKey(Date.now())
     window.scroll({ top: 0 })
+    setTimeout(() => alert(msg), 100)
   }
 
   function onEditSubscription() {

@@ -147,7 +147,7 @@ export async function getAllSubscriptions() {
 const AuthCtx = createContext({
   user: undefined,
   isAdmin: false,
-  logout: () => {},
+  logout: () => { },
 })
 
 export function AuthProvider({ children }) {

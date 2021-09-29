@@ -10,7 +10,7 @@
   "conditions": "Condicions generals",
   "display-name": "Nom",
   "closed-order": "Ho sentim però les comandes es poden editar fins a una setmana d'antelació com a màxim.",
-  "closed-order-details": "No es pot editar amb menys d'una setmana d'antelació. En el cas que acabis de crear la subscripció no rebràs el contingut de la primera setmana.",
+  "closed-order-details": "La teva comanda ha estat realitzada. Rebras la primera cistella a la setmana del {{week}}",
   "change-display-name": "Canviar nom",
   "contact": "Contacte",
   "admin": "Panell d'administrador",

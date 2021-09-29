@@ -26,16 +26,6 @@ function Calendar({
 
   return (
     <>
-      {weeks.some(w => !w.isEditable) && (
-        <p style={{
-          fontStyle: 'italic',
-          backgroundColor: 'lightyellow',
-          padding: 10,
-          fontSize: 12
-        }}>
-          {t`closed-order-details`}
-        </p>
-      )}
       <div className={styles.calendar} {...props}>
         {weeks.map((week) => {
           const [sub, active] = getDaySubscription(
@@ -51,7 +41,7 @@ function Calendar({
                 if (!week.isEditable) return alert(t`closed-order`)
                 onClickSubscription({ ...sub, week })
               }}
-              className={`${styles.day} ${active && week.isEditable ? styles.active : ''}`}
+              className={`${styles.day} ${active ? styles.active : ''}`}
             >
               {active ? (
                 <b

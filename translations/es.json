@@ -9,7 +9,7 @@
   "change-password": "Cambiar contraseña",
   "conditions": "Condiciones generales",
   "closed-order": "Lo sentimos pero los pedidos se pueden editar hasta una semana de antelación cómo máximo.",
-  "closed-order-details": "No se puede editar con menos de una semana de antelación. En el caso que acabes de crear la subscripción no recibirás el contenido de la primera semana.",
+  "closed-order-details": "Tu comanda ha sido realizada. Recibiras la primera cesta la semana del {{week}}",
   "display-name": "Nombre",
   "change-display-name": "Cambiar nombre",
   "contact": "Contacta",
