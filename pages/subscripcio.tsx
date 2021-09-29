@@ -10,6 +10,7 @@ import Modal from '../components/Modal'
 import PickUpPointStatus from '../components/PickUpPointStatus'
 import Spinner from '../components/Spinner'
 import SubsForm from '../components/SubscriptionForm'
+import getDaySubscription from '../helpers/getDaySubscription'
 import getWeeks from '../helpers/getWeeks'
 import useSubscription from '../helpers/useSubscription'
 import { CALENDAR_NUM_WEEKS } from '../constants/calendar'
@@ -44,7 +45,15 @@ export default function Subscription() {
 
   function onSaveSubscription(sub) {
     const newCalendar = { ...calendar, ...sub }
-    const [firstWeek] = getWeeks(lang).filter(w => w.isEditable)
+    const exceptions = sub.weekExceptions || {}
+    const [firstWeek] = getWeeks(lang).filter(w => {
+      const [, active] = getDaySubscription(
+        exceptions[w.id] || sub,
+        w.weekIndex
+      )
+      return w.isEditable && active
+    })
+
     const msg = t('closed-order-details', { week: firstWeek.name })
 
     setSubscription(newCalendar)
