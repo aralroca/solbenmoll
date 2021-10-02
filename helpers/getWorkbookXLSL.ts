@@ -49,6 +49,19 @@ export default async function getWorkbookXLSL(data) {
     })
   })
 
+  // Total
+  const total = sheet.push(['', 'TOTAL', '', '', '', '', '', ''])
+  positions.push({ position: total, color: '888888' })
+  sheet.push(['', '', 'C.Petita', 'C.Mitjana', 'C.Gran', 'Fruita', 'Ous', 'CP'])
+  const subs = Object.values(data).flat().map((a: any) => a.sub)
+  const totalPetita = subs.reduce((acc, sub) => acc + sub?.petita?.count || 0, 0)
+  const totalMitjana = subs.reduce((acc, sub) => acc + sub?.mitjana?.count || 0, 0)
+  const totalGran = subs.reduce((acc, sub) => acc + sub?.gran?.count || 0, 0)
+  const totalFruita = subs.reduce((acc, sub) => acc + sub?.fruita?.count || 0, 0)
+  const totalOus = subs.reduce((acc, sub) => acc + sub?.ous?.count || 0, 0) / 2
+  const totalCP = subs.reduce((acc, sub) => acc + sub?.ceba?.count || 0, 0)
+  sheet.push(['', '', totalPetita, totalMitjana, totalGran, totalFruita, totalOus, totalCP])
+
   const worksheet = XLSX.utils.aoa_to_sheet(sheet)
   const font = {
     sz: 10,

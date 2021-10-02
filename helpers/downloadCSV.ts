@@ -35,7 +35,7 @@ export function getData(usersPerPickPoint) {
           ?.join?.(', '),
         Cistella: `${P}${M}${G}`,
         Fruita: u.sub.fruita?.count || 0,
-        Ous: u.sub.ous?.count || 0,
+        Ous: (u.sub.ous?.count || 0) / 2,
         CP: u.sub.ceba?.count || 0,
       })
     }
