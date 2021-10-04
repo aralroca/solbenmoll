@@ -109,12 +109,12 @@
   "pickup-point-confirm": "Tens una subscripció en curs. Si sol·licites un punt diferent de recollida es pausarà la subscripció actual fins que es verifiqui el nou punt de recollida. Desitja continuar?",
   "subscription-status": {
     "title": "Estat subscripció",
-    "accepted-without": "Punt de recollida verificat correctament. Ja pot començar a gestionar la seva subscripció",
+    "accepted-without": "Punt de recollida verificat correctament. Ja pot començar a gestionar la seva <0>subscripció</0>.",
     "accepted-with": "Subscrit correctament",
     "rejected-without": "Hi ha hagut un problema amb la verificació del punt de recollida. Posa't en contacte amb nosaltres o bé escull un altre punt de recollida.",
     "rejected-with": "Hi ha hagut un problema amb la verificació del nou punt de recollida. Posa't en contacte amb nosaltres o bé escull un altre punt de recollida. Mentrestant la subscripció vigent ha quedat pausada.",
-    "pending-without": "Per poder gestionar les seves comandes primer hem de verificar la seva sol·licitud",
-    "pending-with": "Per poder gestionar les seves comandes primer hem de verificar la seva sol·licitud. Mentrestant la subscripció vigent ha quedat pausada.",
+    "pending-without": "Verificant la seva sol·licitud, un cop acceptada podrà fer la seva <0>comanda</0>.",
+    "pending-with": "Verificant la seva sol·licitud, un cop acceptada podrà fer la seva <0>comanda</0>. Mentrestant la subscripció vigent ha quedat pausada.",
     "initial": "Per poder realitzar la subscripció és obligatori definir primer el punt de recollida.",
     "link": "Gestionar subscripció",
     "link-initial": "Gestionar punt de recollida"

@@ -46,11 +46,10 @@ export default function Subscription() {
   }
 
   function onSaveSubscription(sub) {
-    const newCalendar = { ...calendar, ...sub }
-    const exceptions = sub.weekExceptions || {}
+    const newCalendar = { ...calendar, ...sub, weekExceptions: {} }
     const [firstWeek] = getWeeks(lang).filter((w) => {
       const [, active] = getDaySubscription(
-        exceptions[w.id] || sub,
+        sub,
         w.weekIndex
       )
       return w.isEditable && active

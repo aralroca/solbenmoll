@@ -109,12 +109,12 @@
   "pickup-point-confirm": "Tienes una suscripción en curso. Si solicitas un punto distinto de recogida se pausará la suscripción actual hasta que se verifique el nuevo punto de recogida. ¿Deseas continuar?",
   "subscription-status": {
     "title": "Estado suscripción",
-    "accepted-without": "Punto de recogida verificado correctamente. Ya puede empezar a gestionar su suscripción",
+    "accepted-without": "Punto de recogida verificado correctamente. Ya puede empezar a gestionar su <0>suscripción</0>.",
     "accepted-with": "Suscrito correctamente.",
     "rejected-without": "Ha habido un problema con la verificación del punto de recogida. Ponte en contacto con nosotros o elige otro punto de recogida.",
     "rejected-with": "Ha habido un problema con la verificación del nuevo punto de recogida. Ponte en contacto con nosotros o elige otro punto de recogida. Mientras tanto la suscripción vigente ha quedado pausada.",
-    "pending-without": "Para poder gestionar sus pedidos primero debemos verificar su solicitud. Hasta que no se verifique no podrá realizar la suscripción.",
-    "pending-with": "Para poder gestionar sus pedidos primero debemos verificar su solicitud. Mientras tanto la suscripción vigente ha quedado pausada.",
+    "pending-without": "Verificando su solicitud, una vez aceptada podrá hacer su <0>pedido</0>. Hasta que no se verifique no podrá realizar la suscripción.",
+    "pending-with": "Verificando su solicitud, una vez aceptada podrá hacer su <0>pedido</0>. Mientras tanto la suscripción vigente ha quedado pausada.",
     "initial": "Para poder realizar la suscripción es obligatorio definir primero el punto de recogida.",
     "link": "Gestionar suscripción",
     "link-initial": "Gestionar punto de recogida"
