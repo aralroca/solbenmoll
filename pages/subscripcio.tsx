@@ -15,7 +15,7 @@ import getWeeks from '../helpers/getWeeks'
 import useSubscription from '../helpers/useSubscription'
 import { CALENDAR_NUM_WEEKS } from '../constants/calendar'
 import { Message } from '../components/Message'
-import { defaults } from '../constants/products'
+import products, { defaults } from '../constants/products'
 import { deleteSubscription, setSubscription } from '../firebase/client'
 
 declare const window: any
@@ -44,10 +44,23 @@ export default function Subscription() {
       type: 'error',
     })
   }
-
   function onSaveSubscription(sub) {
-    const newCalendar = { ...calendar, ...sub, weekExceptions: {} }
-    const [firstWeek] = getWeeks(lang).filter((w) => {
+    const weekExceptions = {}
+    const weeks = getWeeks(lang)
+    const defaultException = {}
+
+    // Initialize default week exception
+    Object.keys(products).forEach(k => {
+      defaultException[k] = calendar[k] || defaults[k]
+    })
+
+    // Initialize week exceptions
+    weeks.filter(w => !w.isEditable).forEach(w => {
+      weekExceptions[w.id] = calendar.weekExceptions[w.id] || defaultException
+    })
+
+    const newCalendar = { ...calendar, ...sub, weekExceptions }
+    const [firstWeek] = weeks.filter((w) => {
       const [, active] = getDaySubscription(
         sub,
         w.weekIndex
