@@ -56,7 +56,7 @@ export default function Subscription() {
 
     // Initialize week exceptions
     weeks.filter(w => !w.isEditable).forEach(w => {
-      weekExceptions[w.id] = calendar.weekExceptions[w.id] || defaultException
+      weekExceptions[w.id] = calendar.weekExceptions?.[w.id] || defaultException
     })
 
     const newCalendar = { ...calendar, ...sub, weekExceptions }
