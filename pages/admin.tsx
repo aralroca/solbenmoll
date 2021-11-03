@@ -97,6 +97,7 @@ export default function Admin() {
           <Tab label={t('admin-subscriptions')} />
           <Tab label={`${t('admin-pendings-applications')} (${pendingNum})`} />
           <Tab label={`${t('admin-rejected-applications')} (${rejectedNum})`} />
+          <Tab label="Emails" />
         </Tabs>
       </AppBar>
       <Card>
@@ -122,6 +123,8 @@ export default function Admin() {
                       setSubscriptions={setSubscriptions}
                     />
                   )
+                case 3:
+                  return <Emails users={subscriptions} />
                 default:
                   return null
               }
@@ -424,4 +427,43 @@ function sortBySubscription(userA, userB) {
   if (granA > granB) return -1
 
   return 0
+}
+
+function Emails({ users }) {
+  const { t } = useTranslation('common')
+  const emails = users.map((u) => u.email).join(', ')
+
+  function select(e) {
+    e.target.select()
+  }
+
+  return (
+    <>
+     <div>Llista de tots els emails:</div>
+     <textarea onClick={select} style={{ margin: 20, width: 'calc(100% - 40px)', height: 200, border: '1px solid #d8d8d8' }}>{emails}</textarea>
+     <div>Taula nom/email de cadascú:</div>
+    <TableContainer key="emails" component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+          <TableCell></TableCell>
+            <TableCell>{t`display-name`}</TableCell>
+            <TableCell>{t`email`}</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {users.map((user, i) => (
+            <TableRow key={user.id}>
+              <TableCell>{i + 1}</TableCell>
+              <TableCell component="th" scope="row">
+                {user.displayName}
+              </TableCell>
+              <TableCell>{user.email}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+    </>
+  )
 }
