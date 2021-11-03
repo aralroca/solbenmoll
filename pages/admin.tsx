@@ -439,31 +439,41 @@ function Emails({ users }) {
 
   return (
     <>
-     <div>Llista de tots els emails:</div>
-     <textarea onClick={select} style={{ margin: 20, width: 'calc(100% - 40px)', height: 200, border: '1px solid #d8d8d8' }}>{emails}</textarea>
-     <div>Taula nom/email de cadascú:</div>
-    <TableContainer key="emails" component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-          <TableCell></TableCell>
-            <TableCell>{t`display-name`}</TableCell>
-            <TableCell>{t`email`}</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {users.map((user, i) => (
-            <TableRow key={user.id}>
-              <TableCell>{i + 1}</TableCell>
-              <TableCell component="th" scope="row">
-                {user.displayName}
-              </TableCell>
-              <TableCell>{user.email}</TableCell>
+      <div>Llista de tots els emails:</div>
+      <textarea
+        onClick={select}
+        style={{
+          margin: 20,
+          width: 'calc(100% - 40px)',
+          height: 200,
+          border: '1px solid #d8d8d8',
+        }}
+      >
+        {emails}
+      </textarea>
+      <div>Taula nom/email de cadascú:</div>
+      <TableContainer key="emails" component={Paper}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell></TableCell>
+              <TableCell>{t`display-name`}</TableCell>
+              <TableCell>{t`email`}</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {users.map((user, i) => (
+              <TableRow key={user.id}>
+                <TableCell>{i + 1}</TableCell>
+                <TableCell component="th" scope="row">
+                  {user.displayName}
+                </TableCell>
+                <TableCell>{user.email}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   )
 }
