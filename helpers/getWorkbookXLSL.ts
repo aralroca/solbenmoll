@@ -32,7 +32,7 @@ export default async function getWorkbookXLSL(data) {
     ])
     const color = pickupPoints
       .find((p) => p.name === PR)
-      .color.replace('#', '88')
+      ?.color?.replace('#', '88')
     positions.push({ position, color })
     jsonObj[PR].forEach((row) => {
       sheet.push([
