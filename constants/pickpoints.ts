@@ -1,11 +1,11 @@
 const pickupPoints = [
   {
-    name: 'L’anònima del Clot',
-    url: "https://www.google.es/maps/place/L'An%C3%B2nima/@41.4068338,2.186325,17z/data=!3m1!4b1!4m5!3m4!1s0x12a4a32697b83883:0x4673619a674e27d9!8m2!3d41.4068298!4d2.188519",
-    lat: 41.4068338,
-    lng: 2.186325,
+    name: 'Escola la Mina',
+    url: "https://www.google.com/maps/place/Instituto+Escuela+La+Mina+(secundaria)/@41.4153851,2.2192919,17z/data=!3m1!4b1!4m5!3m4!1s0x12a4a3559597be6f:0x3ea753a701756599!8m2!3d41.4153875!4d2.2214768",
+    lat: 41.4153851,
+    lng: 2.2192919,
     color: '#d500f9',
-    id: 'lanonima-del-clot',
+    id: 'la-mina',
   },
   {
     name: 'Besòs Verd',
@@ -38,14 +38,6 @@ const pickupPoints = [
     lng: 2.1551031,
     color: '#ec407a',
     id: 'la-tinta',
-  },
-  {
-    name: 'EBM Cobi',
-    url: 'https://www.google.es/maps/place/EBM+COBI/@41.3945197,2.1939881,17z/data=!3m1!4b1!4m5!3m4!1s0x12a4a310df6004b5:0x1b4d5c4cbb2b3e29!8m2!3d41.3945157!4d2.1961821',
-    lat: 41.3945197,
-    lng: 2.1939881,
-    color: 'white',
-    id: 'ebm-cobi',
   },
   {
     name: 'Massa Terra',
