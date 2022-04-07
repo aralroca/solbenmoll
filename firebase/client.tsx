@@ -1,9 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
-import firebase from 'firebase/app'
+import firebase from 'firebase/compat/app'
 import { defaults } from '../constants/products'
 
-import 'firebase/auth'
-import 'firebase/firestore'
+// TODO: migrate to modular firebase:
+// https://firebase.google.com/docs/web/modular-upgrade
+import 'firebase/compat/auth'
+import 'firebase/compat/firestore'
 
 if (firebase.apps.length === 0) {
   firebase.initializeApp({
@@ -67,6 +69,10 @@ export function changeEmail(currentPassword, newEmail, subscription) {
   return reauthenticate(currentPassword)
     .then(() => firebase.auth().currentUser.updateEmail(newEmail))
     .then(() => setSubscription(subscription))
+}
+
+export function deleteUserSubscription(uid) {
+    return db.collection('user_subscriptions').doc(uid).delete()
 }
 
 export function deleteAccount(currentPassword) {
