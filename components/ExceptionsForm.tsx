@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import Checkbox from '@material-ui/core/Checkbox'
-import ListItemText from '@material-ui/core/ListItemText'
-import MenuItem from '@material-ui/core/MenuItem'
-import Select from '@material-ui/core/Select'
+import Checkbox from '@mui/material/Checkbox'
+import ListItemText from '@mui/material/ListItemText'
+import MenuItem from '@mui/material/MenuItem'
+import Select from '@mui/material/Select'
 import useTranslation from 'next-translate/useTranslation'
 import Router from 'next/router'
 
@@ -11,7 +11,7 @@ import getExceptionsStr from '../helpers/getExceptionsStr'
 import useSubscription from '../helpers/useSubscription'
 import { setSubscription } from '../firebase/client'
 
-const voidFn = () => {}
+const voidFn = () => { }
 const MAX_EXCEPTIONS = 3
 const initialStatus = {
   error: '',
@@ -39,7 +39,7 @@ export default function ExceptionsForm({ onBeforeSubmit = voidFn }) {
       >
         <Select
           multiple
-          style={{ fontSize: 14, padding: 10 }}
+          style={{ fontSize: 14, padding: '0 20px' }}
           value={calendar.excepcions || []}
           displayEmpty
           onChange={(e: any) => {

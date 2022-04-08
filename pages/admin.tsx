@@ -1,21 +1,22 @@
 import { Fragment, useEffect, useState } from 'react'
-import AppBar from '@material-ui/core/AppBar'
-import BackupIcon from '@material-ui/icons/Backup'
-import Box from '@material-ui/core/Box'
-import Button from '@material-ui/core/Button'
-import Card from '@material-ui/core/Card'
-import DownloadIcon from '@material-ui/icons/GetApp'
-import Paper from '@material-ui/core/Paper'
-import PrintIcon from '@material-ui/icons/Print'
 import Router from 'next/router'
-import Tab from '@material-ui/core/Tab'
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableContainer from '@material-ui/core/TableContainer'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import Tabs from '@material-ui/core/Tabs'
+import AppBar from '@mui/material/AppBar'
+import BackupIcon from '@mui/icons-material/Backup'
+import Box from '@mui/material/Box'
+import Button from '@mui/material/Button'
+import Card from '@mui/material/Card'
+import CloseIcon from '@mui/icons-material/Close'
+import DownloadIcon from '@mui/icons-material/GetApp'
+import Paper from '@mui/material/Paper'
+import PrintIcon from '@mui/icons-material/Print'
+import Tab from '@mui/material/Tab'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import Tabs from '@mui/material/Tabs'
 import useTranslation from 'next-translate/useTranslation'
 
 import Breadcrumb from '../components/Breadcrumb'
@@ -31,6 +32,7 @@ import useSubscription from '../helpers/useSubscription'
 import { pickUpPointsAsObj } from '../constants/pickpoints'
 import {
   changeApplicationStatus,
+  deleteUserSubscription,
   getAllSubscriptions,
   sendEmail,
 } from '../firebase/client'
@@ -97,7 +99,7 @@ export default function Admin() {
           <Tab label={t('admin-subscriptions')} />
           <Tab label={`${t('admin-pendings-applications')} (${pendingNum})`} />
           <Tab label={`${t('admin-rejected-applications')} (${rejectedNum})`} />
-          <Tab label="Emails" />
+          <Tab label="Usuaris" />
         </Tabs>
       </AppBar>
       <Card>
@@ -124,7 +126,7 @@ export default function Admin() {
                     />
                   )
                 case 3:
-                  return <Emails users={subscriptions} />
+                  return <Users users={subscriptions} setSubscriptions={setSubscriptions} />
                 default:
                   return null
               }
@@ -298,11 +300,9 @@ function ApplicationTable({
         subject: `Sòl Ben Moll ha ${statusName} la sol·licitud`,
         body: `
         <h2>La sol·licitud s'ha ${statusName}</h2>
-        <p>Hola <b>${
-          user.displayName || user.email
-        }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${
-          p.name
-        }"</b></p>
+        <p>Hola <b>${user.displayName || user.email
+          }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${p.name
+          }"</b></p>
         <p>Atentament,<p>
           <p><i>L'Equip de Sòl Ben Moll</i></b>
           <p><i>solbenmoll@gmail.com</i></p>
@@ -429,7 +429,7 @@ function sortBySubscription(userA, userB) {
   return 0
 }
 
-function Emails({ users }) {
+function Users({ users, setSubscriptions }) {
   const { t } = useTranslation('common')
   const emails = users.map((u) => u.email).join(', ')
 
@@ -469,6 +469,19 @@ function Emails({ users }) {
                   {user.displayName}
                 </TableCell>
                 <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  <CloseIcon 
+                    style={{ cursor: 'pointer' }}
+                    onClick={async () => {
+                      if (!window.confirm(`Vols confirmar eliminar les dades de ${user.email}? Desapareixarà la seva subscripció i preferencies guardades, ja no sortirà a les llistes però sempre podrà tornar a loguejar-se i demanar un nou punt de recollida per tornar a activar una subscripció.`)){
+                        return
+                      }
+                      await deleteUserSubscription(user.id)
+                      getAllSubscriptions().then(setSubscriptions)
+                      window.alert(`Dades de ${user.email} eliminades correctament.`)
+                    }}
+                    fontSize="inherit" 
+                  /></TableCell>
               </TableRow>
             ))}
           </TableBody>

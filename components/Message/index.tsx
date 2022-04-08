@@ -1,9 +1,9 @@
 import React from 'react'
-import Alert from '@material-ui/lab/Alert'
-import AlertTitle from '@material-ui/lab/AlertTitle'
-import IconButton from '@material-ui/core/IconButton'
-import Snackbar from '@material-ui/core/Snackbar'
-import CloseIcon from '@material-ui/icons/Close'
+import Alert from '@mui/material/Alert'
+import AlertTitle from '@mui/material/AlertTitle'
+import IconButton from '@mui/material/IconButton'
+import Snackbar from '@mui/material/Snackbar'
+import CloseIcon from '@mui/icons-material/Close'
 
 export function Message({ type, title, children, onClose }) {
   return (
