@@ -234,6 +234,13 @@ export default function Subscription() {
           return (
             <>
               <h1 className="center underline">{t`calendar`}</h1>
+              <div style={{ textAlign: 'right', marginTop: 15, fontSize: 12 }}>
+                <a
+                  style={{ display: 'block' }}
+                  onClick={onEditSubscription}
+                  href="javascript:void(0)"
+                >{t`common:edit-subscription`}</a>
+              </div>
               <Calendar
                 subscription={calendar}
                 onClickSubscription={onClickSubscription}
