@@ -206,7 +206,7 @@ function Subscriptions({ users }) {
 
                 return (
                   <TableRow key={user.id}>
-                    <TableCell component="th" scope="row">
+                    <TableCell component="th" scope="row" title={user.email}>
                       {user.displayName}
                     </TableCell>
                     <TableCell>
