@@ -110,7 +110,7 @@
   "subscription-status": {
     "title": "Estat subscripció",
     "accepted-without": "Punt de recollida verificat correctament. Ja pot començar a gestionar la seva <0>subscripció</0>.",
-    "accepted-with": "Subscrit correctament",
+    "accepted-with": "Subscripció activa",
     "rejected-without": "Hi ha hagut un problema amb la verificació del punt de recollida. Posa't en contacte amb nosaltres o bé escull un altre punt de recollida.",
     "rejected-with": "Hi ha hagut un problema amb la verificació del nou punt de recollida. Posa't en contacte amb nosaltres o bé escull un altre punt de recollida. Mentrestant la subscripció vigent ha quedat pausada.",
     "pending-without": "Verificant la seva sol·licitud, un cop acceptada podrà fer la seva <0>comanda</0>.",
