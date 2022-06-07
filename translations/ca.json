@@ -43,6 +43,10 @@
       "open-map": "Obrir mapa"
     }
   },
+  "punts-de-recollida-content": {
+    "title": "Punts de recollida",
+    "description": "Punts de recollida de verdures i fruites ecològiques i de temporada. Subscriu-te."
+  },
   "contact-title": "Contacte amb nosaltes",
   "cookies": "Política de cookies",
   "current-password": "Contrasenya actual",
