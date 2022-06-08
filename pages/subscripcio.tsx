@@ -235,6 +235,11 @@ export default function Subscription() {
             <>
               <h1 className="center underline">{t`calendar`}</h1>
               <div style={{ textAlign: 'right', marginTop: 15, fontSize: 12 }}>
+              <a
+                  style={{ display: 'block' }}
+                  target="_blank"
+                  href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQcFl0m_8WbJXZI5dt1psb8wL-7anRINOLOsKOD2hM2YLgu_bTEjqKkgqB_7ZszT0cFgvq1eJ4iYpDp/pubhtml"
+                >{t`common:view-basket-calendar`}</a>
                 <a
                   style={{ display: 'block' }}
                   onClick={onEditSubscription}

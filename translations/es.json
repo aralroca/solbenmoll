@@ -105,6 +105,7 @@
   "when": "Cada cuando lo quieres recibir?",
   "request": "Solicitar",
   "us": "Nosotros",
+  "view-basket-calendar":"Ver calendario de cestas",
   "exceptions-txt": "Elige excepciones de los productos que no querrá.",
   "max-exceptions": "Puedes seleccionar hasta un máximo de {{count}} excepciones.",
   "pickup-point": "Punto de recogida",
