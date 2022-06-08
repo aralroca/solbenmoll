@@ -25,7 +25,7 @@
       "content": "Sòl Ben Moll és un projecte agroecològic que es dedica a la producció i distribució d'hortalisses i verdures de temporada. Amb l’hort situat a Cabrera de Mar, Maresme, servim cistelles de verdures setmanals a Barcelona i rodalies, reivindicant una alimentació ecològica, sana, i de proximitat."
     },
     "section-2": {
-      "title": "La nostre filosofia",
+      "title": "La nostra filosofia",
       "content": "A Sòl Ben Moll hem escollit aquesta profesió perquè ens apasiona, i ens aporta, al nostre punt de vista, una gran qualitat de vida, que ens permet disfrutar d’una feina en la qual exercitem cós, ment i ànima en contacte amb la natura. No ens enganyarem dient que tot es ideal, també comporta a vegades fer jornades de feina extenuants, o acceptar contratemps com les aparicions dels senglars, les glaçades i altres imprevistos... és una feina dura! Tot i així no ho cambiariem per una altre cosa.",
       "content-2": "Per altre banda, també hem escollit aquest ofici, amb un model de negoci concret, com a acte polític i reivindicatiu, ja que creiem que el model agroalimentari predominant actual no és adequat per a la vida en el nostre planeta. Per aixó apostem per una relació més directe entre productor i consumidor, basada en la confiança i el compromís. En aquest escenari el consumidor, o cistellaire, passa a ser co-responsable del funcionament del projecte, permetent que aquest sigui estable al llarg del temps. Ens considerem «pagès de capçalera»."
     },
@@ -34,18 +34,18 @@
       "content": "Els productes que servim són cistelles de verdures tancades, on cada setmana portaran entre 5 i 7 productes diferents, avisant a principi de cada més què portaran les cistelles cada setmana. Les modalitats que tenim són:",
       "content-2": "A més, es pot afegir a la cistella un dels tres extres següents:",
       "content-3": "Tots els productes que servim són ecològics amb el certificat CCPAE.",
-      "button": "Organitzar cistelles"
+      "button": "Vull cistelles, donar-me d'alta"
     },
     "section-4": {
       "title": "Quan i on repartim?",
       "content": "El dia que fem el repartiment es cada dimecres, i repartim a diferents punts de recollida de Barcelona i rodalies. Us podeu adjuntar a algun d’aquests punts, o, si no en teniu cap de proper, es pot crear un nou punt a partir d’una comanda setmanal de 8 cistellaires.",
       "button": "Veure tots els punts de recollida",
-      "open-map": "Obrir mapa"
+      "open-map": "Obrir mapa",
+      "more-info": "Més informació sobre els punts de recollida"
     }
   },
   "punts-de-recollida-content": {
-    "title": "Punts de recollida",
-    "description": "Punts de recollida de verdures i fruites ecològiques i de temporada. Subscriu-te."
+    "title": "Punts de recollida"
   },
   "contact-title": "Contacte amb nosaltes",
   "cookies": "Política de cookies",
