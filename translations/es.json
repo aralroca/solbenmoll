@@ -20,6 +20,9 @@
     "title": "Contacto",
     "description": "Si queréis subscribiros como “cistellaires”, o tenéis cualquier duda, no dudéis en contactar con solbenmoll@gmail.com."
   },
+  "punts-de-recollida-content": {
+    "title": "Puntos de reparto"
+  },
   "current-password": "Contraseña actual",
   "delete-account": "Eliminar cuenta",
   "delete-account-confirm": "¿Estás seguro que quieres eliminar la cuenta? No hay marcha atrás.",
@@ -82,7 +85,8 @@
       "title": "¿Cuándo y dónde repartimos?",
       "content": "El día que hacemos reparto son los miércoles, y repartimos en diferentes puntos de recogida de Barcelona y cercanías. Podéis recoger vuestra cesta en uno de estos puntos, o, si no tenéis ninguno cerca, podemos crear un nuevo punto a partir de un pedido semanal de 8 cestas.",
       "button": "Ver todos los puntos de recogida",
-      "open-map": "Abrir mapa"
+      "open-map": "Abrir mapa",
+      "more-info": "Más información sobre los puntos de reparto"
     }
   },
   "product-mitjana": "Cesta mediana",

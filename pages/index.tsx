@@ -10,6 +10,7 @@ import PickUpPointsMap from '../components/PickUpPointsMap'
 import products from '../constants/products'
 import aboutImg from '../public/assets/qui-som.png'
 
+
 export default function Home() {
   const { query } = useRouter()
   const { t, lang } = useTranslation('common')
@@ -41,6 +42,7 @@ export default function Home() {
         width={1400}
       />
       <div className="content">
+      
         <Anchor id="que-fem" />
 
         <h1>{t`home-content.section-1.title`}</h1>
@@ -106,7 +108,14 @@ export default function Home() {
         <h2>{t`home-content.section-4.title`}</h2>
         <p>{t`home-content.section-4.content`}</p>
         <PickUpPointsMap />
-      </div>
+        <Link href="/punts-de-recollida">
+          <a>
+            <div>
+              {t`home-content.section-4.more-info`}
+            </div>
+          </a>
+        </Link>   
+        </div>
     </>
   )
 }
