@@ -8,6 +8,14 @@ const pickupPoints = [
     id: 'la-mina',
   },
   {
+    name: 'Yoga Maresme',
+    url: "https://www.google.com/maps/place/Yoga+Maresme+Centre+Hol%C3%ADstic/@41.536099,2.4483745,15z/data=!4m2!3m1!1s0x0:0xfdc87acac63e26d5?sa=X&ved=2ahUKEwiwhPvZn6_4AhVS66QKHbv7BXAQ_BJ6BAhNEAU",
+    lat: 41.536099,
+    lng: 2.4483745,
+    color: '#d500f5',
+    id: 'Yoga Maresme',
+  },
+  {
     name: 'Besòs Verd',
     url: 'https://www.google.es/maps/place/Casal+de+Barri+Bes%C3%B2s/@41.4165089,2.2123414,18z/data=!4m12!1m6!3m5!1s0x12a4a34db9b87d37:0xb729c21a57a48367!2sCentro+C%C3%ADvico+Del+Bes%C3%B3s!8m2!3d41.4164839!4d2.2118151!3m4!1s0x0:0x7c079559c945a1cd!8m2!3d41.4169387!4d2.2146547',
     lat: 41.4165089,
