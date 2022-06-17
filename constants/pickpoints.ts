@@ -13,7 +13,7 @@ const pickupPoints = [
     lat: 41.536099,
     lng: 2.4483745,
     color: '#d500f5',
-    id: 'Yoga Maresme',
+    id: 'yoga-maresme',
   },
   {
     name: 'Besòs Verd',
