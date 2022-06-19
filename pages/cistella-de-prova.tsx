@@ -28,7 +28,7 @@ function CistellaDeProva() {
       <p>Les verdures de les nostres cistelles són de la nostra horta a Cabrera de Mar i de la coperativa de EcoMaresme que ens fa de proveïdors si ens manca algun producte.</p>
      
       <h2>Què inclou la cistella de prova?</h2>
-      <p>Servim cistelles de verdura de temporada, amb la possibilitat d'escollir "extra de fruita" de proveïdors també ecològics. Les mides i opcions són les següents:</p>
+      <p>Aquesta cistella està pensada per a oferir una mostra de les diferents modalitats de subscripció. Amb verdures, fruita i ous. En cas de subscriure's es podrà personalitzar la mida de la cistella i si es volen o no els extres d'ous i fruita:</p>
 
       <ul>
           
