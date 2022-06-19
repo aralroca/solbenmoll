@@ -38,7 +38,7 @@ function CistellaDeProva() {
           
       </ul>
 
-      <p> Preu total: <b>23.3€</b></p>
+      <p> Preu total: <b>22.3€</b></p>
 
       <Link href="https://buy.stripe.com/test_5kAaIm8DnfHjfKM28d">
           <a style={{ textDecoration: 'none' }}>
