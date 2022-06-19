@@ -31,7 +31,7 @@ export function getData(usersPerPickPoint) {
         nom: u.displayName,
         id: u.id,
         excepcions: u.excepcions
-          ?.map?.((k) => exceptionsObj[k].ca)
+          ?.map?.((k) => k)
           ?.join?.(', '),
         Cistella: `${P}${M}${G}`,
         Fruita: u.sub.fruita?.count || 0,
