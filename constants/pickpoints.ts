@@ -32,12 +32,20 @@ const pickupPoints = [
     id: 'el-guinardo',
   },
   {
-    name: 'Premià de Dalt',
+    name: 'Premià de Dalt - Casc Antic',
     url: 'https://www.google.es/maps/place/Passatge+del+Sant+Crist,+08338+Premi%C3%A0+de+Dalt,+Barcelona/@41.5077203,2.3432835,19z/data=!3m1!4b1!4m5!3m4!1s0x12a4b6d8294913c9:0xf813030c7dc6d33c!8m2!3d41.5077203!4d2.3438307',
     lat: 41.5077203,
     lng: 2.3432835,
     color: '#795548',
     id: 'premia-de-dalt',
+  },
+  {
+    name: 'Celler de Sant Antoni - Premià de Dalt',
+    url: 'https://g.page/CellerSantAntoni?share',
+    lat: 41.49981464572216,
+    lng: 2.3585258854154163,
+    color: '#D8CCA3',
+    id: 'celler-sant-antoni-premia-de-dalt',
   },
   {
     name: 'La Tinta',
@@ -56,7 +64,7 @@ const pickupPoints = [
     id: 'massa-terra',
   },
   {
-    name: 'Pam a map, Sandaru',
+    name: 'Pam a pam, Sandaru',
     url: 'https://www.google.es/maps/place/Centro+C%C3%ADvico+Parque+Sandaru/@41.3917794,2.1821836,17z/data=!3m1!4b1!4m5!3m4!1s0x12a4a31d5c2332cd:0xcd77656496609794!8m2!3d41.3917754!4d2.1843776',
     lat: 41.3917794,
     lng: 2.1821836,
