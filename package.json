@@ -45,6 +45,10 @@
       "pre-commit": "pretty-quick --staged"
     }
   },
+  "engines": {
+    "node": "<=16",
+    "npm": "<=7"
+  },
   "prettier": {
     "trailingComma": "es5",
     "tabWidth": 2,
