@@ -1,12 +1,12 @@
 export default {
   petita: {
-    price: 10,
+    price: 11,
     isBasket: true,
     numProducts: 5,
     kg: 3,
   },
   mitjana: {
-    price: 14.5,
+    price: 15,
     isBasket: true,
     numProducts: 6,
     kg: 5,
@@ -18,7 +18,7 @@ export default {
     kg: 7,
   },
   ous: {
-    price: 2.3,
+    price: 2.45,
     isBasket: false,
   },
   ceba: {
