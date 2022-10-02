@@ -7,7 +7,6 @@ function FormField({ id, state, isEditing, isExtra, times, setters }) {
   const { calendar } = useSubscription()
   const capitalized = id[0].toUpperCase() + id.slice(1, id.length)
   const setter = setters[`set${capitalized}`]
-  const acceptedPoint = calendar?.estatPuntRecollida === 'accepted'
 
   function onChangeCount(e) {
     const val = parseInt(e.target.value, 10) || 0
@@ -36,7 +35,7 @@ function FormField({ id, state, isEditing, isExtra, times, setters }) {
           id={id}
           required={!isEditing && state[id].times > 0}
           className={isEditing ? 'editing' : ''}
-          disabled={!acceptedPoint || (isExtra && times.length === 0)}
+          disabled={isExtra && times.length === 0}
           max={100}
           value={state[id]?.count}
           onChange={onChangeCount}
@@ -50,7 +49,7 @@ function FormField({ id, state, isEditing, isExtra, times, setters }) {
                 ? { fontStyle: 'italic', color: '#625a50' }
                 : {}
             }
-            disabled={!acceptedPoint || (isExtra && times.length === 0)}
+            disabled={isExtra && times.length === 0}
             onChange={onChangeTime}
           >
             <option className="useless" value="">

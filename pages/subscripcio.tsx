@@ -220,20 +220,12 @@ export default function Subscription() {
       </Modal>
 
       {(() => {
-        if (calendar.estatPuntRecollida !== 'accepted') {
-          return (
-            <>
-              <h1 className="center underline">{t`common:subscription`}</h1>
-              <PickUpPointStatus />
-              <SubsForm key="display-form" />
-            </>
-          )
-        }
-
+        console.log({ hasSubscription })
         if (hasSubscription && !editSubscription) {
           return (
             <>
               <h1 className="center underline">{t`calendar`}</h1>
+              {calendar?.estatPuntRecollida !== 'accepted' && <PickUpPointStatus />}
               <div style={{ textAlign: 'right', marginTop: 15, fontSize: 12 }}>
               <a
                   style={{ display: 'block' }}
