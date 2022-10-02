@@ -17,6 +17,7 @@ import { CALENDAR_NUM_WEEKS } from '../constants/calendar'
 import { Message } from '../components/Message'
 import products, { defaults } from '../constants/products'
 import { deleteSubscription, setSubscription } from '../firebase/client'
+import { color } from '@mui/system'
 
 declare const window: any
 
@@ -236,6 +237,7 @@ export default function Subscription() {
                   onClick={onEditSubscription}
                   href="javascript:void(0)"
                 >{t`common:edit-subscription`}</a>
+                <small>{t`common:edit-subscription-hint`}</small>
               </div>
               <Calendar
                 subscription={calendar}
@@ -252,6 +254,11 @@ export default function Subscription() {
                   onClick={onMoveSubscription}
                   href="javascript:void(0)"
                 >{t`common:move-subscription`}</a>
+                <a
+                  style={{ fontSize: 12 , color: 'red'}}
+                  onClick={onDelete}
+                  href="javascript:void(0)"
+                >{t`common:delete-subscription`}</a>
               </div>
             </>
           )

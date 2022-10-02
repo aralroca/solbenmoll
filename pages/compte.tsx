@@ -109,6 +109,9 @@ export default function Account() {
             </p>
           )}
           <p>
+            <a href="/subscripcio">{t`view-subscription`}</a>
+          </p>
+          <p>
             <a href="#pickup-point">{t`pickup-point-edit`}</a>
           </p>
           <p>
