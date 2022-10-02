@@ -303,6 +303,7 @@ function ApplicationTable({
         <p>Hola <b>${user.displayName || user.email
           }</b>, s'ha <b>${statusName}</b> la seva sol·licitud en punt de recollida <b>"${p.name
           }"</b></p>
+          <p>Dirigeix-te al teu perfil a l'apartat de <a href="https://solbenmoll.com/subscripcio?utm_source=mail&utm_medium=accepted_mail" >subscripció</a> per a consultar quan rebràs la primera cistella</p>
         <p>Atentament,<p>
           <p><i>L'Equip de Sòl Ben Moll</i></b>
           <p><i>solbenmoll@gmail.com</i></p>
