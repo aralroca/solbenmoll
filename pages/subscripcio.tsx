@@ -220,7 +220,6 @@ export default function Subscription() {
       </Modal>
 
       {(() => {
-        console.log({ hasSubscription })
         if (hasSubscription && !editSubscription) {
           return (
             <>
