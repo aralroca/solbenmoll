@@ -1,4 +1,4 @@
-export const CALENDAR_NUM_WEEKS = 12
+export const CALENDAR_NUM_WEEKS = 16
 
 /**
  * 0: Sunday
@@ -9,4 +9,4 @@ export const CALENDAR_NUM_WEEKS = 12
  * 5: Friday
  * 6: Saturday
  */
-export const LIMIT_DAY = 6 // Thursday 00:00
+export const LIMIT_DAY = 6 // Saturday 00:00
