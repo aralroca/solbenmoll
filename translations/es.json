@@ -16,6 +16,7 @@
   "admin": "Panel de administrador",
   "contact-title": "Contacta con nosotros",
   "cookies": "Política de cookies",
+  "create-account-action": "Crear la cuenta", 
   "contact-content": {
     "title": "Contacto",
     "description": "Si queréis subscribiros como “cistellaires”, o tenéis cualquier duda, no dudéis en contactar con solbenmoll@gmail.com."
@@ -36,7 +37,8 @@
   "details-extra-fruita": "Fruta ({{kg}}kg, 3 productos, {{price}}€)",
   "details-extra-ous": "Huevos ({{price}}€ la media docena)",
   "edit": "Editar contenido semana",
-  "edit-subscription": "Editar suscripción",
+  "edit-subscription": "Editar suscripción a partir de la próxima semana",
+  "edit-subscription-hint": "Si solamente quieres modificar la cesta de una semana, haz click en la semana en cuestión en el calendario",
   "move-subscription": "Desplazar suscripción 1 semana",
   "move-subscription-description": "Al aceptar hará que todo lo programado en el calendario se desplaze una semana. ¿Desea continuar?",
   "email": "Email",
@@ -50,7 +52,9 @@
   "freq-4": "Cada 4 semanas",
   "home": "Inicio",
   "info": "¿Qué hacemos?",
-  "login": "Inicia sesión",
+  "login": "Inicio de sesión",
+  "login-action": "Iniciar sessión",
+  "go-to-login": "Ir a inicio de sessión",
   "login-description": "Para suscribirte a les cestas necesita una cuenta.",
   "logout": "Cerrar la sessión",
   "menu": "Menú",
@@ -79,7 +83,7 @@
       "content": "Los productos que servimos son cestas de verduras cerradas, cada semana con entre 5 y 7 productos diferentes. A principio de cada mes avisamos de qué productos llevarán las cestas de cada semana. Las modalidades que disponemos son:",
       "content-2": "Además, se puede añadir a la cesta uno de los siguientes extras:",
       "content-3": "Todos los productos que servimos son ecológicos con el certificado CCPAE.",
-      "button": "Organizar cestas"
+      "button": "Iniciar solicitud de suscripción"
     },
     "section-4": {
       "title": "¿Cuándo y dónde repartimos?",
@@ -106,6 +110,7 @@
   "request": "Solicitar",
   "us": "Nosotros",
   "view-basket-calendar":"Ver calendario de cestas",
+  "view-subscription":"Ver suscripción",
   "exceptions-txt": "Elige excepciones de los productos que no querrá.",
   "max-exceptions": "Puedes seleccionar hasta un máximo de {{count}} excepciones.",
   "pickup-point": "Punto de recogida",
@@ -118,8 +123,8 @@
     "accepted-with": "Suscrito correctamente.",
     "rejected-without": "Ha habido un problema con la verificación del punto de recogida. Ponte en contacto con nosotros o elige otro punto de recogida.",
     "rejected-with": "Ha habido un problema con la verificación del nuevo punto de recogida. Ponte en contacto con nosotros o elige otro punto de recogida. Mientras tanto la suscripción vigente ha quedado pausada.",
-    "pending-without": "Verificando su solicitud, una vez aceptada podrá hacer su <0>pedido</0>. Hasta que no se verifique no podrá realizar la suscripción.",
-    "pending-with": "Verificando su solicitud, una vez aceptada podrá hacer su <0>pedido</0>. Mientras tanto la suscripción vigente ha quedado pausada.",
+    "pending-without": "Verificando su solicitud, puedes ir configurando el pedido en el apartado <0>suscripción</0>.",
+    "pending-with": "Verificando su solicitud, puedes ir configurando el pedido en el apartado <0>suscripción</0>. Mientras tanto la suscripción vigente ha quedado pausada.",
     "initial": "Para poder realizar la suscripción es obligatorio definir primero el punto de recogida.",
     "link": "Gestionar suscripción",
     "link-initial": "Gestionar punto de recogida"
@@ -145,6 +150,7 @@
   "admin-pendings-applications": "Solicitudes pendientes",
   "admin-rejected-applications": "Solicitudes rechazadas",
   "admin-subscriptions": "Pedidos semana",
+  "admin-users": "Usuarios",
   "action": "Acción",
   "accept": "Aceptar",
   "forgot": "¿Has olvidado la contraseña?",

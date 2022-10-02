@@ -38,10 +38,10 @@ function SignupForm() {
       <input minLength={6} required type="password" />
       <label>{t`repeat-password`}:</label>
       <input minLength={6} required type="password" />
-      <button disabled={loading} className="button">{t`enter`}</button>
+      <button disabled={loading} className="button">{t`create-account-action`}</button>
       <div className="center" style={margin}>
         <Link href="/inici-sessio">
-          <a>{t`login`}</a>
+          <a>{t`go-to-login`}</a>
         </Link>
       </div>
       {error && (

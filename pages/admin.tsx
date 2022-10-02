@@ -99,7 +99,7 @@ export default function Admin() {
           <Tab label={t('admin-subscriptions')} />
           <Tab label={`${t('admin-pendings-applications')} (${pendingNum})`} />
           <Tab label={`${t('admin-rejected-applications')} (${rejectedNum})`} />
-          <Tab label="Usuaris" />
+          <Tab label={t('admin-users')} />
         </Tabs>
       </AppBar>
       <Card>

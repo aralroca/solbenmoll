@@ -30,9 +30,7 @@ function SubsForm({
     .filter((b) => b?.count)
     .map((b) => b?.time)
   const times = Array.from(new Set(baskets))
-  const acceptedPoint = calendar?.estatPuntRecollida === 'accepted'
-  const disabled =
-    (!isWeekEditing && parseInt(price, 10) === 0) || !acceptedPoint
+  const disabled = !isWeekEditing && parseInt(price, 10) === 0
 
   function submit(e) {
     e.preventDefault()

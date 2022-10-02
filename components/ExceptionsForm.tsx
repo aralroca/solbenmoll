@@ -87,8 +87,8 @@ function onChangeExceptions(subscription, setStatus, reset) {
     setStatus((s) => ({ ...s, loading: true }))
     setSubscription(subscription)
       .then(() => {
-        if (Router.pathname !== '/compte') {
-          return Router.push('/compte')
+        if (Router.pathname === '/registre') {
+          return Router.push('/subscripcio')
         }
         setStatus({ ...initialStatus, success: true })
       })
