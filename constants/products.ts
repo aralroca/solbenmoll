@@ -1,18 +1,18 @@
 export default {
   petita: {
-    price: 11,
+    price: 13,
     isBasket: true,
     numProducts: 5,
     kg: 3,
   },
   mitjana: {
-    price: 15,
+    price: 18,
     isBasket: true,
     numProducts: 6,
     kg: 5,
   },
   gran: {
-    price: 20,
+    price: 23,
     isBasket: true,
     numProducts: 7,
     kg: 7,
