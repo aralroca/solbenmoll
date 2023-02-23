@@ -18,15 +18,15 @@ export default {
     kg: 7,
   },
   ous: {
-    price: 2.45,
+    price: 2.5,
     isBasket: false,
   },
   ceba: {
-    price: 4.5,
+    price: 5,
     isBasket: false,
   },
   fruita: {
-    price: 5.5,
+    price: 6,
     isBasket: false,
     kg: 2,
   },
